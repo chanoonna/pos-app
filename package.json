@@ -1,0 +1,32 @@
+{
+  "name": "pos-app",
+  "version": "0.1.0",
+  "description": "Simple Point-of-sale application",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "tsc src/electron.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chanoonna/pos-app.git"
+  },
+  "author": "Chanoon Na, Haijoon Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chanoonna/pos-app/issues"
+  },
+  "homepage": "https://github.com/chanoonna/pos-app#readme",
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "electron": "^23.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
