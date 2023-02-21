@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "build": "tsc src/electron.ts"
+    "start": "yarn build && electron ./build/electron.js",
+    "build": "webpack --config ./webpack.config.js"
   },
   "repository": {
     "type": "git",
