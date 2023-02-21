@@ -2,11 +2,11 @@
   "name": "pos-app",
   "version": "0.1.0",
   "description": "Simple Point-of-sale application",
-  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "yarn build && electron ./build/electron.js",
-    "build": "webpack --config ./webpack.config.js"
+    "build": "webpack --config ./webpack.config.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,32 @@
     "url": "https://github.com/chanoonna/pos-app/issues"
   },
   "homepage": "https://github.com/chanoonna/pos-app#readme",
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,ts,tsx}": [
+      "yarn eslint",
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
+    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "electron": "^23.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
     "webpack": "^5.75.0",
