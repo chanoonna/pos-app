@@ -1,7 +1,7 @@
 module.exports = [
   {
     mode: 'development',
-    entry: './src/electron.ts',
+    entry: './src/main.ts',
     target: 'electron-main',
     module: {
       rules: [{
@@ -12,7 +12,7 @@ module.exports = [
     },
     output: {
       path: __dirname + '/build',
-      filename: 'electron.js'
+      filename: 'main.js'
     }
   }
 ];
