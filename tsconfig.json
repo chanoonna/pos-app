@@ -4,7 +4,13 @@
     "strict": true,
     "outDir": "./build",
     "target": "es5",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["./*"],
+      "renderer/*": ["./renderer/*"],
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "build", "**/node_modules/*"],
