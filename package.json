@@ -1,10 +1,14 @@
 {
   "name": "pos-app",
   "version": "0.1.0",
+  "main": "./src/main.ts",
   "description": "Simple Point-of-sale application",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "yarn build && electron ./build/main.js",
+    "start": "yarn start:renderer",
+    "start:main": "cross-env NODE_ENV=development ./node_modules/.bin/electron -r ts-node/register/transpile-only .",
+    "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./configs/webpack.config.preload.ts",
+    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./configs/webpack.config.dev.ts",
     "build": "webpack --config ./webpack.config.js",
     "prepare": "husky install"
   },
@@ -27,26 +31,37 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.5.1",
     "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.3",
     "electron": "^23.1.0",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.4",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.9.5",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
   }
 }
