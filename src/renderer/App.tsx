@@ -1,10 +1,11 @@
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import './App.css';
-import { Root } from 'Router/Root';
+import { Home } from './Landing/Home';
+import { Routes, Route } from 'react-router-dom';
 
 export const App = () => {
-  return <Root />;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/first" element={<div>First page</div>} />
+    </Routes>
+  );
 };

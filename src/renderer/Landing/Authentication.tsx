@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import { Login } from './Login';
 
-export const Entry = () => {
+export const Authentication = () => {
   return (
-    <MainContainer>
+    <AuthContainer>
       <Login />
-    </MainContainer>
+    </AuthContainer>
   );
 };
 
-const MainContainer = styled.main`
+const AuthContainer = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;

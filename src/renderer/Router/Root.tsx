@@ -1,12 +1,14 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import { Entry } from 'Landing/Entry';
+import { createMemoryRouter } from 'react-router-dom';
+import { Authentication } from 'renderer/Landing/Authentication';
+import { App } from 'renderer/App';
 
-export const Root = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Entry />} />
-      </Routes>
-    </Router>
-  );
-};
+export const rootRouter = createMemoryRouter([
+  {
+    path: '/',
+    element: <Authentication />
+  },
+  {
+    path: '/home/*',
+    element: <App />
+  }
+]);
