@@ -10,6 +10,8 @@
     "paths": {
       "*": ["./*"],
       "renderer/*": ["./renderer/*"],
+      "Router/*": ["./renderer/Router/*"],
+      "Landing/*": ["./renderer/Landing/*"],
     }
   },
   "include": ["src", "configs"],
