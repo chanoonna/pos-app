@@ -2,8 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
-    "outDir": "./build",
-    "target": "es5",
+    "outDir": "./dist/app",
+    "target": "es2021",
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "baseUrl": "./src",
@@ -12,7 +12,7 @@
       "renderer/*": ["./renderer/*"],
     }
   },
-  "include": ["src"],
+  "include": ["src", "configs"],
   "exclude": ["node_modules", "build", "**/node_modules/*"],
   "ts-node": {
     "compilerOptions": {
