@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import cn from 'classnames';
-import { theme } from 'Style/theme';
+import { colors } from 'Style/theme';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const hasNoUsername = username.length === 0;
   const hasNoPassword = password.length === 0;
@@ -16,6 +18,8 @@ export const Login = () => {
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
+  const isLoginButtonDisabled = hasNoUsername || hasNoPassword || isLoggingIn;
 
   return (
     <StyledLogin>
@@ -39,16 +43,18 @@ export const Login = () => {
         </div>
         <button
           className={cn('login-button', {
-            disabled: hasNoUsername || hasNoPassword
+            disabled: isLoginButtonDisabled
           })}
-          disabled={hasNoUsername || hasNoPassword}
+          disabled={isLoginButtonDisabled}
         >
-          LOGIN
+          {isLoggingIn ? <CircularProgress size={28} thickness={4} /> : 'LOGIN'}
         </button>
       </section>
     </StyledLogin>
   );
 };
+
+/* --------------------------------- Styles --------------------------------- */
 
 const StyledLogin = styled.main`
   display: flex;
@@ -56,7 +62,7 @@ const StyledLogin = styled.main`
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: #d0d0d0;
+  background-color: ${colors.backgroupBlack};
 
   .login-container {
     display: flex;
@@ -66,14 +72,13 @@ const StyledLogin = styled.main`
     height: 400px;
     width: 400px;
     border-radius: 10px;
-    background-color: #f4f4f4;
-    border: solid 2px #c4c4c4;
+    background-color: ${colors.extraLightGray1};
     row-gap: 3rem;
   }
 
   .header-text {
     font-size: 1.5rem;
-    color: #808080;
+    color: ${colors.darkGray1};
     cursor: default;
     user-select: none;
   }
@@ -89,37 +94,43 @@ const StyledLogin = styled.main`
   .login-input {
     height: 2.5rem;
     width: 15rem;
-    color: #808080;
+    color: ${colors.mediumGray1};
     border: none;
-    border-bottom: 2px solid ${theme.colors.lightBlue1};
+    border-bottom: 2px solid ${colors.lightBlue1};
     font-size: 1rem;
     padding-left: 0.5rem;
 
     &:focus {
       outline: none;
-      border-bottom-color: ${theme.colors.deepBlue1};
+      border-bottom-color: ${colors.deepBlue1};
     }
 
     &::placeholder {
       user-select: none;
+      color: ${colors.lightGray1};
     }
   }
 
   .login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 2.5rem;
     width: 15.5rem;
     border: none;
     border-radius: 5px;
-    color: #ffffff;
+    color: ${colors.white};
     font-size: 1rem;
-    background-color: ${theme.colors.mediumBlue1};
+    background-color: ${colors.mediumBlue1};
+    outline: none;
 
-    &:hover {
-      background-color: ${theme.colors.deepBlue1};
+    &:hover,
+    :focus {
+      background-color: ${colors.deepBlue1};
     }
 
     &.disabled {
-      background-color: ${theme.colors.lightBlue1};
+      background-color: ${colors.lightBlue1};
       cursor: not-allowed;
     }
   }
