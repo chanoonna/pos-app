@@ -12,6 +12,7 @@
       "renderer/*": ["./renderer/*"],
       "Router/*": ["./renderer/Router/*"],
       "Landing/*": ["./renderer/Landing/*"],
+      "Style/*": ["./renderer/Style/*"],
     }
   },
   "include": ["src", "configs"],
