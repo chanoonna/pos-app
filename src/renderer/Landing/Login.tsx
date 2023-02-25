@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import cn from 'classnames';
+import { theme } from 'Style/theme';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
@@ -90,13 +91,13 @@ const StyledLogin = styled.main`
     width: 15rem;
     color: #808080;
     border: none;
-    border-bottom: 2px solid #4b99f9;
+    border-bottom: 2px solid ${theme.colors.lightBlue1};
     font-size: 1rem;
     padding-left: 0.5rem;
 
     &:focus {
       outline: none;
-      border-bottom-color: #1d67c0;
+      border-bottom-color: ${theme.colors.deepBlue1};
     }
 
     &::placeholder {
@@ -111,14 +112,14 @@ const StyledLogin = styled.main`
     border-radius: 5px;
     color: #ffffff;
     font-size: 1rem;
-    background-color: #4b99f9;
+    background-color: ${theme.colors.mediumBlue1};
 
     &:hover {
-      background-color: #1d67c0;
+      background-color: ${theme.colors.deepBlue1};
     }
 
     &.disabled {
-      background-color: #88ccff;
+      background-color: ${theme.colors.lightBlue1};
       cursor: not-allowed;
     }
   }
