@@ -9,10 +9,10 @@
     "baseUrl": "./src",
     "paths": {
       "*": ["./*"],
-      "renderer/*": ["./renderer/*"],
-      "Router/*": ["./renderer/Router/*"],
-      "Landing/*": ["./renderer/Landing/*"],
-      "Style/*": ["./renderer/Style/*"],
+      "utils/*": ["./renderer/utils/*"],
+      "modules/*": ["./renderer/modules/*"],
+      "style/*": ["./renderer/style/*"],
+      "components/*": ["./renderer/components/*"]
     }
   },
   "include": ["src", "configs"],

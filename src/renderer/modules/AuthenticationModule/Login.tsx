@@ -1,15 +1,22 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, ChangeEvent, useContext } from 'react';
+import { Module } from 'modules/types';
+import { colors } from 'style/theme';
+import { UnderLinedInput } from 'components/input/UnderlinedInput';
+import { FilledButton } from 'components/button/FilledButton';
+import { AppContext } from 'modules/App/AppContextProvider';
+import CircularProgress from '@mui/material/CircularProgress';
 import styled from 'styled-components';
 import cn from 'classnames';
-import { colors } from 'Style/theme';
-import CircularProgress from '@mui/material/CircularProgress';
+
+/* ---------------------------------- Types --------------------------------- */
+import type { FormEvent } from 'react';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const navigate = useNavigate();
+
+  const { navigateTo } = useContext(AppContext);
 
   const hasNoUsername = username.length === 0;
   const hasNoPassword = password.length === 0;
@@ -22,7 +29,7 @@ export const Login = () => {
   };
   const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate('/home');
+    navigateTo(Module.Menu);
   };
 
   const isLoginButtonDisabled = hasNoUsername || hasNoPassword || isLoggingIn;
@@ -37,33 +44,34 @@ export const Login = () => {
           onSubmit={onSubmitLoginForm}
         >
           <div className="input-container">
-            <input
-              className="login-input"
+            <UnderLinedInput
+              className="username-input"
               type="text"
               placeholder="Username"
               value={username}
               onChange={onUsernameChange}
             />
-            <input
-              className="login-input"
+            <UnderLinedInput
+              className="password-input"
               type="password"
               placeholder="Password"
               value={password}
               onChange={onPasswordChange}
             />
           </div>
-          <button
+          <FilledButton
             className={cn('login-button', {
               disabled: isLoginButtonDisabled
             })}
             disabled={isLoginButtonDisabled}
-          >
-            {isLoggingIn ? (
-              <CircularProgress size={28} thickness={4} />
-            ) : (
-              'LOGIN'
-            )}
-          </button>
+            label={
+              isLoggingIn ? (
+                <CircularProgress size={28} thickness={4} />
+              ) : (
+                'LOGIN'
+              )
+            }
+          ></FilledButton>
         </form>
       </section>
     </StyledLogin>
@@ -113,49 +121,5 @@ const StyledLogin = styled.main`
     justify-content: center;
     align-items: center;
     row-gap: 0.5rem;
-  }
-
-  .login-input {
-    height: 2.5rem;
-    width: 15rem;
-    color: ${colors.mediumGray1};
-    border: none;
-    border-bottom: 2px solid ${colors.lightBlue1};
-    font-size: 1rem;
-    padding-left: 0.5rem;
-
-    &:focus {
-      outline: none;
-      border-bottom-color: ${colors.deepBlue1};
-    }
-
-    &::placeholder {
-      user-select: none;
-      color: ${colors.lightGray1};
-    }
-  }
-
-  .login-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2.5rem;
-    width: 15.5rem;
-    border: none;
-    border-radius: 5px;
-    color: ${colors.white};
-    font-size: 1rem;
-    background-color: ${colors.mediumBlue1};
-    outline: none;
-
-    &:hover,
-    :focus {
-      background-color: ${colors.deepBlue1};
-    }
-
-    &.disabled {
-      background-color: ${colors.lightBlue1};
-      cursor: not-allowed;
-    }
   }
 `;
