@@ -17,7 +17,8 @@ const mainConfig: Configuration = {
           options: {
             transpileOnly: true,
             compilerOptions: {
-              module: 'esnext'
+              module: 'esnext',
+              moduleResolution: 'node'
             }
           }
         }

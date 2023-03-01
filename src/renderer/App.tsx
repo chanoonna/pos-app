@@ -1,18 +1,39 @@
-import { useState } from 'react';
+/* ---------------------------------- Style --------------------------------- */
+import './App.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+/* ------------------------------------ - ----------------------------------- */
+import { useAppData } from 'utils/hook/useAppData';
+import { AddContextProvider } from 'modules/App/AppContextProvider';
+import { AppNavBar } from 'renderer/modules/App/AppNavBar';
+import { moduleHash } from 'modules/moduleHash';
+import { Module } from 'modules/types';
+
+import { AppContainer } from 'components/container/AppContainer';
 
 export const App = () => {
-  const [count, setCount] = useState(0);
+  const { navigateTo, authenticate, state } = useAppData();
+  const {
+    currentModule,
+    auth: { isAuthenticated }
+  } = state;
+  const ModuleComponent = moduleHash[currentModule];
+
+  const appContextProps = {
+    state,
+    navigateTo,
+    authenticate
+  };
+
   return (
-    <div>
-      Add Main Edited
-      {count}
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        Add
-      </button>
-    </div>
+    <AddContextProvider {...appContextProps}>
+      <AppContainer>
+        {currentModule !== Module.Auth && <AppNavBar />}
+        <ModuleComponent />
+      </AppContainer>
+    </AddContextProvider>
   );
 };
