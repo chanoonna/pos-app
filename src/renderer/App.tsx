@@ -6,38 +6,34 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 /* ------------------------------------ - ----------------------------------- */
-import styled from 'styled-components';
-import { colors } from 'style/theme';
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'modules/App/AppContextProvider';
+import { AppNavBar } from 'renderer/modules/App/AppNavBar';
 import { moduleHash } from 'modules/moduleHash';
+import { Module } from 'modules/types';
 
-/* -------------------------------- Component ------------------------------- */
+import { AppContainer } from 'components/container/AppContainer';
 
 export const App = () => {
-  const { navigateTo, state } = useAppData();
-  const { currentModule } = state;
+  const { navigateTo, authenticate, state } = useAppData();
+  const {
+    currentModule,
+    auth: { isAuthenticated }
+  } = state;
   const ModuleComponent = moduleHash[currentModule];
 
   const appContextProps = {
-    currentModule,
-    navigateTo
+    state,
+    navigateTo,
+    authenticate
   };
 
   return (
     <AddContextProvider {...appContextProps}>
       <AppContainer>
+        {currentModule !== Module.Auth && <AppNavBar />}
         <ModuleComponent />
       </AppContainer>
     </AddContextProvider>
   );
 };
-
-const AppContainer = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: ${colors.backgroupBlack};
-`;

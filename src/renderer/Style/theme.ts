@@ -1,6 +1,8 @@
 export const colors = {
   /* Black-ish */
-  backgroupBlack: '#202124',
+  backgroundBlack1: '#202124',
+  backgroundBlack2: '#121212',
+  backgroundBlack3: '#202D3B',
 
   /* Blue */
   lightBlue1: '#A0D0FF',
@@ -11,11 +13,17 @@ export const colors = {
   deepPurple1: '#401F88',
 
   /* Gray */
+  backgroundGray1: '#C0C0C0',
   extraLightGray1: '#F0F0F0',
   lightGray1: '#D0D0D0',
-  mediumGray1: '8A8A8A',
+  mediumGray1: '#8A8A8A',
   darkGray1: '#5E5E5E',
+  charcoalGray1: '#404040',
 
   white: '#FFFFFF',
   black: '#000000'
+};
+
+export const fonts = {
+  primary: "'Roboto', 'Helvetica', 'Arial', sans-serif"
 };

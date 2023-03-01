@@ -2,15 +2,22 @@
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
     "outDir": "./dist/app",
     "target": "es2021",
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
       "*": ["./*"],
       "utils/*": ["./renderer/utils/*"],
       "modules/*": ["./renderer/modules/*"],
+      "App/*": ["./renderer/App/*"],
+      "AuthenticationModule/*": ["./renderer/modules/AuthenticationModule/*"],
+      "LandingModule/*": ["./renderer/modules/LandingModule/*"],
+      "SettingsModule/*": ["./renderer/modules/SettingsModule/*"],
       "style/*": ["./renderer/style/*"],
       "components/*": ["./renderer/components/*"]
     }

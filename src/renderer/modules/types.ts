@@ -1,4 +1,4 @@
 export enum Module {
   Auth = 'Auth',
-  Menu = 'Menu'
+  Landing = 'Menu'
 }

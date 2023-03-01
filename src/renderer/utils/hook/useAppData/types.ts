@@ -1,4 +1,5 @@
 import { Module } from 'modules/types';
+import { Language } from 'renderer/modules/SettingsModule/types';
 
 export interface AppDataState {
   auth: {
@@ -10,6 +11,7 @@ export interface AppDataState {
     name: string;
   };
   currentModule: Module;
+  language: Language;
 }
 
 export enum AppDataActionType {

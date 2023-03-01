@@ -1,18 +1,10 @@
-import styled from 'styled-components';
+import { PageContainer } from 'components/container/PageContainer';
 import { Login } from './Login';
 
 export const Authentication = () => {
   return (
-    <AuthContainer>
+    <PageContainer>
       <Login />
-    </AuthContainer>
+    </PageContainer>
   );
 };
-
-const AuthContainer = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`;

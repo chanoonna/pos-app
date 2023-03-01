@@ -1,51 +1,35 @@
 import type { ReactNode } from 'react';
-import styled from 'styled-components';
+import Button from '@mui/material/Button';
 import { colors } from 'style/theme';
 
 interface FilledButtonProps {
-  className?: string;
-  label: ReactNode;
+  type?: 'submit' | 'reset' | 'button' | undefined;
   disabled?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  fullWidth?: boolean;
+  label: ReactNode;
 }
 
 export const FilledButton = ({
-  className,
-  label,
-  disabled = false,
-  onClick
-}: FilledButtonProps) => {
-  return (
-    <StyledFilledButton
-      className={className}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {label}
-    </StyledFilledButton>
-  );
-};
-
-const StyledFilledButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 2.5rem;
-  width: 15.5rem;
-  border: none;
-  border-radius: 5px;
-  color: ${colors.white};
-  font-size: 1rem;
-  background-color: ${colors.mediumBlue1};
-  outline: none;
-
-  &:hover,
-  :focus {
-    background-color: ${colors.deepBlue1};
-  }
-
-  &.disabled {
-    background-color: ${colors.lightBlue1};
-    cursor: not-allowed;
-  }
-`;
+  type = 'button',
+  disabled,
+  fullWidth = true,
+  label
+}: FilledButtonProps) => (
+  <Button
+    type={type}
+    variant="contained"
+    disabled={disabled}
+    fullWidth={fullWidth}
+    sx={{
+      ':disabled': {
+        color: colors.mediumGray1,
+        backgroundColor: colors.charcoalGray1,
+        boxShadow: 1
+      },
+      color: colors.white,
+      boxShadow: 1
+    }}
+  >
+    {label}
+  </Button>
+);
