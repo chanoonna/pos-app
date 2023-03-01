@@ -25,7 +25,9 @@ export const StandardInputWithLabel = ({
   <FormGroup>
     <InputLabel
       sx={{
-        color: colors.white
+        color: colors.white,
+        userDrag: 'none',
+        userSelect: 'none'
       }}
       htmlFor={id}
     >
