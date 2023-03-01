@@ -10,6 +10,7 @@ interface StandardInputWithLabelProps {
   type?: 'text' | 'password';
   label: ReactNode;
   value: string;
+  startAdornment?: JSX.Element;
   endAdornment?: JSX.Element;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -20,6 +21,7 @@ export const StandardInputWithLabel = ({
   label,
   value,
   onChange,
+  startAdornment,
   endAdornment
 }: StandardInputWithLabelProps) => (
   <FormGroup>
@@ -47,6 +49,7 @@ export const StandardInputWithLabel = ({
       type={type}
       value={value}
       onChange={onChange}
+      startAdornment={startAdornment}
       endAdornment={endAdornment}
     />
   </FormGroup>
