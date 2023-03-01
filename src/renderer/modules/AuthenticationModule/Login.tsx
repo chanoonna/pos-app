@@ -18,7 +18,7 @@ import { HeaderPrimary } from 'components/typography/HeaderPrimary';
 import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'components/container/FlexContainer';
 import { FilledButton } from 'components/button/FilledButton';
-import { StandardInputWithLabel } from 'renderer/components/input/StandardInput';
+import { StandardInput } from 'components/input/StandardInput';
 
 /* ---------------------------------- Types --------------------------------- */
 import type { FormEvent } from 'react';
@@ -72,7 +72,7 @@ export const Login = () => {
       >
         <FlexContainer flexDirection="column" rowGap={'1rem'}>
           <FormControl fullWidth variant="standard">
-            <StandardInputWithLabel
+            <StandardInput
               id="standard-adornment-username"
               placeholder={loginLabels.username}
               value={username}
@@ -85,7 +85,7 @@ export const Login = () => {
             />
           </FormControl>
           <FormControl fullWidth variant="standard">
-            <StandardInputWithLabel
+            <StandardInput
               id="standard-adornment-password"
               type={isPasswordVisible ? 'text' : 'password'}
               placeholder={loginLabels.password}

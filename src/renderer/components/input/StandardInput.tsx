@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 
 import { colors } from 'style/theme';
 
-interface StandardInputWithLabelProps {
+interface StandardInputProps {
   id: string;
   type?: 'text' | 'password';
   value: string;
@@ -15,7 +15,7 @@ interface StandardInputWithLabelProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const StandardInputWithLabel = ({
+export const StandardInput = ({
   id,
   type = 'text',
   value,
@@ -23,7 +23,7 @@ export const StandardInputWithLabel = ({
   placeholder,
   startAdornment,
   endAdornment
-}: StandardInputWithLabelProps) => (
+}: StandardInputProps) => (
   <Input
     sx={{
       color: colors.white,
