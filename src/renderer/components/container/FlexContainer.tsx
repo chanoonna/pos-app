@@ -5,6 +5,8 @@ interface FlexContainerProps {
   width?: number | string;
   height?: number | string;
   flexDirection?: 'row' | 'column';
+  rowGap?: number | string;
+  columnGap?: number | string;
   justifyContent?:
     | 'flex-end'
     | 'flex-start'
@@ -25,6 +27,8 @@ export const FlexContainer = ({
   flexDirection = 'row',
   justifyContent = 'center',
   alignItems = 'center',
+  rowGap = 0,
+  columnGap = 0,
   children
 }: FlexContainerProps & { children: ReactNode }) => {
   return (
@@ -35,7 +39,9 @@ export const FlexContainer = ({
         display: 'flex',
         flexDirection,
         justifyContent,
-        alignItems
+        alignItems,
+        rowGap,
+        columnGap
       }}
     >
       {children}
