@@ -1,14 +1,27 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 import Container from '@mui/material/Container';
 
-export const PageContainer = ({ children }: { children: ReactNode }) => (
+type PageContainerProps = Pick<
+  CSSProperties,
+  'justifyContent' | 'alignItems' | 'height' | 'width'
+> & {
+  children: ReactNode;
+};
+
+export const PageContainer = ({
+  children,
+  justifyContent = 'center',
+  alignItems = 'center',
+  height = '100%',
+  width = '100%'
+}: PageContainerProps) => (
   <Container
     sx={{
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%',
-      width: '100%'
+      justifyContent,
+      alignItems,
+      height,
+      width
     }}
   >
     {children}
