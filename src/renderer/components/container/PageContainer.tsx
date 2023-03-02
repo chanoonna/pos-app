@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 
 type PageContainerProps = Pick<
   CSSProperties,
-  'justifyContent' | 'alignItems' | 'height' | 'width'
+  'justifyContent' | 'alignItems' | 'height' | 'width' | 'marginTop'
 > & {
   children: ReactNode;
 };
@@ -13,7 +13,8 @@ export const PageContainer = ({
   justifyContent = 'center',
   alignItems = 'center',
   height = '100%',
-  width = '100%'
+  width = '100%',
+  marginTop
 }: PageContainerProps) => (
   <Container
     sx={{
@@ -21,7 +22,8 @@ export const PageContainer = ({
       justifyContent,
       alignItems,
       height,
-      width
+      width,
+      marginTop
     }}
   >
     {children}
