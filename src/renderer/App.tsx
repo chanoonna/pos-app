@@ -8,7 +8,7 @@ import '@fontsource/roboto/700.css';
 /* ------------------------------------ - ----------------------------------- */
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'modules/App/AppContextProvider';
-import { AppMenuBar } from 'modules/App/AppMenuBar';
+import { AppMenuBar } from 'modules/AppMenuBarModule/AppMenuBar';
 import { moduleHash } from 'modules/moduleHash';
 import { Module } from 'modules/types';
 

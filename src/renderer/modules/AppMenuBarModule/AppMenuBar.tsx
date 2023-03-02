@@ -37,7 +37,7 @@ export const AppMenuBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Store name or Logo
           </Typography>
           <AppSearchBar onChange={handleChangeSearchText} />
         </Toolbar>
