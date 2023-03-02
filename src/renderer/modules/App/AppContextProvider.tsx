@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-import { createContext } from 'react';
+import { useMemo, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import { Module } from 'modules/types';
 import { AppDataState } from 'utils/hook/useAppData/types';
@@ -8,20 +7,20 @@ import { Language } from 'SettingsModule/types';
 interface AppDataProviderProps {
   navigateTo: (module: Module) => void;
   authenticate: (username: string, password: string) => void;
+  setLanguage: (language: Language) => void;
   state: AppDataState;
 }
 
-interface AppContextValues {
-  navigateTo: (module: Module) => void;
-  authenticate: (username: string, password: string) => void;
+type AppContextValues = Omit<AppDataProviderProps, 'state'> & {
   currentModule: Module;
   language: Language;
-}
+};
 
 export const AddContextProvider = ({
   children,
   navigateTo,
   authenticate,
+  setLanguage,
   state
 }: AppDataProviderProps & { children: ReactNode }) => {
   const { currentModule, language } = state;
@@ -29,10 +28,11 @@ export const AddContextProvider = ({
     () => ({
       navigateTo,
       authenticate,
+      setLanguage,
       currentModule,
       language
     }),
-    [authenticate, currentModule, language, navigateTo]
+    [authenticate, currentModule, language, navigateTo, setLanguage]
   );
 
   return (
@@ -43,3 +43,5 @@ export const AddContextProvider = ({
 export const AppContext = createContext<AppContextValues>(
   {} as AppContextValues
 );
+
+export const useAppContext = () => useContext(AppContext);

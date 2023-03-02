@@ -1,6 +1,6 @@
 export enum Language {
   Eng = 'Engish',
-  Kor = 'Korean'
+  Kor = '한국어'
 }
 
 export type Languages = Record<

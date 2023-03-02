@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Paper from '@mui/material/Paper';
-import { colors, fonts } from 'style/theme';
+import { colors } from 'style/theme';
 
 interface PaperContainer {
   width?: number | string;
@@ -23,9 +23,7 @@ export const PaperContainer = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem',
-        rowGap: '3rem',
-        fontFaimly: fonts.primary,
+        rowGap: '2rem',
         borderRadius: 0
       }}
       elevation={5}

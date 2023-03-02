@@ -8,14 +8,14 @@ import '@fontsource/roboto/700.css';
 /* ------------------------------------ - ----------------------------------- */
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'modules/App/AppContextProvider';
-import { AppNavBar } from 'renderer/modules/App/AppNavBar';
+import { AppMenuBar } from 'modules/AppMenuBarModule/AppMenuBar';
 import { moduleHash } from 'modules/moduleHash';
 import { Module } from 'modules/types';
 
 import { AppContainer } from 'components/container/AppContainer';
 
 export const App = () => {
-  const { navigateTo, authenticate, state } = useAppData();
+  const { actions, state } = useAppData();
   const {
     currentModule,
     auth: { isAuthenticated }
@@ -24,14 +24,13 @@ export const App = () => {
 
   const appContextProps = {
     state,
-    navigateTo,
-    authenticate
+    ...actions
   };
 
   return (
     <AddContextProvider {...appContextProps}>
       <AppContainer>
-        {currentModule !== Module.Auth && <AppNavBar />}
+        {currentModule !== Module.Auth && <AppMenuBar />}
         <ModuleComponent />
       </AppContainer>
     </AddContextProvider>

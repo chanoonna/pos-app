@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Typography from '@mui/material/Typography';
-import { colors, fonts } from 'style/theme';
+import { colors } from 'style/theme';
 
 interface HeaderPrimaryProps {
   label: ReactNode;
@@ -21,7 +21,6 @@ export const HeaderPrimary = ({
         color,
         fontSize,
         fontWeight,
-        fontFamily: fonts.primary,
         userDrag: 'none',
         userSelect: 'none'
       }}

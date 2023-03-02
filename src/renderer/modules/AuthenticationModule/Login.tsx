@@ -1,7 +1,7 @@
-import { useState, ChangeEvent, useContext } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Module } from 'modules/types';
 import { colors } from 'style/theme';
-import { AppContext } from 'modules/App/AppContextProvider';
+import { useAppContext } from 'modules/App/AppContextProvider';
 import { labels } from './constants';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -18,7 +18,8 @@ import { HeaderPrimary } from 'components/typography/HeaderPrimary';
 import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'components/container/FlexContainer';
 import { FilledButton } from 'components/button/FilledButton';
-import { StandardInputWithLabel } from 'components/input/StandardInputWithLabel';
+import { StandardInput } from 'components/input/StandardInput';
+import { LanguageSetting } from 'components/menus/LanguageSetting';
 
 /* ---------------------------------- Types --------------------------------- */
 import type { FormEvent } from 'react';
@@ -29,7 +30,7 @@ export const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const { navigateTo, authenticate, language } = useContext(AppContext);
+  const { navigateTo, authenticate, language } = useAppContext();
 
   const toggleVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -56,6 +57,9 @@ export const Login = () => {
 
   return (
     <PaperContainer>
+      <FlexContainer height="fit-content" justifyContent="flex-end">
+        <LanguageSetting />
+      </FlexContainer>
       <HeaderPrimary label={loginLabels.login} />
       <form
         id="login-form"
@@ -70,44 +74,45 @@ export const Login = () => {
           rowGap: '3rem'
         }}
       >
-        <FlexContainer flexDirection="column">
-          <FlexContainer alignItems="flex-end">
-            <AccountCircle
-              sx={{ color: colors.white, mr: 1, ml: -4, my: 0.5 }}
+        <FlexContainer flexDirection="column" rowGap={'1rem'}>
+          <FormControl fullWidth variant="standard">
+            <StandardInput
+              id="standard-adornment-username"
+              placeholder={loginLabels.username}
+              value={username}
+              onChange={onUsernameChange}
+              startAdornment={
+                <InputAdornment position="start">
+                  <AccountCircle sx={{ color: colors.white, mr: 1 }} />
+                </InputAdornment>
+              }
             />
-            <FormControl fullWidth variant="standard">
-              <StandardInputWithLabel
-                id="standard-adornment-username"
-                label={loginLabels.username}
-                value={username}
-                onChange={onUsernameChange}
-              />
-            </FormControl>
-          </FlexContainer>
-          <FlexContainer alignItems="flex-end">
-            <LockIcon sx={{ color: colors.white, mr: 1, ml: -4, my: 0.5 }} />
-            <FormControl fullWidth variant="standard">
-              <StandardInputWithLabel
-                id="standard-adornment-password"
-                type={isPasswordVisible ? 'text' : 'password'}
-                label={loginLabels.password}
-                value={password}
-                onChange={onPasswordChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      sx={{ color: colors.white }}
-                      size="small"
-                      onClick={toggleVisibility}
-                    >
-                      {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </FlexContainer>
+          </FormControl>
+          <FormControl fullWidth variant="standard">
+            <StandardInput
+              id="standard-adornment-password"
+              type={isPasswordVisible ? 'text' : 'password'}
+              placeholder={loginLabels.password}
+              value={password}
+              onChange={onPasswordChange}
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockIcon sx={{ color: colors.white, mr: 1 }} />
+                </InputAdornment>
+              }
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    sx={{ color: colors.white, ml: 1 }}
+                    onClick={toggleVisibility}
+                  >
+                    {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </FlexContainer>
         <FilledButton
           type="submit"
