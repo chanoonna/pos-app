@@ -24,7 +24,3 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000'
 };
-
-export const fonts = {
-  primary: "'Roboto', 'Helvetica', 'Arial', sans-serif"
-};

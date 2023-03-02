@@ -9,7 +9,7 @@ import { Language } from 'SettingsModule/types';
 
 export const LanguageSetting = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
-  const { setLanguage } = useAppContext();
+  const { setLanguage, language: currentLanguage } = useAppContext();
 
   const toggleLanguageMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
@@ -46,7 +46,9 @@ export const LanguageSetting = () => {
           <MenuItem
             key={language}
             onClick={(e) => {
-              setLanguage(language);
+              if (language !== currentLanguage) {
+                setLanguage(language);
+              }
               toggleLanguageMenu(e);
             }}
           >

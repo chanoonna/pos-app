@@ -34,8 +34,6 @@ export const useAppData = () => {
 
   return {
     state,
-    navigateTo,
-    authenticate,
-    setLanguage
+    actions: { navigateTo, authenticate, setLanguage }
   };
 };
