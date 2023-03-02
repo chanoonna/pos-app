@@ -19,7 +19,8 @@
       "LandingModule/*": ["./renderer/modules/LandingModule/*"],
       "SettingsModule/*": ["./renderer/modules/SettingsModule/*"],
       "style/*": ["./renderer/style/*"],
-      "components/*": ["./renderer/components/*"]
+      "components/*": ["./renderer/components/*"],
+      "contexts/*": ["./renderer/components/contexts/*"],
     }
   },
   "include": ["src", "configs"],

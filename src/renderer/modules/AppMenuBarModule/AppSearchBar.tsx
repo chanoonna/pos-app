@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 
 import { labels } from './constants';
-import { useAppContext } from 'modules/App/AppContextProvider';
+import { useAppContext } from 'contexts/AppContextProvider';
 
 interface AppSearchBarProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
