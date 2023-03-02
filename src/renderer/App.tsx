@@ -8,7 +8,7 @@ import '@fontsource/roboto/700.css';
 /* ------------------------------------ - ----------------------------------- */
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'modules/App/AppContextProvider';
-import { AppNavBar } from 'renderer/modules/App/AppNavBar';
+import { AppMenuBar } from 'modules/App/AppMenuBar';
 import { moduleHash } from 'modules/moduleHash';
 import { Module } from 'modules/types';
 
@@ -30,7 +30,7 @@ export const App = () => {
   return (
     <AddContextProvider {...appContextProps}>
       <AppContainer>
-        {currentModule !== Module.Auth && <AppNavBar />}
+        {currentModule !== Module.Auth && <AppMenuBar />}
         <ModuleComponent />
       </AppContainer>
     </AddContextProvider>
