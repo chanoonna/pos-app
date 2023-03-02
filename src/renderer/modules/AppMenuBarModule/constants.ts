@@ -3,12 +3,16 @@ import korean from './korean.json';
 import { Language } from 'SettingsModule/types';
 
 const Component = {
-  AppSearchBar: 'AppSearchBar'
+  AppSearchBar: 'AppSearchBar',
+  AppMenu: 'AppMenu'
 } as const;
 
 interface Labels {
   [Component.AppSearchBar]: {
     placeholder: string;
+  };
+  [Component.AppMenu]: {
+    menuTooltip: string;
   };
 }
 

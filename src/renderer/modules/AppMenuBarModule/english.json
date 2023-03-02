@@ -1,5 +1,8 @@
 {
   "AppSearchBar": {
     "placeholder": "Search..."
+  },
+  "AppMenu": {
+    "menuTooltip": "Click to open menu"
   }
 }

@@ -13,7 +13,7 @@ const initialState: AppDataState = {
   auth: { isAuthenticating: false, isAuthenticated: true },
   user: undefined,
   language: Language.Eng,
-  currentModule: Module.Auth
+  currentModule: Module.Landing
 };
 
 export const useAppData = () => {
