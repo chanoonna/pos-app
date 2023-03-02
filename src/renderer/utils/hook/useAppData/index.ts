@@ -12,7 +12,7 @@ import { Language } from 'SettingsModule/types';
 const initialState: AppDataState = {
   auth: { isAuthenticating: false, isAuthenticated: true },
   user: undefined,
-  language: Language.Kor,
+  language: Language.Eng,
   currentModule: Module.Auth
 };
 
