@@ -3,7 +3,8 @@ import type {
   AppDataAction,
   SetAuthenticatingAction,
   SetAuthenticatedAction,
-  NavigateToAction
+  NavigateToAction,
+  SetLanguageAction
 } from './types';
 import { AppDataActionType } from './types';
 
@@ -17,6 +18,9 @@ export const reducer = (state: AppDataState, action: AppDataAction) => {
     }
     case AppDataActionType.NavigateTo: {
       return navigateTo(state, action);
+    }
+    case AppDataActionType.SetLanguage: {
+      return setLanguage(state, action);
     }
     default:
       return state;
@@ -48,4 +52,9 @@ const setAuthenticated = (
 const navigateTo = (state: AppDataState, action: NavigateToAction) => ({
   ...state,
   currentModule: action.payload.module
+});
+
+const setLanguage = (state: AppDataState, action: SetLanguageAction) => ({
+  ...state,
+  language: action.payload.language
 });

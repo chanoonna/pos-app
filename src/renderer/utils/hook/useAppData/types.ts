@@ -17,12 +17,14 @@ export interface AppDataState {
 export enum AppDataActionType {
   SetAuthenticating = 'SET_AUTHENTICATING',
   SetAuthenticated = 'SET_AUTHENTICATED',
-  NavigateTo = 'NAVIGATE_TO'
+  NavigateTo = 'NAVIGATE_TO',
+  SetLanguage = 'SET_LANGUAGE'
 }
 
 export type AppDataAction =
   | SetAuthenticatingAction
   | SetAuthenticatedAction
+  | SetLanguageAction
   | NavigateToAction;
 
 export interface SetAuthenticatingAction {
@@ -43,5 +45,12 @@ export interface NavigateToAction {
   type: AppDataActionType.NavigateTo;
   payload: {
     module: Module;
+  };
+}
+
+export interface SetLanguageAction {
+  type: AppDataActionType.SetLanguage;
+  payload: {
+    language: Language;
   };
 }

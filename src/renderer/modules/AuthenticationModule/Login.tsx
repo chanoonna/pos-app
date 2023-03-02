@@ -1,7 +1,7 @@
-import { useState, ChangeEvent, useContext } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Module } from 'modules/types';
 import { colors } from 'style/theme';
-import { AppContext } from 'modules/App/AppContextProvider';
+import { useAppContext } from 'modules/App/AppContextProvider';
 import { labels } from './constants';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -19,6 +19,7 @@ import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'components/container/FlexContainer';
 import { FilledButton } from 'components/button/FilledButton';
 import { StandardInput } from 'components/input/StandardInput';
+import { LanguageSetting } from 'components/menus/LanguageSetting';
 
 /* ---------------------------------- Types --------------------------------- */
 import type { FormEvent } from 'react';
@@ -29,7 +30,7 @@ export const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const { navigateTo, authenticate, language } = useContext(AppContext);
+  const { navigateTo, authenticate, language } = useAppContext();
 
   const toggleVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -56,6 +57,9 @@ export const Login = () => {
 
   return (
     <PaperContainer>
+      <FlexContainer height="fit-content" justifyContent="flex-end">
+        <LanguageSetting />
+      </FlexContainer>
       <HeaderPrimary label={loginLabels.login} />
       <form
         id="login-form"

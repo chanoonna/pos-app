@@ -15,7 +15,7 @@ import { Module } from 'modules/types';
 import { AppContainer } from 'components/container/AppContainer';
 
 export const App = () => {
-  const { navigateTo, authenticate, state } = useAppData();
+  const { navigateTo, authenticate, setLanguage, state } = useAppData();
   const {
     currentModule,
     auth: { isAuthenticated }
@@ -25,7 +25,8 @@ export const App = () => {
   const appContextProps = {
     state,
     navigateTo,
-    authenticate
+    authenticate,
+    setLanguage
   };
 
   return (

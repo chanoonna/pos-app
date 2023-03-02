@@ -3,6 +3,7 @@ export const colors = {
   backgroundBlack1: '#202124',
   backgroundBlack2: '#121212',
   backgroundBlack3: '#202D3B',
+  backgroundBlack4: '#272727',
 
   /* Blue */
   lightBlue1: '#A0D0FF',

@@ -1,16 +1,28 @@
 import styled from 'styled-components';
+import IconButton from '@mui/material/IconButton';
+import LanguageIcon from '@mui/icons-material/Language';
 import Logout from '@mui/icons-material/Logout';
 import Settings from '@mui/icons-material/Settings';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { colors } from 'style/theme';
 
+/* ------------------------------- Components ------------------------------- */
+
+import { NavContainer } from 'components/container/NavContainer';
+
 export const AppNavBar = () => {
   return (
-    <StyledAppNavBar>
-      <SettingsIcon />
-      <LogoutIcon />
-    </StyledAppNavBar>
+    <NavContainer>
+      <IconButton
+        size="large"
+        aria-controls={'language-menu'}
+        aria-haspopup="true"
+        aria-expanded={'true'}
+      >
+        <LanguageIcon fontSize="large" sx={{ color: 'white' }} />
+      </IconButton>
+    </NavContainer>
   );
 };
 

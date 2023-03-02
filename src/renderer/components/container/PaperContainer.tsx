@@ -23,8 +23,7 @@ export const PaperContainer = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem',
-        rowGap: '3rem',
+        rowGap: '2rem',
         fontFaimly: fonts.primary,
         borderRadius: 0
       }}
