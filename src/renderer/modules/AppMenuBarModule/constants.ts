@@ -13,6 +13,11 @@ interface Labels {
   };
   [Component.AppMenu]: {
     menuTooltip: string;
+    myProfile: string;
+    previousSales: string;
+    settings: string;
+    logout: string;
+    cancelSale: string;
   };
 }
 

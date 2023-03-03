@@ -3,6 +3,11 @@
     "placeholder": "검색..."
   },
   "AppMenu": {
-    "menuTooltip": "메뉴를 열려면 클릭하십시오"
+    "menuTooltip": "메뉴를 열려면 클릭하십시오",
+    "myProfile": "내 정보",
+    "previousSales": "이전 판매 목록",
+    "cancelSale": "판매 취소",
+    "settings": "설정",
+    "logout": "로그아웃"
   }
 }
