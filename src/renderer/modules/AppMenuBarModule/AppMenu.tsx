@@ -6,10 +6,11 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import Avatar from '@mui/material/Avatar';
+import PersonIcon from '@mui/icons-material/Person';
+import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { useAppContext } from 'contexts/AppContextProvider';
@@ -35,7 +36,7 @@ export const AppMenu = () => {
             {
               name: 'offset',
               options: {
-                offset: [10, -20]
+                offset: [10, -10]
               }
             }
           ]
@@ -65,12 +66,6 @@ export const AppMenu = () => {
           sx: {
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1
-            },
             '&:before': {
               content: '""',
               display: 'block',
@@ -89,29 +84,35 @@ export const AppMenu = () => {
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
       >
         <MenuItem onClick={toggleMenu}>
-          <Avatar /> Profile
+          <ListItemIcon>
+            <ReceiptLongIcon />
+          </ListItemIcon>
+          {appMenuLabels.previousSales}
         </MenuItem>
         <MenuItem onClick={toggleMenu}>
-          <Avatar /> My account
+          <ListItemIcon>
+            <CreditCardOffIcon />
+          </ListItemIcon>
+          {appMenuLabels.cancelSale}
         </MenuItem>
         <Divider />
         <MenuItem onClick={toggleMenu}>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <PersonIcon />
           </ListItemIcon>
-          Add another account
+          {appMenuLabels.myProfile}
         </MenuItem>
         <MenuItem onClick={toggleMenu}>
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings />
           </ListItemIcon>
-          Settings
+          {appMenuLabels.settings}
         </MenuItem>
         <MenuItem onClick={toggleMenu}>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout />
           </ListItemIcon>
-          Logout
+          {appMenuLabels.logout}
         </MenuItem>
       </Menu>
     </>
