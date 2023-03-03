@@ -4,7 +4,8 @@ import { Language } from 'SettingsModule/types';
 
 const Component = {
   AppSearchBar: 'AppSearchBar',
-  AppMenu: 'AppMenu'
+  AppMenu: 'AppMenu',
+  AppMenuBar: 'AppMenuBar'
 } as const;
 
 interface Labels {
@@ -18,6 +19,9 @@ interface Labels {
     settings: string;
     logout: string;
     cancelSale: string;
+  };
+  [Component.AppMenuBar]: {
+    logoutTooltip: string;
   };
 }
 

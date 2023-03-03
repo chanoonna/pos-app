@@ -9,5 +9,8 @@
     "cancelSale": "판매 취소",
     "settings": "설정",
     "logout": "로그아웃"
+  },
+  "AppMenuBar": {
+    "logoutTooltip": "로그아웃하려면 클릭하십시오."
   }
 }

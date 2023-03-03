@@ -9,5 +9,8 @@
     "cancelSale": "Cancel Sale",
     "settings": "Settings",
     "logout": "Logout"
+  },
+  "AppMenuBar": {
+    "logoutTooltip": "Click to Logout"
   }
 }

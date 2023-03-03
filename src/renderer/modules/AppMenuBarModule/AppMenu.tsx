@@ -19,7 +19,7 @@ import { labels } from './constants';
 export const AppMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const open = Boolean(targetRef);
-  const { language } = useAppContext();
+  const { language, logOut } = useAppContext();
   const appMenuLabels = labels[language].AppMenu;
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
@@ -108,7 +108,7 @@ export const AppMenu = () => {
           </ListItemIcon>
           {appMenuLabels.settings}
         </MenuItem>
-        <MenuItem onClick={toggleMenu}>
+        <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
