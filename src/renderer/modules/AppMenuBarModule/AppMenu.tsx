@@ -15,6 +15,7 @@ import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { useAppContext } from 'contexts/AppContextProvider';
 import { labels } from './constants';
+import { colors } from 'style/theme';
 
 export const AppMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
@@ -36,7 +37,7 @@ export const AppMenu = () => {
             {
               name: 'offset',
               options: {
-                offset: [10, -10]
+                offset: [10, 0]
               }
             }
           ]
@@ -44,15 +45,18 @@ export const AppMenu = () => {
       >
         <IconButton
           size="large"
-          edge="start"
           color="inherit"
           aria-controls={open ? 'app-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
-          sx={{ mr: 2 }}
+          sx={{
+            ':hover': {
+              color: colors.mediumBlue1
+            }
+          }}
           onClick={toggleMenu}
         >
-          <MenuIcon />
+          <MenuIcon fontSize="large" />
         </IconButton>
       </Tooltip>
       <Menu

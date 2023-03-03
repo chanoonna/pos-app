@@ -7,6 +7,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import Logout from '@mui/icons-material/Logout';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 import { colors } from 'style/theme';
 import { AppSearchBar } from './AppSearchBar';
 import { AppMenu } from './AppMenu';
@@ -32,6 +33,9 @@ export const AppMenuBar = () => {
         flexGrow: 1,
         '.MuiAppBar-root': {
           backgroundColor: colors.backgroundBlack4
+        },
+        '.MuiToolbar-root': {
+          padding: 0
         }
       }}
     >
@@ -49,12 +53,10 @@ export const AppMenuBar = () => {
             sx={{
               mt: 2,
               mb: 2,
-              ml: 2,
-              mr: 1.5,
+              ml: 2.5,
               backgroundColor: colors.mediumGray1
             }}
           />
-          <HomeIcon sx={{ mr: 1.5, cursor: 'pointer' }} />
           <Tooltip
             title={
               <TooltipTitleWrapper label={appMenuBarLabels.logoutTooltip} />
@@ -62,7 +64,18 @@ export const AppMenuBar = () => {
             arrow
             placement="bottom-start"
           >
-            <Logout onClick={logOut} sx={{ cursor: 'pointer' }} />
+            <IconButton
+              size="large"
+              color="inherit"
+              sx={{
+                ':hover': {
+                  color: colors.mediumBlue1
+                }
+              }}
+              onClick={logOut}
+            >
+              <HomeIcon fontSize="large" />
+            </IconButton>
           </Tooltip>
         </Toolbar>
       </AppBar>

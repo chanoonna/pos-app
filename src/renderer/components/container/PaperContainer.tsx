@@ -1,19 +1,26 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import Paper from '@mui/material/Paper';
 import { colors } from 'style/theme';
 
-interface PaperContainer {
-  width?: number | string;
-  height?: number | string;
-  backgroundColor?: string;
-}
+type PaperContainerProps = Pick<
+  CSSProperties,
+  | 'width'
+  | 'height'
+  | 'backgroundColor'
+  | 'alignItems'
+  | 'justifyContent'
+  | 'rowGap'
+>;
 
 export const PaperContainer = ({
   width = 400,
   height = 400,
+  alignItems = 'center',
+  justifyContent = 'flex-start',
+  rowGap = '2rem',
   backgroundColor = colors.charcoalGray1,
   children
-}: PaperContainer & { children: ReactNode }) => {
+}: PaperContainerProps & { children: ReactNode }) => {
   return (
     <Paper
       sx={{
@@ -22,7 +29,8 @@ export const PaperContainer = ({
         backgroundColor,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems,
+        justifyContent,
         rowGap: '2rem',
         borderRadius: 0
       }}
