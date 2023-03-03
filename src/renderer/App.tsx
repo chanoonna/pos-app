@@ -6,6 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 /* ------------------------------------ - ----------------------------------- */
+import { useEffect } from 'react';
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'contexts/AppContextProvider';
 import { AppMenuBar } from 'modules/AppMenuBarModule/AppMenuBar';
@@ -26,6 +27,12 @@ export const App = () => {
     state,
     ...actions
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      actions.navigateTo(Module.Auth);
+    }
+  }, [actions, isAuthenticated]);
 
   return (
     <AddContextProvider {...appContextProps}>
