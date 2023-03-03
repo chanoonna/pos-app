@@ -4,7 +4,8 @@ import type {
   SetAuthenticatingAction,
   SetAuthenticatedAction,
   NavigateToAction,
-  SetLanguageAction
+  SetLanguageAction,
+  LogOutAction
 } from './types';
 import { AppDataActionType } from './types';
 
@@ -21,6 +22,9 @@ export const reducer = (state: AppDataState, action: AppDataAction) => {
     }
     case AppDataActionType.SetLanguage: {
       return setLanguage(state, action);
+    }
+    case AppDataActionType.LogOut: {
+      return logOut(state, action);
     }
     default:
       return state;
@@ -57,4 +61,13 @@ const navigateTo = (state: AppDataState, action: NavigateToAction) => ({
 const setLanguage = (state: AppDataState, action: SetLanguageAction) => ({
   ...state,
   language: action.payload.language
+});
+
+const logOut = (state: AppDataState, action: LogOutAction) => ({
+  ...state,
+  auth: {
+    ...state.auth,
+    isAuthenticated: action.payload.isAuthenticated
+  },
+  user: action.payload.user
 });
