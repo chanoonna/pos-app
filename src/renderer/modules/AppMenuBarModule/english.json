@@ -1,5 +1,16 @@
 {
   "AppSearchBar": {
     "placeholder": "Search..."
+  },
+  "AppMenu": {
+    "menuTooltip": "Click to open menu",
+    "myProfile": "My Profile",
+    "previousSales": "Previous Sales",
+    "cancelSale": "Cancel Sale",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "AppMenuBar": {
+    "logoutTooltip": "Click to Logout"
   }
 }

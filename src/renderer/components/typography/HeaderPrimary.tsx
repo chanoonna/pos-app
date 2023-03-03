@@ -20,9 +20,7 @@ export const HeaderPrimary = ({
       sx={{
         color,
         fontSize,
-        fontWeight,
-        userDrag: 'none',
-        userSelect: 'none'
+        fontWeight
       }}
     >
       {label}

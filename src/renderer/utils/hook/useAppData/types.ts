@@ -18,14 +18,16 @@ export enum AppDataActionType {
   SetAuthenticating = 'SET_AUTHENTICATING',
   SetAuthenticated = 'SET_AUTHENTICATED',
   NavigateTo = 'NAVIGATE_TO',
-  SetLanguage = 'SET_LANGUAGE'
+  SetLanguage = 'SET_LANGUAGE',
+  LogOut = 'LOG_OUT'
 }
 
 export type AppDataAction =
   | SetAuthenticatingAction
   | SetAuthenticatedAction
   | SetLanguageAction
-  | NavigateToAction;
+  | NavigateToAction
+  | LogOutAction;
 
 export interface SetAuthenticatingAction {
   type: AppDataActionType.SetAuthenticating;
@@ -53,4 +55,9 @@ export interface SetLanguageAction {
   payload: {
     language: Language;
   };
+}
+
+export interface LogOutAction {
+  type: AppDataActionType.LogOut;
+  payload: { isAuthenticated: false; user: undefined };
 }

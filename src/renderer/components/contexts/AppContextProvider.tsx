@@ -8,6 +8,7 @@ interface AppDataProviderProps {
   navigateTo: (module: Module) => void;
   authenticate: (username: string, password: string) => void;
   setLanguage: (language: Language) => void;
+  logOut: () => void;
   state: AppDataState;
 }
 
@@ -21,6 +22,7 @@ export const AddContextProvider = ({
   navigateTo,
   authenticate,
   setLanguage,
+  logOut,
   state
 }: AppDataProviderProps & { children: ReactNode }) => {
   const { currentModule, language } = state;
@@ -29,10 +31,11 @@ export const AddContextProvider = ({
       navigateTo,
       authenticate,
       setLanguage,
+      logOut,
       currentModule,
       language
     }),
-    [authenticate, currentModule, language, navigateTo, setLanguage]
+    [authenticate, currentModule, language, navigateTo, setLanguage, logOut]
   );
 
   return (

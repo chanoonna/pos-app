@@ -1,39 +1,48 @@
 /* --------------------------------- imports -------------------------------- */
 
-import { useCallback, useReducer } from 'react';
-import { AppDataActionType, AppDataState } from './types';
+import { useCallback, useReducer, Dispatch } from 'react';
 import { reducer } from './reducer';
+import once from 'lodash/once';
 
 /* ---------------------------------- types --------------------------------- */
 
 import { Module } from 'modules/types';
 import { Language } from 'SettingsModule/types';
+import { AppDataActionType, AppDataState, AppDataAction } from './types';
 
 const initialState: AppDataState = {
   auth: { isAuthenticating: false, isAuthenticated: true },
   user: undefined,
-  language: Language.Eng,
-  currentModule: Module.Auth
+  language: Language.Kor,
+  currentModule: Module.Landing
 };
 
 export const useAppData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const navigateTo = useCallback((module: Module) => {
+  return {
+    state,
+    actions: getActions(dispatch)
+  };
+};
+
+const getActions = once((dispatch: Dispatch<AppDataAction>) => ({
+  navigateTo: (module: Module) => {
     dispatch({ type: AppDataActionType.NavigateTo, payload: { module } });
-  }, []);
-  const setLanguage = useCallback((language: Language) => {
-    dispatch({ type: AppDataActionType.SetLanguage, payload: { language } });
-  }, []);
-  const authenticate = useCallback(() => {
+  },
+  authenticate: () => {
     dispatch({
       type: AppDataActionType.SetAuthenticated,
       payload: { isAuthenticated: true }
     });
-  }, []);
-
-  return {
-    state,
-    actions: { navigateTo, authenticate, setLanguage }
-  };
-};
+  },
+  setLanguage: (language: Language) => {
+    dispatch({ type: AppDataActionType.SetLanguage, payload: { language } });
+  },
+  logOut: () => {
+    dispatch({
+      type: AppDataActionType.LogOut,
+      payload: { isAuthenticated: false, user: undefined }
+    });
+  }
+}));
