@@ -9,7 +9,7 @@
     "start:main": "cross-env NODE_ENV=development ./node_modules/.bin/electron -r ts-node/register/transpile-only .",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./configs/webpack.config.preload.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./configs/webpack.config.dev.ts",
-    "build": "webpack --config ./webpack.config.js",
+    "build": "TS_NODE_TRANSPILE_ONLY=true webpack --config ./configs/webpack.config.ts",
     "prepare": "husky install"
   },
   "repository": {
@@ -44,16 +44,19 @@
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.2.10",
     "@svgr/webpack": "^6.5.1",
     "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/sqlite3": "^3.1.8",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "electron": "^23.1.0",
+    "electron-builder": "^23.6.0",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -70,6 +73,7 @@
     "prettier": "^2.8.4",
     "sass": "^1.58.3",
     "sass-loader": "^13.2.0",
+    "sqlite3": "^5.1.4",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
