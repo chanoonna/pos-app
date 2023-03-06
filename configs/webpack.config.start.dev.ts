@@ -5,27 +5,23 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { spawn } from 'child_process';
 import { merge } from 'webpack-merge';
 import mainConfig from './webpack.config';
+import { DIST_BUILD, SRC_RENDERER, DIST_BUILD_NODE_MODULES } from './paths';
 
-const port = process.env.PORT || 3000;
-
-const ROOT = path.join(__dirname, '../');
-const RENDERER = path.join(ROOT, 'src/renderer');
-const DIST_RENDERER = path.join(ROOT, 'dist/app/renderer');
-const NODE_MODULES = path.join(ROOT, 'dist/app/node_modules');
+const PORT = process.env.PORT || 3000;
 
 const devConfig: Configuration = {
   devtool: 'inline-source-map',
   mode: 'development',
   target: ['web', 'electron-renderer'],
   entry: [
-    `webpack-dev-server/client?http://localhost:${port}/dist`,
+    `webpack-dev-server/client?http://localhost:${PORT}/dist`,
     'webpack/hot/only-dev-server',
-    path.join(RENDERER, 'index.tsx')
+    path.join(SRC_RENDERER, 'index.tsx')
   ],
   output: {
-    path: DIST_RENDERER,
+    path: DIST_BUILD,
     publicPath: '/',
-    filename: 'renderer.dev.js',
+    filename: 'renderer.js',
     library: {
       type: 'umd'
     }
@@ -110,7 +106,7 @@ const devConfig: Configuration = {
     }),
     new HtmlWebpackPlugin({
       filename: path.join('index.html'),
-      template: path.join(RENDERER, 'index.html'),
+      template: path.join(SRC_RENDERER, 'index.html'),
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
@@ -119,7 +115,7 @@ const devConfig: Configuration = {
       isBrowser: false,
       env: process.env.NODE_ENV,
       isDevelopment: process.env.NODE_ENV !== 'production',
-      nodeModules: NODE_MODULES
+      nodeModules: DIST_BUILD_NODE_MODULES
     })
   ],
 
@@ -129,7 +125,7 @@ const devConfig: Configuration = {
   },
 
   devServer: {
-    port,
+    port: PORT,
     compress: true,
     hot: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
@@ -140,7 +136,7 @@ const devConfig: Configuration = {
       verbose: true
     },
     setupMiddlewares(middlewares) {
-      const preloadProcess = spawn('npm', ['run', 'start:preload'], {
+      const preloadProcess = spawn('npm', ['run', 'build:dev'], {
         shell: true,
         stdio: 'inherit'
       })

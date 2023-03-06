@@ -1,4 +1,7 @@
 node_modules
-dist
+.dist/build/*
+.dist/package
+!.dist/build/package.json
+!.dist/build/package-lock.json
 
 .DS_Store

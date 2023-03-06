@@ -1,9 +1,8 @@
 import webpack, { Configuration } from 'webpack';
 import TsconfigPathsPlugins from 'tsconfig-paths-webpack-plugin';
-import path from 'path';
+import { SRC } from './paths';
 
-const ROOT = path.join(__dirname, '../');
-const SRC = path.join(ROOT, 'src');
+const ENV = process.env.NODE_ENV || 'development';
 
 const mainConfig: Configuration = {
   stats: 'errors-only',
@@ -25,25 +24,25 @@ const mainConfig: Configuration = {
       }
     ]
   },
-
   output: {
     path: SRC,
     library: {
       type: 'commonjs2'
     }
   },
-
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [SRC, 'node_modules'],
     plugins: [new TsconfigPathsPlugins()]
   },
-
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     })
-  ]
+  ],
+  externals: {
+    sqlite3: 'sqlite3'
+  }
 };
 
 export default mainConfig;

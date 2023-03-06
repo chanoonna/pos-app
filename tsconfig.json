@@ -2,9 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
+    "noEmit": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "outDir": "./dist/app",
+    "outDir": ".dist/build",
     "target": "es2021",
     "jsx": "react-jsx",
     "resolveJsonModule": true,
