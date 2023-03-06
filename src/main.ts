@@ -1,6 +1,7 @@
 import path from 'path';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import sqlite from 'sqlite3';
+import { DIST_BUILD } from '../configs/paths';
 
 const sqlite3 = sqlite.verbose();
 const db = new sqlite3.Database(':memory:');
@@ -18,7 +19,9 @@ const createWindow = () => {
     height: 768,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, '../dist/app/preload/preload.js')
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(DIST_BUILD, 'preload.js')
     }
   });
 
@@ -27,6 +30,7 @@ const createWindow = () => {
   });
 
   win.loadURL('http://localhost:3000/index.html');
+  // win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
 
   win.on('ready-to-show', () => {
     win.show();
