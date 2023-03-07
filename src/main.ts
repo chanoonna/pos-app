@@ -1,16 +1,8 @@
 import path from 'path';
-import { app, BrowserWindow, ipcMain } from 'electron';
-import sqlite from 'sqlite3';
+import { app, BrowserWindow } from 'electron';
 import { DIST_BUILD } from '../configs/paths';
-
-const sqlite3 = sqlite.verbose();
-const db = new sqlite3.Database(':memory:');
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+import { closeDatabase, startDatabase } from './database';
+import { startIpcMain } from './ipc';
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -35,7 +27,16 @@ const createWindow = () => {
   win.on('ready-to-show', () => {
     win.show();
   });
+
+  win.on('close', () => {
+    closeDatabase().then(() => {
+      console.log('Closing the app...');
+    });
+  });
 };
+
+startDatabase();
+startIpcMain();
 
 const closeWindow = () => {
   if (process.platform !== 'darwin') app.quit();
