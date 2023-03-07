@@ -7,12 +7,13 @@ const sqlite3 = isPackaged ? sqlite : sqlite.verbose();
 let db: sqlite.Database;
 
 export const startDatabase = () => {
-  db = new sqlite3.Database('database.db', (err) => {
+  db = new sqlite3.Database('./db/database.db', (err) => {
+    console.log('Database connection failed');
     if (err) {
       return console.error(err.message);
     }
 
-    console.log('Database is connected');
+    console.log('Database connection successful');
   });
 };
 
@@ -29,7 +30,7 @@ export const closeDatabase = async () => {
       });
     });
   } catch (err) {
-    console.log('Failed to close the database');
+    console.log('Database closing failed');
     console.error(err);
   }
 };
