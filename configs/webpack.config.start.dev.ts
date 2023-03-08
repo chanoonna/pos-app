@@ -2,22 +2,20 @@ import 'webpack-dev-server';
 import path from 'path';
 import webpack, { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import { spawn } from 'child_process';
 import { merge } from 'webpack-merge';
 import mainConfig from './webpack.config';
 import { DIST_BUILD, SRC_RENDERER, DIST_BUILD_NODE_MODULES } from './paths';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const devConfig: Configuration = {
   devtool: 'inline-source-map',
   mode: 'development',
   target: ['web', 'electron-renderer'],
-  entry: [
-    `webpack-dev-server/client?http://localhost:${PORT}/dist`,
-    'webpack/hot/only-dev-server',
-    path.join(SRC_RENDERER, 'index.tsx')
-  ],
+  entry: [path.join(SRC_RENDERER, 'index.tsx')],
   output: {
     path: DIST_BUILD,
     publicPath: '/',
@@ -114,9 +112,11 @@ const devConfig: Configuration = {
       },
       isBrowser: false,
       env: process.env.NODE_ENV,
-      isDevelopment: process.env.NODE_ENV !== 'production',
+      isDevelopment: true,
       nodeModules: DIST_BUILD_NODE_MODULES
-    })
+    }),
+    new ReactRefreshWebpackPlugin(),
+    new CaseSensitivePathsPlugin()
   ],
 
   node: {
