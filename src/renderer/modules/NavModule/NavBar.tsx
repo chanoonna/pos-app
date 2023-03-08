@@ -4,28 +4,30 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
-import Logout from '@mui/icons-material/Logout';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { colors } from 'style/theme';
-import { AppSearchBar } from './AppSearchBar';
-import { AppMenu } from './AppMenu';
-import { useAppContext } from 'contexts/AppContextProvider';
+import { NavSearch } from './NavSearch';
+import { NavMenu } from './NavMenu';
+import { useAppContext } from 'AppModule/AppContextProvider';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
+import { Module } from '../types';
 
-export const AppMenuBar = () => {
+export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
-  const { language, logOut } = useAppContext();
+  const { currentModule, language, logOut } = useAppContext();
 
-  const appMenuBarLabels = labels[language].AppMenuBar;
+  const navBarLabels = labels[language].NavBar;
 
   const handleChangeSearchText = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchText(event.target.value);
   };
+
+  if (currentModule === Module.Auth) return null;
 
   return (
     <Box
@@ -41,11 +43,11 @@ export const AppMenuBar = () => {
     >
       <AppBar position="fixed">
         <Toolbar>
-          <AppMenu />
+          <NavMenu />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Store name or Logo
           </Typography>
-          <AppSearchBar onChange={handleChangeSearchText} />
+          <NavSearch onChange={handleChangeSearchText} language={language} />
           <Divider
             orientation="vertical"
             variant="middle"
@@ -58,9 +60,7 @@ export const AppMenuBar = () => {
             }}
           />
           <Tooltip
-            title={
-              <TooltipTitleWrapper label={appMenuBarLabels.logoutTooltip} />
-            }
+            title={<TooltipTitleWrapper label={navBarLabels.logoutTooltip} />}
             arrow
             placement="bottom-start"
           >

@@ -3,16 +3,16 @@ import korean from './korean.json';
 import { Language } from 'SettingsModule/types';
 
 const Component = {
-  AppSearchBar: 'AppSearchBar',
-  AppMenu: 'AppMenu',
-  AppMenuBar: 'AppMenuBar'
+  NavSearch: 'NavSearch',
+  NavMenu: 'NavMenu',
+  NavBar: 'NavBar'
 } as const;
 
 interface Labels {
-  [Component.AppSearchBar]: {
+  [Component.NavSearch]: {
     placeholder: string;
   };
-  [Component.AppMenu]: {
+  [Component.NavMenu]: {
     menuTooltip: string;
     myProfile: string;
     previousSales: string;
@@ -20,7 +20,7 @@ interface Labels {
     logout: string;
     cancelSale: string;
   };
-  [Component.AppMenuBar]: {
+  [Component.NavBar]: {
     logoutTooltip: string;
   };
 }

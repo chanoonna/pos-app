@@ -1,6 +1,6 @@
 /* --------------------------------- imports -------------------------------- */
 
-import { useCallback, useReducer, Dispatch } from 'react';
+import { useReducer, Dispatch } from 'react';
 import { reducer } from './reducer';
 import once from 'lodash/once';
 
@@ -14,7 +14,7 @@ const initialState: AppDataState = {
   auth: { isAuthenticating: false, isAuthenticated: true },
   user: undefined,
   language: Language.Kor,
-  currentModule: Module.Landing
+  currentModule: Module.Startup
 };
 
 export const useAppData = () => {

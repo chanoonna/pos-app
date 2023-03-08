@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import { useAppContext } from 'contexts/AppContextProvider';
+import { useAppContext } from 'AppModule/AppContextProvider';
 import { Language } from 'SettingsModule/types';
 
 export const LanguageSetting = () => {

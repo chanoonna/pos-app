@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 import { Module } from 'modules/types';
 import { colors } from 'style/theme';
-import { useAppContext } from 'contexts/AppContextProvider';
+import { useAppContext } from 'renderer/modules/AppModule/AppContextProvider';
 import { labels } from './constants';
 import CircularProgress from '@mui/material/CircularProgress';
 

@@ -3,7 +3,12 @@ import Container from '@mui/material/Container';
 
 type PageContainerProps = Pick<
   CSSProperties,
-  'justifyContent' | 'alignItems' | 'height' | 'width' | 'marginTop'
+  | 'justifyContent'
+  | 'alignItems'
+  | 'height'
+  | 'width'
+  | 'marginTop'
+  | 'flexDirection'
 > & {
   children: ReactNode;
 };
@@ -14,6 +19,7 @@ export const PageContainer = ({
   alignItems = 'center',
   height = '100%',
   width = '100%',
+  flexDirection = 'row',
   marginTop
 }: PageContainerProps) => (
   <Container
@@ -21,6 +27,7 @@ export const PageContainer = ({
       display: 'flex',
       justifyContent,
       alignItems,
+      flexDirection,
       height,
       width,
       marginTop

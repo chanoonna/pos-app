@@ -13,15 +13,15 @@ import PersonIcon from '@mui/icons-material/Person';
 import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
-import { useAppContext } from 'contexts/AppContextProvider';
+import { useAppContext } from 'renderer/modules/AppModule/AppContextProvider';
 import { labels } from './constants';
 import { colors } from 'style/theme';
 
-export const AppMenu = () => {
+export const NavMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const open = Boolean(targetRef);
   const { language, logOut } = useAppContext();
-  const appMenuLabels = labels[language].AppMenu;
+  const appMenuLabels = labels[language].NavMenu;
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
   };

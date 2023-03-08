@@ -1,5 +1,5 @@
 import { Module } from 'modules/types';
-import { Language } from 'renderer/modules/SettingsModule/types';
+import { Language } from 'SettingsModule/types';
 
 export interface AppDataState {
   auth: {

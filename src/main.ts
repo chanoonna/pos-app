@@ -21,7 +21,7 @@ const createWindow = () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  win.loadURL('http://localhost:3000/index.html');
+  win.loadURL('http://localhost:8080');
   // win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
 
   win.on('ready-to-show', () => {
