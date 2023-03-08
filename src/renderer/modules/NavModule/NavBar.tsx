@@ -13,10 +13,11 @@ import { NavMenu } from './NavMenu';
 import { useAppContext } from 'AppModule/AppContextProvider';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
+import { Module } from '../types';
 
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
-  const { language, logOut } = useAppContext();
+  const { currentModule, language, logOut } = useAppContext();
 
   const navBarLabels = labels[language].NavBar;
 
@@ -25,6 +26,8 @@ export const NavBar = () => {
   ) => {
     setSearchText(event.target.value);
   };
+
+  if (currentModule === Module.Auth) return null;
 
   return (
     <Box
