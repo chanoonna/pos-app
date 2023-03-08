@@ -7,9 +7,9 @@ const sqlite3 = isPackaged ? sqlite : sqlite.verbose();
 let db: sqlite.Database;
 
 export const startDatabase = () => {
-  db = new sqlite3.Database('./db/database.db', (err) => {
-    console.log('Database connection failed');
+  db = new sqlite3.Database('database.db', (err) => {
     if (err) {
+      console.log('Database connection failed');
       return console.error(err.message);
     }
 

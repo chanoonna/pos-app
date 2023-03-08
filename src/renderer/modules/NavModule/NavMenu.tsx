@@ -21,7 +21,7 @@ export const AppMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const open = Boolean(targetRef);
   const { language, logOut } = useAppContext();
-  const appMenuLabels = labels[language].AppMenu;
+  const appMenuLabels = labels[language].NavMenu;
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
   };

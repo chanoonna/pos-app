@@ -15,7 +15,7 @@ const devConfig: Configuration = {
   devtool: 'inline-source-map',
   mode: 'development',
   target: ['web', 'electron-renderer'],
-  entry: [path.join(SRC_RENDERER, 'index.tsx')],
+  entry: ['webpack/hot/only-dev-server', path.join(SRC_RENDERER, 'index.tsx')],
   output: {
     path: DIST_BUILD,
     publicPath: '/',

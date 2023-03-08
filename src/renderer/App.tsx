@@ -9,7 +9,7 @@ import '@fontsource/roboto/700.css';
 import { useEffect } from 'react';
 import { useAppData } from 'utils/hook/useAppData';
 import { AddContextProvider } from 'contexts/AppContextProvider';
-import { AppMenuBar } from 'modules/AppMenuBarModule/AppMenuBar';
+import { NavMenu } from 'NavModule/NavBar';
 import { moduleHash } from 'modules/moduleHash';
 import { Module } from 'modules/types';
 
@@ -37,7 +37,7 @@ export const App = () => {
   return (
     <AddContextProvider {...appContextProps}>
       <AppContainer>
-        {currentModule !== Module.Auth && <AppMenuBar />}
+        <NavMenu />
         <ModuleComponent />
       </AppContainer>
     </AddContextProvider>

@@ -5,13 +5,13 @@ import InputBase from '@mui/material/InputBase';
 import { labels } from './constants';
 import { useAppContext } from 'contexts/AppContextProvider';
 
-interface AppSearchBarProps {
+interface NavSearchProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const AppSearchBar = ({ onChange }: AppSearchBarProps) => {
+export const NavSearch = ({ onChange }: NavSearchProps) => {
   const { language } = useAppContext();
-  const appSearchBarLabels = labels[language].AppSearchBar;
+  const appSearchBarLabels = labels[language].NavSearch;
   return (
     <Search>
       <SearchIconWrapper>

@@ -4,22 +4,21 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
-import Logout from '@mui/icons-material/Logout';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { colors } from 'style/theme';
-import { AppSearchBar } from './AppSearchBar';
-import { AppMenu } from './AppMenu';
+import { NavSearch } from './NavSearch';
+import { AppMenu } from './NavMenu';
 import { useAppContext } from 'contexts/AppContextProvider';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
 
-export const AppMenuBar = () => {
+export const NavMenu = () => {
   const [searchText, setSearchText] = useState('');
   const { language, logOut } = useAppContext();
 
-  const appMenuBarLabels = labels[language].AppMenuBar;
+  const appMenuBarLabels = labels[language].NavBar;
 
   const handleChangeSearchText = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -45,7 +44,7 @@ export const AppMenuBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Store name or Logo
           </Typography>
-          <AppSearchBar onChange={handleChangeSearchText} />
+          <NavSearch onChange={handleChangeSearchText} />
           <Divider
             orientation="vertical"
             variant="middle"
