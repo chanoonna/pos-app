@@ -9,16 +9,16 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { colors } from 'style/theme';
 import { NavSearch } from './NavSearch';
-import { AppMenu } from './NavMenu';
-import { useAppContext } from 'contexts/AppContextProvider';
+import { NavMenu } from './NavMenu';
+import { useAppContext } from 'AppModule/AppContextProvider';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
 
-export const NavMenu = () => {
+export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
   const { language, logOut } = useAppContext();
 
-  const appMenuBarLabels = labels[language].NavBar;
+  const navBarLabels = labels[language].NavBar;
 
   const handleChangeSearchText = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -40,11 +40,11 @@ export const NavMenu = () => {
     >
       <AppBar position="fixed">
         <Toolbar>
-          <AppMenu />
+          <NavMenu />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Store name or Logo
           </Typography>
-          <NavSearch onChange={handleChangeSearchText} />
+          <NavSearch onChange={handleChangeSearchText} language={language} />
           <Divider
             orientation="vertical"
             variant="middle"
@@ -57,9 +57,7 @@ export const NavMenu = () => {
             }}
           />
           <Tooltip
-            title={
-              <TooltipTitleWrapper label={appMenuBarLabels.logoutTooltip} />
-            }
+            title={<TooltipTitleWrapper label={navBarLabels.logoutTooltip} />}
             arrow
             placement="bottom-start"
           >

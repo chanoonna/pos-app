@@ -7,9 +7,9 @@ import '@fontsource/roboto/700.css';
 
 /* ------------------------------------ - ----------------------------------- */
 import { useEffect } from 'react';
-import { useAppData } from 'utils/hook/useAppData';
-import { AddContextProvider } from 'contexts/AppContextProvider';
-import { NavMenu } from 'NavModule/NavBar';
+import { useAppData } from 'AppModule/useAppData';
+import { AppContextProvider } from 'AppModule/AppContextProvider';
+import { NavBar } from 'NavModule/NavBar';
 import { moduleHash } from 'modules/moduleHash';
 import { Module } from 'modules/types';
 
@@ -35,11 +35,11 @@ export const App = () => {
   }, [actions, isAuthenticated]);
 
   return (
-    <AddContextProvider {...appContextProps}>
+    <AppContextProvider {...appContextProps}>
       <AppContainer>
-        <NavMenu />
+        <NavBar />
         <ModuleComponent />
       </AppContainer>
-    </AddContextProvider>
+    </AppContextProvider>
   );
 };

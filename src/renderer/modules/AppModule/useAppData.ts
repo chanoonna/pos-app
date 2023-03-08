@@ -1,6 +1,6 @@
 /* --------------------------------- imports -------------------------------- */
 
-import { useCallback, useReducer, Dispatch } from 'react';
+import { useReducer, Dispatch } from 'react';
 import { reducer } from './reducer';
 import once from 'lodash/once';
 
