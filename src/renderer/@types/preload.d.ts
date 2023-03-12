@@ -1,8 +1,8 @@
-import { ElectronHandler } from 'preload/preload';
+import type { ApiRequestHandler } from 'preload/preload';
 
 declare global {
   interface Window {
-    electron: ElectronHandler;
+    api: ApiRequestHandler;
   }
 }
 
