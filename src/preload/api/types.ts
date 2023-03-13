@@ -12,11 +12,10 @@ export type Route = (typeof ROUTE)[keyof typeof ROUTE];
 
 export type BaseListener = (_event: IpcRendererEvent, ...args: any[]) => void;
 
-export interface Request<T = unknown> {
-  responseChannel: ResponseChannel;
+export interface Request<T extends { requestAction: string }> {
   method?: Method;
   route?: Route;
-  body: { requestAction: string } & T;
+  body: T;
 }
 
 export interface Response<

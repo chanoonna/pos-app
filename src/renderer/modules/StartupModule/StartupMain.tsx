@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container/PageContainer';
 import { colors } from 'style/theme';
-import { useInitializationRequest } from 'utils/requests/initialization/useInitializationRequest';
+import { useAppStartupState } from 'renderer/utils/requests/appStartup/useAppStartupState';
 import { Language } from '../SettingsModule/types';
 
 export const StartupMain = () => {
@@ -13,8 +13,7 @@ export const StartupMain = () => {
     password: '',
     language: Language.Eng
   });
-  const { initilizationState, connect, checkTables, createTables, callApi } =
-    useInitializationRequest();
+  const { initilizationState, connect } = useAppStartupState();
 
   console.log(state);
   console.log(initilizationState);
@@ -24,23 +23,6 @@ export const StartupMain = () => {
       connect();
     }
   }, [connect, initilizationState.isDatabaseConnected]);
-  useEffect(() => {
-    if (initilizationState.isDatabaseConnected) {
-      checkTables();
-    }
-  }, [checkTables, initilizationState.isDatabaseConnected]);
-  useEffect(() => {
-    if (
-      initilizationState.isTableExistenceChecked &&
-      !initilizationState.isAlltheTablesCreated
-    ) {
-      createTables();
-    }
-  }, [
-    createTables,
-    initilizationState.isTableExistenceChecked,
-    initilizationState.isAlltheTablesCreated
-  ]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">

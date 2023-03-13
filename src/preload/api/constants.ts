@@ -1,5 +1,5 @@
 export const API_RESPONSE_CHANNEL = {
-  DB_INITIALIZATION: 'DB_INITIALIZATION',
+  APP_STARTUP: 'APP_STARTUP',
   DB_AUTHENTICATION: 'DB_AUTHENTICATION',
   DB_USERS: 'DB_USERS',
   DB_SALES: 'DB_SALES',
@@ -14,19 +14,19 @@ export const API_RESPONSE_CHANNEL = {
   DB_TAGS: 'DB_TAGS'
 } as const;
 
-export const TABLE_USERS = 'users';
-export const TABLE_CATEGORIES = 'categories';
-export const TABLE_ITEMS = 'items';
-export const TABLE_TAXES = 'taxes';
-export const TABLE_SALES = 'sales';
-export const TABLE_SALE_ITEMS = 'sale_items';
-export const TABLE_SALE_TAXES = 'sale_taxes';
-export const TABLE_TAGS = 'tags';
-export const TABLE_REFUNDS = 'refunds';
-export const TABLE_REFUND_ITEMS = 'refund_items';
-export const TABLE_REFUND_TAXES = 'refund_taxes';
+export const TABLE_USERS = 'users' as const;
+export const TABLE_CATEGORIES = 'categories' as const;
+export const TABLE_ITEMS = 'items' as const;
+export const TABLE_TAXES = 'taxes' as const;
+export const TABLE_SALES = 'sales' as const;
+export const TABLE_SALE_ITEMS = 'sale_items' as const;
+export const TABLE_SALE_TAXES = 'sale_taxes' as const;
+export const TABLE_TAGS = 'tags' as const;
+export const TABLE_REFUNDS = 'refunds' as const;
+export const TABLE_REFUND_ITEMS = 'refund_items' as const;
+export const TABLE_REFUND_TAXES = 'refund_taxes' as const;
 
-export const API_MAIN = 'API_MAIN' as const;
+export const API = 'API' as const;
 export const API_STARTUP = 'API_STARTUP' as const;
 
 export const METHOD = {
@@ -37,6 +37,7 @@ export const METHOD = {
 } as const;
 
 export const ROUTE = {
+  CONNECT: '/db/connect',
   AUTHENTICATION: '/db/authentication',
   USERS: '/db/users',
   SALES: '/db/sales',
@@ -57,11 +58,8 @@ export const REQUEST_RESULT = {
 } as const;
 
 /* ------------------------------ Base requests ----------------------------- */
-export const CONNECT_DB = 'CONNECT_DB';
-export const CLOSE_DB = 'CLOSE_DB';
-export const CREATE_TABLES = 'CREATE_TABLES';
-export const REGISTER_ADMIN = 'REGISTER_ADMIN';
-export const CHECK_TABLE_EXISTENCE = 'CHECK_TABLE_EXISTENCE';
+export const DB_CONNECT = 'DB_CONNECT';
+export const DB_CLOSE = 'DB_CLOSE';
 
 /* ------------------------------- Base errors ------------------------------ */
 export const ERROR_UNSPECIFIED = 'ERROR_UNSPECIFIED';

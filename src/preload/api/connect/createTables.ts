@@ -1,8 +1,8 @@
+/* ---------------------------------- types --------------------------------- */
+import type { Table } from './types';
+
 /* -------------------------------- constants ------------------------------- */
 import {
-  CREATE_TABLES,
-  ERROR_TABLE_CREATION_FAILED,
-  ERROR_UNSPECIFIED,
   TABLE_USERS,
   TABLE_CATEGORIES,
   TABLE_ITEMS,
@@ -13,62 +13,47 @@ import {
   TABLE_TAGS,
   TABLE_REFUNDS,
   TABLE_REFUND_ITEMS,
-  TABLE_REFUND_TAXES
-} from '../../constants';
+  TABLE_REFUND_TAXES,
+  ERROR_UNSPECIFIED
+} from '../constants';
+import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
-import pickBy from 'lodash/pickBy';
-import { printRequestLog, printResponseLog } from '../../utils';
-import { dbAsync } from '../../database';
+import { dbAsync } from '../database';
+import { printRequestLog, printResultLog } from '../utils';
 
 export const createTables = async (
-  tablesNotCreated?: string[]
-): Promise<{
-  error?: Error | null;
-  response: {
-    tablesCreated: string[];
-  };
-}> => {
-  const creationFailedTables: string[] = [];
-  const tablesCreated: string[] = [];
-  const query = pickBy(tableCreationQuery, (_, key) =>
-    tablesNotCreated?.includes(key)
-  );
+  uncreatedTables: Table[]
+): Promise<Table[]> => {
+  const creationFailedTables: Table[] = [];
 
-  for await (const [tableName, tableSchema] of Object.entries(query)) {
-    const requestAction = `${CREATE_TABLES}_${tableName}`;
+  for await (const tableName of uncreatedTables) {
+    const query = tableCreationQuery[tableName];
+    const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
     printRequestLog({ body: { requestAction } });
-    let result;
 
     try {
-      result = await dbAsync.run({
-        query: tableSchema
+      const { error } = await dbAsync.run({
+        query
       });
 
-      if (result.error) {
+      printResultLog({ body: { requestAction }, error });
+      if (error) {
         creationFailedTables.push(tableName);
-      } else {
-        tablesCreated.push(tableName);
       }
     } catch (error) {
       if (error instanceof Error) {
-        result = { error };
+        printResultLog({ body: { requestAction }, error });
       } else {
-        result = { error: new Error(ERROR_UNSPECIFIED) };
+        printResultLog({
+          body: { requestAction },
+          error: new Error(`${ERROR_UNSPECIFIED} while creating tables.`)
+        });
       }
     }
-
-    printResponseLog({ body: { requestAction }, ...result });
   }
 
-  return {
-    ...(creationFailedTables.length && {
-      error: Error(
-        `${ERROR_TABLE_CREATION_FAILED}: ${creationFailedTables.join(', ')}`
-      )
-    }),
-    response: { tablesCreated }
-  };
+  return creationFailedTables;
 };
 
 const tableCreationQuery = {

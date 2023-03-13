@@ -1,0 +1,26 @@
+import {
+  TABLE_USERS,
+  TABLE_CATEGORIES,
+  TABLE_ITEMS,
+  TABLE_TAXES,
+  TABLE_SALES,
+  TABLE_SALE_ITEMS,
+  TABLE_SALE_TAXES,
+  TABLE_TAGS,
+  TABLE_REFUNDS,
+  TABLE_REFUND_ITEMS,
+  TABLE_REFUND_TAXES
+} from '../constants';
+
+export type Table =
+  | typeof TABLE_USERS
+  | typeof TABLE_CATEGORIES
+  | typeof TABLE_ITEMS
+  | typeof TABLE_TAXES
+  | typeof TABLE_SALES
+  | typeof TABLE_SALE_ITEMS
+  | typeof TABLE_SALE_TAXES
+  | typeof TABLE_TAGS
+  | typeof TABLE_REFUNDS
+  | typeof TABLE_REFUND_ITEMS
+  | typeof TABLE_REFUND_TAXES;
