@@ -1,6 +1,3 @@
-/* ---------------------------------- types --------------------------------- */
-import type { AsyncDB } from '../connect';
-
 /* -------------------------------- constants ------------------------------- */
 import {
   CREATE_TABLES,
@@ -9,8 +6,6 @@ import {
 } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
-import chalk from 'chalk';
-
 import {
   usersTableSchema,
   categoriesSchema,
@@ -24,6 +19,8 @@ import {
   refundItemsSchema,
   refundTaxesSchema
 } from './schemas';
+import { printRequestLog, printResponseLog } from '../utils';
+import { dbAsync } from '../connect';
 
 const schema = {
   users: usersTableSchema,
@@ -39,30 +36,33 @@ const schema = {
   refundTaxes: refundTaxesSchema
 };
 
-export const createDatabaseTables = async (
-  dbAsync: AsyncDB
-): Promise<{ error?: Error | null }> => {
+export const createDatabaseTables = async (): Promise<{
+  error?: Error | null;
+}> => {
   const creationFailedTables: string[] = [];
 
   for await (const [tableName, tableSchema] of Object.entries(schema)) {
-    console.log(chalk.yellowBright(`Creating table ${tableName}...`));
-    const requestAction = `${CREATE_TABLES}_REQUEST(${tableName})`;
+    const requestAction = `${CREATE_TABLES}_${tableName}`;
+    printRequestLog({ body: { requestAction } });
+    let result;
 
     try {
-      const result = await dbAsync.run({
+      result = await dbAsync.run({
         query: tableSchema
       });
 
-      if ('error' in result) {
+      if (result.error) {
         creationFailedTables.push(tableName);
       }
     } catch (error) {
       if (error instanceof Error) {
-        return { error };
+        result = { error };
       } else {
-        return { error: new Error(UNSPECIFIED_ERROR) };
+        result = { error: new Error(UNSPECIFIED_ERROR) };
       }
     }
+
+    printResponseLog({ body: { requestAction }, ...result });
   }
 
   return {
