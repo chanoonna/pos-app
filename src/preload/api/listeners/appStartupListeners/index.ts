@@ -26,7 +26,8 @@ export const appStartupListener = () => {
       requestAction:
         | typeof CONNECT_DB
         | typeof CHECK_TABLE_EXISTENCE
-        | typeof CREATE_TABLES
+        | typeof CREATE_TABLES,
+      tablesNotCreated?: string[]
     ) => {
       let result: { error?: Error | null } | undefined;
       printRequestLog({ body: { requestAction } });
@@ -38,7 +39,7 @@ export const appStartupListener = () => {
             break;
           }
           case CREATE_TABLES: {
-            result = await createTables();
+            result = await createTables(tablesNotCreated);
             break;
           }
           default: {

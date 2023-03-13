@@ -20,12 +20,15 @@ export interface InitializationState {
   isDatabaseConnected: boolean;
   isDatabaseConnecting: boolean;
   isDatabaseConnectionFailed: boolean;
-  isTablesCreated: boolean;
+  isCheckingTableExistence: boolean;
+  isTableExistenceChecked: boolean;
+  isAlltheTablesCreated: boolean;
   isTablesCreating: boolean;
   isTableCreationFailed: boolean;
   isAdminRegistered: boolean;
   isAdminRegistering: boolean;
   isAdminRegistrationFailed: boolean;
+  tablesNotCreated: string[];
 }
 
 /* ---------------------- Initialization Request Action --------------------- */
@@ -71,7 +74,9 @@ interface CheckTableExistenceRequestAction {
   type: CheckTableExistenceRequestActionType;
   payload?: {
     error?: Error;
-    response: string[];
+    response: {
+      tablesNotCreated: string[];
+    };
   };
 }
 
@@ -79,7 +84,9 @@ interface CreateTablesRequestAction {
   type: CreateTablesRequestActionType;
   payload?: {
     error?: Error;
-    response?: never;
+    response?: {
+      tablesCreated: string[];
+    };
   };
 }
 

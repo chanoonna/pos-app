@@ -16,7 +16,7 @@ export const apiAppStartupHandler = {
   checkTables: () => {
     ipcRenderer.send(API_STARTUP, CHECK_TABLE_EXISTENCE);
   },
-  createTables: () => {
-    ipcRenderer.send(API_STARTUP, CREATE_TABLES);
+  createTables: (tablesNotCreated: string[]) => {
+    ipcRenderer.send(API_STARTUP, CREATE_TABLES, tablesNotCreated);
   }
 };

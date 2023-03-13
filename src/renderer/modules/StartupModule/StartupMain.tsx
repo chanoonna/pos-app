@@ -13,7 +13,8 @@ export const StartupMain = () => {
     password: '',
     language: Language.Eng
   });
-  const { initilizationState, connect, callApi } = useInitializationRequest();
+  const { initilizationState, connect, checkTables, createTables, callApi } =
+    useInitializationRequest();
 
   console.log(state);
   console.log(initilizationState);
@@ -23,6 +24,23 @@ export const StartupMain = () => {
       connect();
     }
   }, [connect, initilizationState.isDatabaseConnected]);
+  useEffect(() => {
+    if (initilizationState.isDatabaseConnected) {
+      checkTables();
+    }
+  }, [checkTables, initilizationState.isDatabaseConnected]);
+  useEffect(() => {
+    if (
+      initilizationState.isTableExistenceChecked &&
+      !initilizationState.isAlltheTablesCreated
+    ) {
+      createTables();
+    }
+  }, [
+    createTables,
+    initilizationState.isTableExistenceChecked,
+    initilizationState.isAlltheTablesCreated
+  ]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">

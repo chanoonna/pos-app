@@ -15,12 +15,15 @@ const initialState: InitializationState = {
   isDatabaseConnected: false,
   isDatabaseConnecting: false,
   isDatabaseConnectionFailed: false,
-  isTablesCreated: false,
+  isCheckingTableExistence: false,
+  isTableExistenceChecked: false,
+  isAlltheTablesCreated: false,
   isTablesCreating: false,
   isTableCreationFailed: false,
   isAdminRegistered: false,
   isAdminRegistering: false,
-  isAdminRegistrationFailed: false
+  isAdminRegistrationFailed: false,
+  tablesNotCreated: []
 };
 
 export const useInitializationRequest = () => {
@@ -33,11 +36,15 @@ export const useInitializationRequest = () => {
     dispatch({
       type: INITIALIZATION_REQUEST.CONNECT_DB.REQUEST
     });
-    window.api.startup.connect();
   }, []);
   const checkTables = useCallback(() => {
     dispatch({
       type: INITIALIZATION_REQUEST.CHECK_TABLE_EXISTENCE.REQUEST
+    });
+  }, []);
+  const createTables = useCallback(() => {
+    dispatch({
+      type: INITIALIZATION_REQUEST.CREATE_TABLES.REQUEST
     });
   }, []);
 
@@ -68,5 +75,5 @@ export const useInitializationRequest = () => {
     };
   }, []);
 
-  return { initilizationState, callApi, connect, checkTables };
+  return { initilizationState, callApi, connect, checkTables, createTables };
 };

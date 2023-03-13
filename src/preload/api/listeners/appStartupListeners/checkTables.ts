@@ -48,7 +48,7 @@ export const checkTables = async (): Promise<{
   const error = errornousTables.length
     ? Error(`${ERROR_TABLE_CHECK_ERROR}: ${errornousTables.join(', ')}`)
     : undefined;
-  const response = tablesNotCreated;
+  const response = { tablesNotCreated };
 
   return {
     ...(!error && { response }),

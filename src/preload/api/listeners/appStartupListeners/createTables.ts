@@ -17,13 +17,23 @@ import {
 } from '../../constants';
 
 /* --------------------------------- imports -------------------------------- */
+import pickBy from 'lodash/pickBy';
 import { printRequestLog, printResponseLog } from '../../utils';
 import { dbAsync } from '../../database';
 
-export const createTables = async (): Promise<{
+export const createTables = async (
+  tablesNotCreated?: string[]
+): Promise<{
   error?: Error | null;
+  response: {
+    tablesCreated: string[];
+  };
 }> => {
   const creationFailedTables: string[] = [];
+  const tablesCreated: string[] = [];
+  const query = pickBy(tableCreationQuery, (_, key) =>
+    tablesNotCreated?.includes(key)
+  );
 
   for await (const [tableName, tableSchema] of Object.entries(query)) {
     const requestAction = `${CREATE_TABLES}_${tableName}`;
@@ -37,6 +47,8 @@ export const createTables = async (): Promise<{
 
       if (result.error) {
         creationFailedTables.push(tableName);
+      } else {
+        tablesCreated.push(tableName);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -54,12 +66,13 @@ export const createTables = async (): Promise<{
       error: Error(
         `${ERROR_TABLE_CREATION_FAILED}: ${creationFailedTables.join(', ')}`
       )
-    })
+    }),
+    response: { tablesCreated }
   };
 };
 
-const query = {
-  usersTable: `
+const tableCreationQuery = {
+  [TABLE_USERS]: `
     CREATE TABLE ${TABLE_USERS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_name TEXT NOT NULL,
@@ -70,13 +83,13 @@ const query = {
       UNIQUE(user_name)
     )
 `,
-  categories: `
+  [TABLE_CATEGORIES]: `
     CREATE TABLE ${TABLE_CATEGORIES} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL
     )
 `,
-  items: `
+  [TABLE_ITEMS]: `
     CREATE TABLE ${TABLE_ITEMS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       category_id INTEGER,
@@ -87,7 +100,7 @@ const query = {
       FOREIGN KEY(category_id) REFERENCES categories(id)
     )
 `,
-  taxes: `
+  [TABLE_TAXES]: `
     CREATE TABLE ${TABLE_TAXES} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -95,7 +108,7 @@ const query = {
       is_archived INTEGER NOT NULL
     )
 `,
-  sales: `
+  [TABLE_SALES]: `
     CREATE TABLE ${TABLE_SALES} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER,
@@ -104,7 +117,7 @@ const query = {
       FOREIGN KEY(user_id) REFERENCES users(id)
     )
 `,
-  saleItems: `
+  [TABLE_SALE_ITEMS]: `
     CREATE TABLE ${TABLE_SALE_ITEMS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sales_id INTEGER NOT NULL,
@@ -117,7 +130,7 @@ const query = {
       FOREIGN KEY(item_id) REFERENCES items(id)
     )
 `,
-  saleTaxes: `
+  [TABLE_SALE_TAXES]: `
     CREATE TABLE ${TABLE_SALE_TAXES} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sale_item_id INTEGER NOT NULL,
@@ -126,13 +139,13 @@ const query = {
       FOREIGN KEY(tax_id) REFERENCES taxes(id)
     )
 `,
-  tags: `
+  [TABLE_TAGS]: `
     CREATE TABLE ${TABLE_TAGS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL
     )
 `,
-  refunds: `
+  [TABLE_REFUNDS]: `
     CREATE TABLE ${TABLE_REFUNDS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sales_id INTEGER,
@@ -142,7 +155,7 @@ const query = {
       FOREIGN KEY(user_id) REFERENCES users(id)
     )
 `,
-  refundItems: `
+  [TABLE_REFUND_ITEMS]: `
     CREATE TABLE ${TABLE_REFUND_ITEMS} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       refund_id INTEGER,
@@ -153,7 +166,7 @@ const query = {
       FOREIGN KEY(item_id) REFERENCES items(id)
     )
 `,
-  refundTaxes: `
+  [TABLE_REFUND_TAXES]: `
     CREATE TABLE ${TABLE_REFUND_TAXES} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       refund_item_id INTEGER NOT NULL,
