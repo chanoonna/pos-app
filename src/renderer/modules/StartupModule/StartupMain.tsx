@@ -24,8 +24,6 @@ export const StartupMain = () => {
         thickness={5}
         sx={{ color: colors.mediumBlue1 }}
       />
-      <br />
-      Connecting to Database...
     </PageContainer>
   );
 };

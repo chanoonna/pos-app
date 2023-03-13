@@ -44,8 +44,7 @@ export const useInitializationRequest = () => {
       });
       window.api.request<
         ConnectDatabaseRequest,
-        { requestAction: ConnectDatabaseRequest },
-        typeof API_RESPONSE_CHANNEL.DB_INITIALIZATION
+        { requestAction: ConnectDatabaseRequest }
       >(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
         method,
         route,
@@ -73,19 +72,22 @@ const getInitializationRequestListener =
   (
     _: IpcRendererEvent,
     {
-      requestAction,
+      requestBody,
       error,
       response
     }: {
-      requestAction: ConnectDatabaseRequest;
+      requestBody: {
+        requestAction: ConnectDatabaseRequest;
+        [key: string]: any;
+      };
       error?: Error;
       response?: any;
     }
   ) => {
     dispatch({
       type: error
-        ? INITIALIZATION_REQUEST[requestAction].FAILURE
-        : INITIALIZATION_REQUEST[requestAction].SUCCESS,
+        ? INITIALIZATION_REQUEST[requestBody.requestAction].FAILURE
+        : INITIALIZATION_REQUEST[requestBody.requestAction].SUCCESS,
       payload: { response, error }
     });
   };

@@ -35,7 +35,7 @@ export const initiateDatabase = () => {
 
     printResponseLog({ body: { requestAction }, ...result });
     event.reply(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
-      body: { requestAction },
+      requestBody: { requestAction },
       ...result
     });
   });
@@ -54,7 +54,8 @@ export const initiateDatabase = () => {
         route: Route;
         body: {
           requestAction: string;
-        } & any;
+          [key: string]: any;
+        };
         responseChannel: ResponseChannel;
       }
     ) => {
@@ -63,7 +64,7 @@ export const initiateDatabase = () => {
       switch (route) {
         default: {
           event.reply(responseChannel, {
-            body,
+            requestBody: body,
             error: Error(`Invalid route: ${route}`)
           });
         }

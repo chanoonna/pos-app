@@ -11,7 +11,7 @@ export const apiRequestHandler = {
   connect: () => {
     ipcRenderer.send(API_CONNECT);
   },
-  request: <T, V extends { requestAction: T }, S extends string>(
+  request: <T, V extends { requestAction: T }>(
     responseChannel: ResponseChannel,
     { method, route, body }: { method: Method; route: Route; body: V }
   ) => {
@@ -32,7 +32,7 @@ export const apiRequestHandler = {
       ipcRenderer.removeListener(responseChannel, listener);
     };
   },
-  off: <T extends BaseListener, S extends string>(
+  off: <T extends BaseListener>(
     responseChannel: ResponseChannel,
     listener: T
   ) => {
