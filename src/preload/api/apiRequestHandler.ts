@@ -9,7 +9,7 @@ import { ipcRenderer } from 'electron';
 
 export const apiRequestHandler = {
   connect: () => {
-    ipcRenderer.send(API, API_RESPONSE_CHANNEL.APP_STARTUP, {
+    ipcRenderer.send(API, API_RESPONSE_CHANNEL.DB_STARTUP, {
       route: ROUTE.CONNECT,
       body: { requestAction: DB_CONNECT }
     });

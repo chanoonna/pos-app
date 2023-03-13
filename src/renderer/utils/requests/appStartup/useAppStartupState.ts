@@ -42,7 +42,7 @@ export const useAppStartupState = () => {
       window.api.request<
         ConnectDatabaseRequest,
         { requestAction: ConnectDatabaseRequest }
-      >(API_RESPONSE_CHANNEL.APP_STARTUP, {
+      >(API_RESPONSE_CHANNEL.DB_STARTUP, {
         method,
         route,
         body: { requestAction }
@@ -54,10 +54,10 @@ export const useAppStartupState = () => {
   useEffect(() => {
     const listener = getAppStartupRequestListener(dispatch);
 
-    window.api.on(API_RESPONSE_CHANNEL.APP_STARTUP, listener);
+    window.api.on(API_RESPONSE_CHANNEL.DB_STARTUP, listener);
 
     return () => {
-      window.api.off(API_RESPONSE_CHANNEL.APP_STARTUP, listener);
+      window.api.off(API_RESPONSE_CHANNEL.DB_STARTUP, listener);
     };
   }, []);
 

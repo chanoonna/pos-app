@@ -7,11 +7,7 @@ import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
-import {
-  printRequestLog,
-  printResultLog,
-  handleCatchAndPrintLog
-} from './utils';
+import { handleCatchAndPrintLog } from './utils';
 import { connect } from './connect';
 
 export const startDatabaseListeners = () => {
@@ -29,7 +25,7 @@ export const startDatabaseListeners = () => {
         };
       }
     ) => {
-      const { method, route, body } = request;
+      const { route, body } = request;
       let result:
         | { error?: Error; userFriendlyError?: string; [key: string]: any }
         | undefined;
