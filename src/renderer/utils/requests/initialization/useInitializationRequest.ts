@@ -2,7 +2,7 @@
 import type { InitializationState, ConnectDatabaseRequest } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT_DB_ACTION, INITIALIZATION_REQUEST } from './constants';
+import { INITIALIZATION_REQUEST } from './constants';
 import { API_RESPONSE_CHANNEL } from 'preload/api/constants';
 
 /* --------------------------------- imports -------------------------------- */
@@ -31,9 +31,14 @@ export const useInitializationRequest = () => {
 
   const connect = useCallback(() => {
     dispatch({
-      type: CONNECT_DB_ACTION.REQUEST
+      type: INITIALIZATION_REQUEST.CONNECT_DB.REQUEST
     });
-    window.api.connect();
+    window.api.startup.connect();
+  }, []);
+  const checkTables = useCallback(() => {
+    dispatch({
+      type: INITIALIZATION_REQUEST.CHECK_TABLE_EXISTENCE.REQUEST
+    });
   }, []);
 
   const callApi = useCallback(
@@ -41,7 +46,7 @@ export const useInitializationRequest = () => {
       dispatch({
         type: INITIALIZATION_REQUEST[requestAction].REQUEST
       });
-      window.api.request<
+      window.api.main.request<
         ConnectDatabaseRequest,
         { requestAction: ConnectDatabaseRequest }
       >(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
@@ -56,12 +61,12 @@ export const useInitializationRequest = () => {
   useEffect(() => {
     const listener = getInitializationRequestListener(dispatch);
 
-    window.api.on(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
+    window.api.main.on(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
 
     return () => {
-      window.api.off(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
+      window.api.main.off(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
     };
   }, []);
 
-  return { initilizationState, callApi, connect };
+  return { initilizationState, callApi, connect, checkTables };
 };

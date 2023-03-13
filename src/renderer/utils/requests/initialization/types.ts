@@ -3,14 +3,15 @@ import {
   CLOSE_DB_ACTION,
   CREATE_TABLES_ACTION,
   REGISTER_ADMIN_ACTION,
-  INITIALIZATION_REQUEST
+  CHECK_TABLE_EXISTENCE_ACTION
 } from './constants';
 /* -------------------------------- constants ------------------------------- */
 import {
   CONNECT_DB,
   CLOSE_DB,
   CREATE_TABLES,
-  REGISTER_ADMIN
+  REGISTER_ADMIN,
+  CHECK_TABLE_EXISTENCE
 } from 'preload/api/constants';
 
 /* -------------------------- Initialization State -------------------------- */
@@ -31,6 +32,7 @@ export interface InitializationState {
 export type ConnectDatabaseRequest =
   | typeof CONNECT_DB
   | typeof CLOSE_DB
+  | typeof CHECK_TABLE_EXISTENCE
   | typeof CREATE_TABLES
   | typeof REGISTER_ADMIN;
 
@@ -40,6 +42,8 @@ type ConnectDatabaseRequestActionType =
   (typeof CONNECT_DB_ACTION)[keyof typeof CONNECT_DB_ACTION];
 type CloseDatabaseRequestActionType =
   (typeof CLOSE_DB_ACTION)[keyof typeof CLOSE_DB_ACTION];
+type CheckTableExistenceRequestActionType =
+  (typeof CHECK_TABLE_EXISTENCE_ACTION)[keyof typeof CHECK_TABLE_EXISTENCE_ACTION];
 type CreateTablesRequestActionType =
   (typeof CREATE_TABLES_ACTION)[keyof typeof CREATE_TABLES_ACTION];
 type RegisterAdminRequestActionType =
@@ -63,6 +67,14 @@ interface CloseDatabaseRequestAction {
   };
 }
 
+interface CheckTableExistenceRequestAction {
+  type: CheckTableExistenceRequestActionType;
+  payload?: {
+    error?: Error;
+    response: string[];
+  };
+}
+
 interface CreateTablesRequestAction {
   type: CreateTablesRequestActionType;
   payload?: {
@@ -82,5 +94,6 @@ interface RegisterAdminRequestAction {
 export type InitializationRequestAction =
   | ConnectDatabaseRequestAction
   | CloseDatabaseRequestAction
+  | CheckTableExistenceRequestAction
   | CreateTablesRequestAction
   | RegisterAdminRequestAction;

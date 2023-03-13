@@ -3,42 +3,15 @@ import type { IpcMainEvent } from 'electron';
 import type { ResponseChannel, Method, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import {
-  API_MAIN,
-  API_RESPONSE_CHANNEL,
-  API_CONNECT,
-  ROUTE,
-  UNSPECIFIED_ERROR,
-  CONNECT_DB
-} from './constants';
+import { API_MAIN } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
-import { connectDatabase } from './connect';
 import { printRequestLog, printResponseLog } from './utils';
+import { appStartupListener } from './listeners';
 
-export const initiateDatabase = () => {
-  ipcMain.once(API_CONNECT, async (event: IpcMainEvent) => {
-    let result: { error?: Error | null } | undefined;
-    const requestAction = CONNECT_DB;
-    printRequestLog({ body: { requestAction } });
-
-    try {
-      result = await connectDatabase();
-    } catch (error) {
-      if (error instanceof Error) {
-        result = { error };
-      } else {
-        result = { error: new Error(UNSPECIFIED_ERROR) };
-      }
-    }
-
-    printResponseLog({ body: { requestAction }, ...result });
-    event.reply(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
-      requestBody: { requestAction },
-      ...result
-    });
-  });
+export const startDatabaseListeners = () => {
+  appStartupListener();
 
   ipcMain.on(
     API_MAIN,
