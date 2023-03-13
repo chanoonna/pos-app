@@ -1,32 +1,38 @@
 /* ---------------------------------- types --------------------------------- */
-import type { BaseListener } from './types';
+import type { BaseListener, Method, ResponseChannel, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API_MAIN, METHOD, ROUTE } from './constants';
+import { API_STARTUP, API_MAIN } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcRenderer } from 'electron';
 
 export const apiRequestHandler = {
-  request: <T, V extends { requestAction: T }, S extends string>(
-    channel: S,
-    { body }: { body: V }
+  request: <T, V extends { requestAction: T }>(
+    responseChannel: ResponseChannel,
+    { method, route, body }: { method: Method; route: Route; body: V }
   ) => {
     ipcRenderer.send(API_MAIN, {
-      method: METHOD.POST,
-      route: ROUTE.INITIALIZATION,
+      method,
+      route,
       body,
-      channel
+      responseChannel
     });
   },
-  on: <T extends BaseListener, S extends string>(channel: S, listener: T) => {
-    ipcRenderer.on(channel, listener);
+  on: <T extends BaseListener>(
+    responseChannel: ResponseChannel,
+    listener: T
+  ) => {
+    ipcRenderer.on(responseChannel, listener);
 
     return () => {
-      ipcRenderer.removeListener(channel, listener);
+      ipcRenderer.removeListener(responseChannel, listener);
     };
   },
-  off: <T extends BaseListener, S extends string>(channel: S, listener: T) => {
-    ipcRenderer.removeListener(channel, listener);
+  off: <T extends BaseListener>(
+    responseChannel: ResponseChannel,
+    listener: T
+  ) => {
+    ipcRenderer.removeListener(responseChannel, listener);
   }
 };

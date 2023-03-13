@@ -1,15 +1,18 @@
 /* ---------------------------------- types --------------------------------- */
 import type { IpcMainEvent } from 'electron';
-import type { DatabaseChannel, Method, Route } from './types';
+import type { ResponseChannel, Method, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API_MAIN, ROUTE } from './constants';
+import { API_MAIN } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
-import { handleInitialization } from './handlers/initialization';
+import { printRequestLog, printResponseLog } from './utils';
+import { appStartupListener } from './listeners';
 
-export const initiateDatabase = () => {
+export const startDatabaseListeners = () => {
+  appStartupListener();
+
   ipcMain.on(
     API_MAIN,
     async (
@@ -17,30 +20,25 @@ export const initiateDatabase = () => {
       {
         method,
         route,
-        body: _body,
-        channel
+        body,
+        responseChannel
       }: {
         method: Method;
         route: Route;
         body: {
           requestAction: string;
-        } & any;
-        channel: DatabaseChannel;
+          [key: string]: any;
+        };
+        responseChannel: ResponseChannel;
       }
     ) => {
-      const { requestAction, ...body } = _body;
-      console.log(`REQUEST: ${method} ${route} ${body.requestAction}\n`, body);
+      printRequestLog({ method, route, body });
 
       switch (route) {
-        case ROUTE.INITIALIZATION: {
-          handleInitialization(event, { method, requestAction, body });
-          break;
-        }
-
         default: {
-          event.reply(channel, {
-            requestAction,
-            error: Error('Invalid route')
+          event.reply(responseChannel, {
+            requestBody: body,
+            error: Error(`Invalid route: ${route}`)
           });
         }
       }

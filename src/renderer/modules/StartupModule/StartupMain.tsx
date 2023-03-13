@@ -1,26 +1,46 @@
-/* ---------------------------------- types --------------------------------- */
-
-/* -------------------------------- constants ------------------------------- */
-import { CONNECT_DB } from 'utils/requests/initialization/constants';
-
 /* --------------------------------- imports -------------------------------- */
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container/PageContainer';
 import { colors } from 'style/theme';
 import { useInitializationRequest } from 'utils/requests/initialization/useInitializationRequest';
+import { Language } from '../SettingsModule/types';
 
 export const StartupMain = () => {
-  const { state, callApi } = useInitializationRequest();
+  const [state, setState] = useState({
+    username: '',
+    password: '',
+    language: Language.Eng
+  });
+  const { initilizationState, connect, checkTables, createTables, callApi } =
+    useInitializationRequest();
 
   console.log(state);
+  console.log(initilizationState);
 
   useEffect(() => {
-    if (!state.isDatabaseConnected) {
-      callApi(CONNECT_DB);
+    if (!initilizationState.isDatabaseConnected) {
+      connect();
     }
-  }, [callApi, state.isDatabaseConnected]);
+  }, [connect, initilizationState.isDatabaseConnected]);
+  useEffect(() => {
+    if (initilizationState.isDatabaseConnected) {
+      checkTables();
+    }
+  }, [checkTables, initilizationState.isDatabaseConnected]);
+  useEffect(() => {
+    if (
+      initilizationState.isTableExistenceChecked &&
+      !initilizationState.isAlltheTablesCreated
+    ) {
+      createTables();
+    }
+  }, [
+    createTables,
+    initilizationState.isTableExistenceChecked,
+    initilizationState.isAlltheTablesCreated
+  ]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">
@@ -29,8 +49,6 @@ export const StartupMain = () => {
         thickness={5}
         sx={{ color: colors.mediumBlue1 }}
       />
-      <br />
-      Connecting to Database...
     </PageContainer>
   );
 };

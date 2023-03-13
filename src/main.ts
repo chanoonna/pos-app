@@ -1,8 +1,9 @@
 import path from 'path';
+import chalk from 'chalk';
 import { app, BrowserWindow } from 'electron';
 import { DIST_BUILD } from '../configs/paths';
-import { closeDatabase } from './preload/api/connect';
-import { initiateDatabase } from './preload/api/apiMainHandler';
+import { closeDatabase } from './preload/api/database';
+import { startDatabaseListeners } from './preload/api/apiMainHandler';
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -19,7 +20,7 @@ const createWindow = () => {
     }
   });
 
-  initiateDatabase();
+  startDatabaseListeners();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -33,14 +34,9 @@ const createWindow = () => {
   });
 
   win.on('close', () => {
-    closeDatabase()
-      .then((message) => {
-        console.log(message.log);
-        console.log('Closing the app...');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    closeDatabase().finally(() => {
+      console.log(chalk.yellowBright('App is closed.'));
+    });
   });
 };
 
@@ -49,6 +45,7 @@ const closeWindow = () => {
 };
 
 app.whenReady().then(() => {
+  console.log(chalk.yellowBright('App starting...'));
   createWindow();
 });
 app.on('window-all-closed', closeWindow);

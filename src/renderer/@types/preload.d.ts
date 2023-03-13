@@ -1,8 +1,8 @@
-import type { ApiRequestHandler } from 'preload/preload';
+import type { ApiHandler } from 'preload/preload';
 
 declare global {
   interface Window {
-    api: ApiRequestHandler;
+    api: ApiHandler;
   }
 }
 

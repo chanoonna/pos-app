@@ -1,34 +1,31 @@
 import type { IpcRendererEvent } from 'electron';
-import { API_CHANNEL, METHOD, ROUTE, EXECUTION_RESULT } from './constants';
+import {
+  API_RESPONSE_CHANNEL,
+  METHOD,
+  ROUTE,
+  REQUEST_RESULT
+} from './constants';
 
-export type DatabaseChannel = keyof typeof API_CHANNEL;
+export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
 export type Method = keyof typeof METHOD;
 export type Route = (typeof ROUTE)[keyof typeof ROUTE];
 
 export type BaseListener = (_event: IpcRendererEvent, ...args: any[]) => void;
 
-export interface ExecutionResult<T = unknown> {
-  log?: string;
-  response?: T;
-  error?: Error;
+export interface Request<T = unknown> {
+  responseChannel: ResponseChannel;
+  method?: Method;
+  route?: Route;
+  body: { requestAction: string } & T;
 }
 
-export interface RequestResponse<T = unknown> {
-  log?: string;
-  result: keyof typeof EXECUTION_RESULT;
-  response?: T;
-  error?: Error;
-}
-
-export interface AsyncDB {
-  run: <T>(
-    executionLog: string,
-    query: string,
-    params?: string[]
-  ) => Promise<RequestResponse<T>>;
-  get: <T>(
-    executionLog: string,
-    query: string,
-    params?: string[]
-  ) => Promise<RequestResponse<T>>;
+export interface Response<
+  ResponseType = unknown,
+  ErrorType = unknown,
+  BodyType = unknown
+> {
+  result: keyof typeof REQUEST_RESULT;
+  response?: ResponseType;
+  error?: ErrorType;
+  requestBody: { requestAction: string } & BodyType;
 }
