@@ -1,19 +1,15 @@
-/* --------------------------- Types and Constants -------------------------- */
-import type { IpcRendererEvent } from 'electron';
-import type { Dispatch } from 'react';
-import type {
-  InitializationRequestAction,
-  InitializationState,
-  ConnectDatabaseRequest
-} from './types';
+/* ---------------------------------- types --------------------------------- */
+import type { InitializationState, ConnectDatabaseRequest } from './types';
 
+/* -------------------------------- constants ------------------------------- */
 import { CONNECT_DB_ACTION, INITIALIZATION_REQUEST } from './constants';
 import { API_RESPONSE_CHANNEL } from 'preload/api/constants';
 
-/* --------------------------------- Imports -------------------------------- */
+/* --------------------------------- imports -------------------------------- */
 import { useReducer, useEffect, useCallback } from 'react';
 import { initializationReducer } from './initializationReducer';
 import { Method, Route } from 'preload/api/types';
+import { getInitializationRequestListener } from './initializationListener';
 
 const initialState: InitializationState = {
   isDatabaseConnected: false,
@@ -28,7 +24,10 @@ const initialState: InitializationState = {
 };
 
 export const useInitializationRequest = () => {
-  const [state, dispatch] = useReducer(initializationReducer, initialState);
+  const [initilizationState, dispatch] = useReducer(
+    initializationReducer,
+    initialState
+  );
 
   const connect = useCallback(() => {
     dispatch({
@@ -64,30 +63,5 @@ export const useInitializationRequest = () => {
     };
   }, []);
 
-  return { state, callApi, connect };
+  return { initilizationState, callApi, connect };
 };
-
-const getInitializationRequestListener =
-  (dispatch: Dispatch<InitializationRequestAction>) =>
-  (
-    _: IpcRendererEvent,
-    {
-      requestBody,
-      error,
-      response
-    }: {
-      requestBody: {
-        requestAction: ConnectDatabaseRequest;
-        [key: string]: any;
-      };
-      error?: Error;
-      response?: any;
-    }
-  ) => {
-    dispatch({
-      type: error
-        ? INITIALIZATION_REQUEST[requestBody.requestAction].FAILURE
-        : INITIALIZATION_REQUEST[requestBody.requestAction].SUCCESS,
-      payload: { response, error }
-    });
-  };

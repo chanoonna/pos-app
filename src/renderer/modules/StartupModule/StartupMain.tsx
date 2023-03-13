@@ -1,21 +1,28 @@
 /* --------------------------------- imports -------------------------------- */
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container/PageContainer';
 import { colors } from 'style/theme';
 import { useInitializationRequest } from 'utils/requests/initialization/useInitializationRequest';
+import { Language } from '../SettingsModule/types';
 
 export const StartupMain = () => {
-  const { state, connect, callApi } = useInitializationRequest();
+  const [state, setState] = useState({
+    username: '',
+    password: '',
+    language: Language.Eng
+  });
+  const { initilizationState, connect, callApi } = useInitializationRequest();
 
   console.log(state);
+  console.log(initilizationState);
 
   useEffect(() => {
-    if (!state.isDatabaseConnected) {
+    if (!initilizationState.isDatabaseConnected) {
       connect();
     }
-  }, [connect, state.isDatabaseConnected]);
+  }, [connect, initilizationState.isDatabaseConnected]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">
