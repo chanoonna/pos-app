@@ -1,8 +1,15 @@
 /* ---------------------------------- types --------------------------------- */
-import type { AsyncDB, RequestResponse } from '../types';
+import type { AsyncDB } from '../connect';
 
-/* -------------------------------- importsç -------------------------------- */
-import { formatResponse } from '../utils';
+/* -------------------------------- constants ------------------------------- */
+import {
+  CREATE_TABLES,
+  TABLE_CREATION_FAILED,
+  UNSPECIFIED_ERROR
+} from '../constants';
+
+/* --------------------------------- imports -------------------------------- */
+import chalk from 'chalk';
 
 import {
   usersTableSchema,
@@ -32,35 +39,37 @@ const schema = {
   refundTaxes: refundTaxesSchema
 };
 
-export const createInitialTables = async <T>(
+export const createDatabaseTables = async (
   dbAsync: AsyncDB
-): Promise<RequestResponse<T>> => {
+): Promise<{ error?: Error | null }> => {
   const creationFailedTables: string[] = [];
 
   for await (const [tableName, tableSchema] of Object.entries(schema)) {
-    const executionLog = `CREATE_TABLE ${tableName}`;
-    console.log(`Creating table ${tableName}...`);
+    console.log(chalk.yellowBright(`Creating table ${tableName}...`));
+    const requestAction = `${CREATE_TABLES}_REQUEST(${tableName})`;
+
     try {
-      const result = await dbAsync.run<string>(executionLog, tableSchema);
+      const result = await dbAsync.run({
+        query: tableSchema
+      });
 
       if ('error' in result) {
         creationFailedTables.push(tableName);
       }
     } catch (error) {
       if (error instanceof Error) {
-        return formatResponse({ error });
+        return { error };
+      } else {
+        return { error: new Error(UNSPECIFIED_ERROR) };
       }
     }
   }
 
-  return formatResponse({
-    log: creationFailedTables.length
-      ? 'Tables created with errors'
-      : 'Tables created successfully',
+  return {
     ...(creationFailedTables.length && {
       error: Error(
-        `Tables failed to create: ${creationFailedTables.join(', ')}`
+        `${TABLE_CREATION_FAILED}: ${creationFailedTables.join(', ')}`
       )
     })
-  });
+  };
 };

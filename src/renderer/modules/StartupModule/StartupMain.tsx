@@ -1,8 +1,3 @@
-/* ---------------------------------- types --------------------------------- */
-
-/* -------------------------------- constants ------------------------------- */
-import { CONNECT_DB } from 'utils/requests/initialization/constants';
-
 /* --------------------------------- imports -------------------------------- */
 import { useEffect } from 'react';
 
@@ -12,15 +7,15 @@ import { colors } from 'style/theme';
 import { useInitializationRequest } from 'utils/requests/initialization/useInitializationRequest';
 
 export const StartupMain = () => {
-  const { state, callApi } = useInitializationRequest();
+  const { state, connect, callApi } = useInitializationRequest();
 
   console.log(state);
 
   useEffect(() => {
     if (!state.isDatabaseConnected) {
-      callApi(CONNECT_DB);
+      connect();
     }
-  }, [callApi, state.isDatabaseConnected]);
+  }, [connect, state.isDatabaseConnected]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">

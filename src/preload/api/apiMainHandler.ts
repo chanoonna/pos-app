@@ -1,15 +1,45 @@
 /* ---------------------------------- types --------------------------------- */
 import type { IpcMainEvent } from 'electron';
-import type { DatabaseChannel, Method, Route } from './types';
+import type { ResponseChannel, Method, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API_MAIN, ROUTE } from './constants';
+import {
+  API_MAIN,
+  API_RESPONSE_CHANNEL,
+  API_CONNECT,
+  ROUTE,
+  UNSPECIFIED_ERROR,
+  CONNECT_DB
+} from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
-import { handleInitialization } from './handlers/initialization';
+import { connectDatabase } from './connect';
+import { printRequestLog, printResponseLog } from './utils';
 
 export const initiateDatabase = () => {
+  ipcMain.once(API_CONNECT, async (event: IpcMainEvent) => {
+    let result: { error?: Error | null } | undefined;
+    const requestAction = CONNECT_DB;
+    printRequestLog({ body: { requestAction } });
+
+    try {
+      result = await connectDatabase();
+    } catch (error) {
+      if (error instanceof Error) {
+        result = { error };
+      } else {
+        result = { error: new Error(UNSPECIFIED_ERROR) };
+      }
+    }
+
+    printResponseLog({ body: { requestAction }, ...result });
+    event.reply(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
+      body: { requestAction },
+      ...result
+    });
+  });
+
   ipcMain.on(
     API_MAIN,
     async (
@@ -17,30 +47,24 @@ export const initiateDatabase = () => {
       {
         method,
         route,
-        body: _body,
-        channel
+        body,
+        responseChannel
       }: {
         method: Method;
         route: Route;
         body: {
           requestAction: string;
         } & any;
-        channel: DatabaseChannel;
+        responseChannel: ResponseChannel;
       }
     ) => {
-      const { requestAction, ...body } = _body;
-      console.log(`REQUEST: ${method} ${route} ${body.requestAction}\n`, body);
+      printRequestLog({ method, route, body });
 
       switch (route) {
-        case ROUTE.INITIALIZATION: {
-          handleInitialization(event, { method, requestAction, body });
-          break;
-        }
-
         default: {
-          event.reply(channel, {
-            requestAction,
-            error: Error('Invalid route')
+          event.reply(responseChannel, {
+            body,
+            error: Error(`Invalid route: ${route}`)
           });
         }
       }

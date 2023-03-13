@@ -1,9 +1,17 @@
 import {
-  CONNECT_DB_MAP,
-  CREATE_TABLES_MAP,
-  REGISTER_ADMIN_MAP,
+  CONNECT_DB_ACTION,
+  CLOSE_DB_ACTION,
+  CREATE_TABLES_ACTION,
+  REGISTER_ADMIN_ACTION,
   INITIALIZATION_REQUEST
 } from './constants';
+/* -------------------------------- constants ------------------------------- */
+import {
+  CONNECT_DB,
+  CLOSE_DB,
+  CREATE_TABLES,
+  REGISTER_ADMIN
+} from 'preload/api/constants';
 
 /* -------------------------- Initialization State -------------------------- */
 
@@ -20,51 +28,35 @@ export interface InitializationState {
 }
 
 /* ---------------------- Initialization Request Action --------------------- */
-export type ConnectDatabaseRequest = keyof typeof INITIALIZATION_REQUEST;
+export type ConnectDatabaseRequest =
+  | typeof CONNECT_DB
+  | typeof CLOSE_DB
+  | typeof CREATE_TABLES
+  | typeof REGISTER_ADMIN;
 
 /* ----------------------- Initialization Action Types ---------------------- */
 
 type ConnectDatabaseRequestActionType =
-  (typeof CONNECT_DB_MAP)[keyof typeof CONNECT_DB_MAP];
+  (typeof CONNECT_DB_ACTION)[keyof typeof CONNECT_DB_ACTION];
+type CloseDatabaseRequestActionType =
+  (typeof CLOSE_DB_ACTION)[keyof typeof CLOSE_DB_ACTION];
 type CreateTablesRequestActionType =
-  (typeof CREATE_TABLES_MAP)[keyof typeof CREATE_TABLES_MAP];
+  (typeof CREATE_TABLES_ACTION)[keyof typeof CREATE_TABLES_ACTION];
 type RegisterAdminRequestActionType =
-  (typeof REGISTER_ADMIN_MAP)[keyof typeof REGISTER_ADMIN_MAP];
-
-type InitializationRequestActionType =
-  | ConnectDatabaseRequestActionType
-  | CreateTablesRequestActionType
-  | RegisterAdminRequestActionType;
-
-/* ----------------------- Initialization Action Maps ----------------------- */
-
-type ConnectDatabaseRequestActionMap = {
-  REQUEST: typeof CONNECT_DB_MAP.REQUEST;
-  FAILURE: typeof CONNECT_DB_MAP.FAILURE;
-  SUCCESS: typeof CONNECT_DB_MAP.SUCCESS;
-};
-
-type CreateTablesRequestActionMap = {
-  REQUEST: typeof CREATE_TABLES_MAP.REQUEST;
-  FAILURE: typeof CREATE_TABLES_MAP.FAILURE;
-  SUCCESS: typeof CREATE_TABLES_MAP.SUCCESS;
-};
-
-type RegisterAdminRequestActionMap = {
-  REQUEST: typeof REGISTER_ADMIN_MAP.REQUEST;
-  FAILURE: typeof REGISTER_ADMIN_MAP.FAILURE;
-  SUCCESS: typeof REGISTER_ADMIN_MAP.SUCCESS;
-};
-
-export type InitializationRequestActionMap =
-  | ConnectDatabaseRequestActionMap
-  | CreateTablesRequestActionMap
-  | RegisterAdminRequestActionMap;
+  (typeof REGISTER_ADMIN_ACTION)[keyof typeof REGISTER_ADMIN_ACTION];
 
 /* ------------------------- Initialization Actions ------------------------- */
 
 interface ConnectDatabaseRequestAction {
   type: ConnectDatabaseRequestActionType;
+  payload?: {
+    error?: Error;
+    response?: never;
+  };
+}
+
+interface CloseDatabaseRequestAction {
+  type: CloseDatabaseRequestActionType;
   payload?: {
     error?: Error;
     response?: never;
@@ -89,5 +81,6 @@ interface RegisterAdminRequestAction {
 
 export type InitializationRequestAction =
   | ConnectDatabaseRequestAction
+  | CloseDatabaseRequestAction
   | CreateTablesRequestAction
   | RegisterAdminRequestAction;

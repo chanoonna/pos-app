@@ -1,4 +1,4 @@
-export const API_CHANNEL = {
+export const API_RESPONSE_CHANNEL = {
   DB_INITIALIZATION: 'DB_INITIALIZATION',
   DB_AUTHENTICATION: 'DB_AUTHENTICATION',
   DB_USERS: 'DB_USERS',
@@ -14,7 +14,8 @@ export const API_CHANNEL = {
   DB_TAGS: 'DB_TAGS'
 } as const;
 
-export const API_MAIN = 'DATABASE_MAIN' as const;
+export const API_MAIN = 'API_MAIN' as const;
+export const API_CONNECT = 'API_CONNECT' as const;
 
 export const METHOD = {
   GET: 'GET',
@@ -24,7 +25,6 @@ export const METHOD = {
 } as const;
 
 export const ROUTE = {
-  INITIALIZATION: '/initialization',
   AUTHENTICATION: '/db/authentication',
   USERS: '/db/users',
   SALES: '/db/sales',
@@ -39,7 +39,21 @@ export const ROUTE = {
   TAGS: '/db/tags'
 } as const;
 
-export const EXECUTION_RESULT = {
+export const REQUEST_RESULT = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE'
 } as const;
+
+/* ------------------------------ Base requests ----------------------------- */
+export const CONNECT_DB = 'CONNECT_DB';
+export const CLOSE_DB = 'CLOSE_DB';
+export const CREATE_TABLES = 'CREATE_TABLES';
+export const REGISTER_ADMIN = 'REGISTER_ADMIN';
+
+/* ------------------------------- Base errors ------------------------------ */
+export const UNSPECIFIED_ERROR = 'UNSPECIFIED_ERROR';
+
+/* ----------------------------- DB init related ---------------------------- */
+export const DATABASE_ALREADY_CONNECTED = 'DATABASE_ALREADY_CONNECTED';
+export const DATABASE_NOT_CONNECTED = 'DATABASE_NOT_CONNECTED';
+export const TABLE_CREATION_FAILED = 'TABLE_CREATION_FAILED';

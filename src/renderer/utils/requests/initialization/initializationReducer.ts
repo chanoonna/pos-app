@@ -1,8 +1,8 @@
 import type { InitializationState, InitializationRequestAction } from './types';
 import {
-  CONNECT_DB_MAP,
-  CREATE_TABLES_MAP,
-  REGISTER_ADMIN_MAP
+  CONNECT_DB_ACTION,
+  CREATE_TABLES_ACTION,
+  REGISTER_ADMIN_ACTION
 } from './constants';
 
 export const initializationReducer = (
@@ -11,20 +11,20 @@ export const initializationReducer = (
 ) => {
   switch (action.type) {
     /* ------------------------------- CONNECT_DB ------------------------------- */
-    case CONNECT_DB_MAP.REQUEST: {
+    case CONNECT_DB_ACTION.REQUEST: {
       return {
         ...state,
         isDatabaseConnecting: true
       };
     }
-    case CONNECT_DB_MAP.FAILURE: {
+    case CONNECT_DB_ACTION.FAILURE: {
       return {
         ...state,
         isDatabaseConnecting: false,
         isDatabaseConnectionFailed: true
       };
     }
-    case CONNECT_DB_MAP.SUCCESS: {
+    case CONNECT_DB_ACTION.SUCCESS: {
       return {
         ...state,
         isDatabaseConnecting: false,
@@ -33,20 +33,20 @@ export const initializationReducer = (
     }
 
     /* ------------------------------ CREATE_TABLES ----------------------------- */
-    case CREATE_TABLES_MAP.REQUEST: {
+    case CREATE_TABLES_ACTION.REQUEST: {
       return {
         ...state,
         isTablesCreating: true
       };
     }
-    case CREATE_TABLES_MAP.FAILURE: {
+    case CREATE_TABLES_ACTION.FAILURE: {
       return {
         ...state,
         isTablesCreating: false,
         isTableCreationFailed: true
       };
     }
-    case CREATE_TABLES_MAP.SUCCESS: {
+    case CREATE_TABLES_ACTION.SUCCESS: {
       return {
         ...state,
         isTablesCreating: false,
@@ -55,20 +55,20 @@ export const initializationReducer = (
     }
 
     /* ----------------------------- REGISTER_ADMIN ----------------------------- */
-    case REGISTER_ADMIN_MAP.REQUEST: {
+    case REGISTER_ADMIN_ACTION.REQUEST: {
       return {
         ...state,
         isAdminRegistering: true
       };
     }
-    case REGISTER_ADMIN_MAP.FAILURE: {
+    case REGISTER_ADMIN_ACTION.FAILURE: {
       return {
         ...state,
         isAdminRegistering: false,
         isAdminRegistrationFailed: true
       };
     }
-    case REGISTER_ADMIN_MAP.SUCCESS: {
+    case REGISTER_ADMIN_ACTION.SUCCESS: {
       return {
         ...state,
         isAdminRegistering: false,

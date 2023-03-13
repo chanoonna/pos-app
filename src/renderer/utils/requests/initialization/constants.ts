@@ -1,17 +1,23 @@
-import { createRequestTypeMap } from '../utils';
+/* -------------------------------- constants ------------------------------- */
+import {
+  CONNECT_DB,
+  CLOSE_DB,
+  CREATE_TABLES,
+  REGISTER_ADMIN
+} from 'preload/api/constants';
 
-export const CONNECT_DB = 'CONNECT_DB';
-export const CREATE_TABLES = 'CREATE_TABLES';
-export const REGISTER_ADMIN = 'REGISTER_ADMIN';
+import { createRequestTypeMap } from '../utils';
 
 /* -------------------------- Request Action Types -------------------------- */
 
-export const CONNECT_DB_MAP = createRequestTypeMap('CONNECT_DB');
-export const CREATE_TABLES_MAP = createRequestTypeMap('CREATE_TABLES');
-export const REGISTER_ADMIN_MAP = createRequestTypeMap('REGISTER_ADMIN');
+export const CONNECT_DB_ACTION = createRequestTypeMap(CONNECT_DB);
+export const CLOSE_DB_ACTION = createRequestTypeMap(CLOSE_DB);
+export const CREATE_TABLES_ACTION = createRequestTypeMap(CREATE_TABLES);
+export const REGISTER_ADMIN_ACTION = createRequestTypeMap(REGISTER_ADMIN);
 
 export const INITIALIZATION_REQUEST = {
-  [CONNECT_DB]: CONNECT_DB_MAP,
-  [CREATE_TABLES]: CREATE_TABLES_MAP,
-  [REGISTER_ADMIN]: REGISTER_ADMIN_MAP
+  [CONNECT_DB]: CONNECT_DB_ACTION,
+  [CLOSE_DB]: CLOSE_DB_ACTION,
+  [CREATE_TABLES]: CREATE_TABLES_ACTION,
+  [REGISTER_ADMIN]: REGISTER_ADMIN_ACTION
 } as const;

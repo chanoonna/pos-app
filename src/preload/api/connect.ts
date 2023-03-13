@@ -1,73 +1,51 @@
-/* --------------------------- types and constants -------------------------- */
-import type { AsyncDB, RequestResponse, ExecutionResult } from './types';
+/* -------------------------------- constants ------------------------------- */
+import {
+  DATABASE_ALREADY_CONNECTED,
+  DATABASE_NOT_CONNECTED
+} from './constants';
 
 import { app } from 'electron';
 import sqlite from 'sqlite3';
-import { getAsyncRun, getAsyncGet, formatResponse } from './utils';
+import { getAsyncRun, getAsyncGet } from './utils';
 
 const isPackaged = app.isPackaged;
 const sqlite3 = isPackaged ? sqlite : sqlite.verbose();
 
 let db: sqlite.Database | undefined;
 
+export interface AsyncDB {
+  run: ReturnType<typeof getAsyncRun>;
+  get: ReturnType<typeof getAsyncGet>;
+}
 export const dbAsync: AsyncDB = {} as AsyncDB;
 
 export const connectDatabase = () =>
-  new Promise<RequestResponse>((resolve, reject) => {
-    console.log('Starting the database...');
-
+  new Promise<{ error?: Error | null }>((resolve) => {
     if (db) {
-      resolve(
-        formatResponse({
-          log: 'Database already started',
-          error: Error('DATABASE_STARTED')
-        })
-      );
+      resolve({ error: Error(DATABASE_ALREADY_CONNECTED) });
       return;
     }
 
-    const sqlite3db = new sqlite3.Database('database.db', (error) => {
-      if (error) {
-        resolve(
-          formatResponse({
-            log: error.message,
-            error
-          })
-        );
-        return;
-      }
-
-      resolve(
-        formatResponse({
-          log: 'Database connection successful'
-        })
-      );
+    db = new sqlite3.Database('database.db', (error) => {
+      resolve({
+        error
+      });
     });
 
-    dbAsync.run = getAsyncRun(sqlite3db);
-    dbAsync.get = getAsyncGet(sqlite3db);
+    dbAsync.run = getAsyncRun(db);
+    dbAsync.get = getAsyncGet(db);
   });
 
 export const closeDatabase = () =>
-  new Promise<RequestResponse>((resolve, _) => {
-    console.log('Closing the database...');
-
+  new Promise<{ error?: Error | null }>((resolve) => {
     if (!db) {
-      resolve(
-        formatResponse({
-          log: 'No database connection',
-          error: Error('NO_CONNECTION')
-        })
-      );
+      resolve({
+        error: Error(DATABASE_NOT_CONNECTED)
+      });
       return;
     }
 
     db.close((error) => {
-      if (error) {
-        resolve(formatResponse({ log: error.message, error }));
-        return;
-      }
-
-      resolve(formatResponse({ log: 'Database closed successfully' }));
+      resolve({ error });
     });
   });

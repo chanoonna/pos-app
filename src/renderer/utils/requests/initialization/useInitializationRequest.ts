@@ -7,12 +7,13 @@ import type {
   ConnectDatabaseRequest
 } from './types';
 
-import { INITIALIZATION_REQUEST } from './constants';
-import { API_CHANNEL } from 'preload/api/constants';
+import { CONNECT_DB_ACTION, INITIALIZATION_REQUEST } from './constants';
+import { API_RESPONSE_CHANNEL } from 'preload/api/constants';
 
 /* --------------------------------- Imports -------------------------------- */
 import { useReducer, useEffect, useCallback } from 'react';
 import { initializationReducer } from './initializationReducer';
+import { Method, Route } from 'preload/api/types';
 
 const initialState: InitializationState = {
   isDatabaseConnected: false,
@@ -29,30 +30,42 @@ const initialState: InitializationState = {
 export const useInitializationRequest = () => {
   const [state, dispatch] = useReducer(initializationReducer, initialState);
 
-  const callApi = useCallback((requestAction: ConnectDatabaseRequest) => {
+  const connect = useCallback(() => {
     dispatch({
-      type: INITIALIZATION_REQUEST[requestAction].REQUEST
+      type: CONNECT_DB_ACTION.REQUEST
     });
-    window.api.request<
-      ConnectDatabaseRequest,
-      { requestAction: ConnectDatabaseRequest },
-      typeof API_CHANNEL.DB_INITIALIZATION
-    >(API_CHANNEL.DB_INITIALIZATION, {
-      body: { requestAction }
-    });
+    window.api.connect();
   }, []);
+
+  const callApi = useCallback(
+    (requestAction: ConnectDatabaseRequest, method: Method, route: Route) => {
+      dispatch({
+        type: INITIALIZATION_REQUEST[requestAction].REQUEST
+      });
+      window.api.request<
+        ConnectDatabaseRequest,
+        { requestAction: ConnectDatabaseRequest },
+        typeof API_RESPONSE_CHANNEL.DB_INITIALIZATION
+      >(API_RESPONSE_CHANNEL.DB_INITIALIZATION, {
+        method,
+        route,
+        body: { requestAction }
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     const listener = getInitializationRequestListener(dispatch);
 
-    window.api.on(API_CHANNEL.DB_INITIALIZATION, listener);
+    window.api.on(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
 
     return () => {
-      window.api.off(API_CHANNEL.DB_INITIALIZATION, listener);
+      window.api.off(API_RESPONSE_CHANNEL.DB_INITIALIZATION, listener);
     };
   }, []);
 
-  return { state, callApi };
+  return { state, callApi, connect };
 };
 
 const getInitializationRequestListener =
@@ -69,17 +82,10 @@ const getInitializationRequestListener =
       response?: any;
     }
   ) => {
-    if (error) {
-      dispatch({
-        type: INITIALIZATION_REQUEST[requestAction].FAILURE,
-        payload: { error }
-      });
-    } else {
-      dispatch({
-        type: INITIALIZATION_REQUEST[requestAction].SUCCESS,
-        payload: {
-          response
-        }
-      });
-    }
+    dispatch({
+      type: error
+        ? INITIALIZATION_REQUEST[requestAction].FAILURE
+        : INITIALIZATION_REQUEST[requestAction].SUCCESS,
+      payload: { response, error }
+    });
   };
