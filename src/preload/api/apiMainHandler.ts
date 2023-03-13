@@ -8,7 +8,7 @@ import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
-import { connect } from './connect';
+import { handleConnect } from './connect';
 
 export const startDatabaseListeners = () => {
   ipcMain.on(
@@ -33,7 +33,7 @@ export const startDatabaseListeners = () => {
       try {
         switch (route) {
           case ROUTE.CONNECT: {
-            result = await connect();
+            result = await handleConnect();
             break;
           }
           default: {

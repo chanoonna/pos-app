@@ -25,6 +25,7 @@ export const TABLE_TAGS = 'tags' as const;
 export const TABLE_REFUNDS = 'refunds' as const;
 export const TABLE_REFUND_ITEMS = 'refund_items' as const;
 export const TABLE_REFUND_TAXES = 'refund_taxes' as const;
+export const TABLE_LOGIN_ACTIVITIES = 'login_activities' as const;
 
 export const API = 'API' as const;
 export const API_STARTUP = 'API_STARTUP' as const;
@@ -37,19 +38,20 @@ export const METHOD = {
 } as const;
 
 export const ROUTE = {
-  CONNECT: '/db/connect',
-  AUTHENTICATION: '/db/authentication',
-  USERS: '/db/users',
-  SALES: '/db/sales',
-  SALE_ITEMS: '/db/sale_items',
-  TAXES: '/db/taxes',
-  SALE_TAXES: '/db/sale_taxes',
-  REFUNDS: '/db/refunds',
-  REFUND_ITEMS: '/db/refund_items',
-  REFUND_TAXES: '/db/refund_taxes',
-  CATEGORIES: '/db/categories',
-  ITEMS: '/db/items',
-  TAGS: '/db/tags'
+  CONNECT: '/connect',
+  LOGIN_ACTIVITIES: '/login_activities',
+  AUTHENTICATION: '/authentication',
+  USERS: '/users',
+  SALES: '/sales',
+  SALE_ITEMS: '/sale_items',
+  TAXES: '/taxes',
+  SALE_TAXES: '/sale_taxes',
+  REFUNDS: '/refunds',
+  REFUND_ITEMS: '/refund_items',
+  REFUND_TAXES: '/refund_taxes',
+  CATEGORIES: '/categories',
+  ITEMS: '/items',
+  TAGS: '/tags'
 } as const;
 
 export const REQUEST_RESULT = {

@@ -16,7 +16,7 @@ import {
   printResultLog
 } from '../utils';
 
-export const connect = async (): Promise<{
+export const handleConnect = async (): Promise<{
   error?: Error;
   userFriendlyError?: string;
   isDatabaseReady?: boolean;

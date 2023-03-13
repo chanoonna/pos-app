@@ -13,8 +13,7 @@ import {
   TABLE_TAGS,
   TABLE_REFUNDS,
   TABLE_REFUND_ITEMS,
-  TABLE_REFUND_TAXES,
-  ERROR_UNSPECIFIED
+  TABLE_REFUND_TAXES
 } from '../constants';
 import { DB_CREATE_TABLES } from './constants';
 
