@@ -45,7 +45,7 @@ export const useAppStartupState = () => {
       >(API_RESPONSE_CHANNEL.DB_STARTUP, {
         method,
         route,
-        body: { requestAction }
+        params: { requestAction }
       });
     },
     []

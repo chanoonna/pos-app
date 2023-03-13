@@ -13,39 +13,39 @@ import isEmpty from 'lodash/isEmpty';
 export const printRequestLog = <T = unknown>({
   method,
   route,
-  body: _body
+  params: _params
 }: {
   method?: string;
   route?: string;
-  body: { requestAction: string } & T;
+  params: { requestAction: string } & T;
 }) => {
   if (app.isPackaged) return;
 
-  const { requestAction, ...body } = _body;
+  const { requestAction, ...params } = _params;
   const log =
     `${chalk.yellowBright(`${requestAction}_REQUEST`)}` +
     (method ? `:  ${method}` : '') +
     (route ? ` ${route}` : '');
 
-  console.log(log, isEmpty(body) ? '' : body);
+  console.log(log, isEmpty(params) ? '' : params);
 };
 
-export const printResultLog = <BodyType extends { requestAction: string }>({
+export const printResultLog = <ParamType extends { requestAction: string }>({
   method,
   route,
-  body,
+  params,
   error
 }: {
   method?: Method;
   route?: Route;
-  body: BodyType;
+  params: ParamType;
   error?: Error;
 }) => {
   if (app.isPackaged) return;
 
   const action = error
-    ? chalk.red(`${body.requestAction}_FAILURE`)
-    : chalk.green(`${body.requestAction}_SUCCESS`);
+    ? chalk.red(`${params.requestAction}_FAILURE`)
+    : chalk.green(`${params.requestAction}_SUCCESS`);
   const log =
     `${chalk.yellowBright(action)}` +
     (method ? `:  ${method}` : '') +
@@ -82,7 +82,7 @@ export const handleCatchAndPrintLog = (
 ) => {
   if (error instanceof Error) {
     printResultLog({
-      body: { requestAction },
+      params: { requestAction },
       error
     });
 
@@ -90,7 +90,7 @@ export const handleCatchAndPrintLog = (
   } else {
     const error = new Error(ERROR_UNSPECIFIED);
     printResultLog({
-      body: { requestAction },
+      params: { requestAction },
       error
     });
 

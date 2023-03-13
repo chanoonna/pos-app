@@ -21,7 +21,7 @@ export const handleConnect = async (): Promise<{
   userFriendlyError?: string;
   isDatabaseReady?: boolean;
 }> => {
-  printRequestLog({ body: { requestAction: DB_CONNECT } });
+  printRequestLog({ params: { requestAction: DB_CONNECT } });
 
   try {
     /* --------------------------- database connection -------------------------- */
@@ -51,7 +51,7 @@ export const handleConnect = async (): Promise<{
       };
     }
 
-    printResultLog({ body: { requestAction: DB_CONNECT } });
+    printResultLog({ params: { requestAction: DB_CONNECT } });
 
     return {
       isDatabaseReady: !creationFailedTables.length

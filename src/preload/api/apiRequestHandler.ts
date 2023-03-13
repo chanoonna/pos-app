@@ -11,17 +11,17 @@ export const apiRequestHandler = {
   connect: () => {
     ipcRenderer.send(API, API_RESPONSE_CHANNEL.DB_STARTUP, {
       route: ROUTE.CONNECT,
-      body: { requestAction: DB_CONNECT }
+      params: { requestAction: DB_CONNECT }
     });
   },
   request: <T, V extends { requestAction: T }>(
     responseChannel: ResponseChannel,
-    { method, route, body }: { method: Method; route: Route; body: V }
+    { method, route, params }: { method: Method; route: Route; params: V }
   ) => {
     ipcRenderer.send(API, {
       method,
       route,
-      body,
+      params,
       responseChannel
     });
   },

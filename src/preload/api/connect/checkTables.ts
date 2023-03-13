@@ -37,7 +37,7 @@ export const checkTables = async (): Promise<{
     const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
 
     try {
-      printRequestLog({ body: { requestAction } });
+      printRequestLog({ params: { requestAction } });
       const { row, error } = await dbAsync.get<{ name: Table }>({
         query,
         params: [tableName]
@@ -50,7 +50,7 @@ export const checkTables = async (): Promise<{
         tableCheckErrors.push(tableName);
       }
 
-      printResultLog({ body: { requestAction }, error });
+      printResultLog({ params: { requestAction }, error });
     } catch (error) {
       handleCatchAndPrintLog(error, requestAction);
     }

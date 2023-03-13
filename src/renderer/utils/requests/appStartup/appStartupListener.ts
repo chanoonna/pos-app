@@ -11,11 +11,11 @@ export const getAppStartupRequestListener =
   (
     _: IpcRendererEvent,
     {
-      requestBody,
+      requestParams,
       error,
       response
     }: {
-      requestBody: {
+      requestParams: {
         requestAction: ConnectDatabaseRequest;
         [key: string]: any;
       };
@@ -25,8 +25,8 @@ export const getAppStartupRequestListener =
   ) => {
     dispatch({
       type: error
-        ? APP_STARTUP_REQUEST[requestBody.requestAction].FAILURE
-        : APP_STARTUP_REQUEST[requestBody.requestAction].SUCCESS,
+        ? APP_STARTUP_REQUEST[requestParams.requestAction].FAILURE
+        : APP_STARTUP_REQUEST[requestParams.requestAction].SUCCESS,
       payload: { response, error }
     });
   };

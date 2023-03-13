@@ -15,16 +15,16 @@ export type BaseListener = (_event: IpcRendererEvent, ...args: any[]) => void;
 export interface Request<T extends { requestAction: string }> {
   method?: Method;
   route?: Route;
-  body: T;
+  Params: T;
 }
 
 export interface Response<
   ResponseType = unknown,
   ErrorType = unknown,
-  BodyType = unknown
+  ParamType = unknown
 > {
   result: keyof typeof REQUEST_RESULT;
   response?: ResponseType;
   error?: ErrorType;
-  requestBody: { requestAction: string } & BodyType;
+  requestParams: { requestAction: string } & ParamType;
 }

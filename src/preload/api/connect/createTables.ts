@@ -30,23 +30,23 @@ export const createTables = async (
   for await (const tableName of uncreatedTables) {
     const query = tableCreationQuery[tableName];
     const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
-    printRequestLog({ body: { requestAction } });
+    printRequestLog({ params: { requestAction } });
 
     try {
       const { error } = await dbAsync.run({
         query
       });
 
-      printResultLog({ body: { requestAction }, error });
+      printResultLog({ params: { requestAction }, error });
       if (error) {
         creationFailedTables.push(tableName);
       }
     } catch (error) {
       if (error instanceof Error) {
-        printResultLog({ body: { requestAction }, error });
+        printResultLog({ params: { requestAction }, error });
       } else {
         printResultLog({
-          body: { requestAction },
+          params: { requestAction },
           error: new Error(`${ERROR_UNSPECIFIED} while creating tables.`)
         });
       }
