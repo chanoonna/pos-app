@@ -3,7 +3,9 @@ import {
   API_RESPONSE_CHANNEL,
   METHOD,
   ROUTE,
-  REQUEST_RESULT
+  REQUEST_RESULT,
+  SORT_ASC,
+  SORT_DESC
 } from './constants';
 
 export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
@@ -28,3 +30,5 @@ export interface Response<
   error?: ErrorType;
   requestParams: { requestAction: string } & ParamType;
 }
+
+export type SortAttribute<T> = [T, typeof SORT_ASC | typeof SORT_DESC][];

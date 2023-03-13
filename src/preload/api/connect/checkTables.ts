@@ -3,18 +3,18 @@ import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
-  TABLE_USERS,
-  TABLE_CATEGORIES,
-  TABLE_ITEMS,
-  TABLE_TAXES,
-  TABLE_SALES,
-  TABLE_SALE_ITEMS,
-  TABLE_SALE_TAXES,
-  TABLE_TAGS,
-  TABLE_REFUNDS,
-  TABLE_REFUND_ITEMS,
-  TABLE_REFUND_TAXES
-} from '../constants';
+  USERS,
+  CATEGORIES,
+  ITEMS,
+  TAXES,
+  SALES,
+  SALE_ITEMS,
+  SALE_TAXES,
+  TAGS,
+  REFUNDS,
+  REFUND_ITEMS,
+  REFUND_TAXES
+} from '../tablesAndColumns';
 import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
@@ -63,15 +63,15 @@ export const checkTables = async (): Promise<{
 };
 
 const tables = [
-  TABLE_USERS,
-  TABLE_CATEGORIES,
-  TABLE_ITEMS,
-  TABLE_TAXES,
-  TABLE_SALES,
-  TABLE_SALE_ITEMS,
-  TABLE_SALE_TAXES,
-  TABLE_TAGS,
-  TABLE_REFUNDS,
-  TABLE_REFUND_ITEMS,
-  TABLE_REFUND_TAXES
+  USERS,
+  CATEGORIES,
+  ITEMS,
+  TAXES,
+  SALES,
+  SALE_ITEMS,
+  SALE_TAXES,
+  TAGS,
+  REFUNDS,
+  REFUND_ITEMS,
+  REFUND_TAXES
 ];

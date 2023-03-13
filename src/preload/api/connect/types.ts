@@ -1,26 +1,26 @@
 import {
-  TABLE_USERS,
-  TABLE_CATEGORIES,
-  TABLE_ITEMS,
-  TABLE_TAXES,
-  TABLE_SALES,
-  TABLE_SALE_ITEMS,
-  TABLE_SALE_TAXES,
-  TABLE_TAGS,
-  TABLE_REFUNDS,
-  TABLE_REFUND_ITEMS,
-  TABLE_REFUND_TAXES
-} from '../constants';
+  USERS,
+  CATEGORIES,
+  ITEMS,
+  TAXES,
+  SALES,
+  SALE_ITEMS,
+  SALE_TAXES,
+  TAGS,
+  REFUNDS,
+  REFUND_ITEMS,
+  REFUND_TAXES
+} from '../tablesAndColumns';
 
 export type Table =
-  | typeof TABLE_USERS
-  | typeof TABLE_CATEGORIES
-  | typeof TABLE_ITEMS
-  | typeof TABLE_TAXES
-  | typeof TABLE_SALES
-  | typeof TABLE_SALE_ITEMS
-  | typeof TABLE_SALE_TAXES
-  | typeof TABLE_TAGS
-  | typeof TABLE_REFUNDS
-  | typeof TABLE_REFUND_ITEMS
-  | typeof TABLE_REFUND_TAXES;
+  | typeof USERS
+  | typeof CATEGORIES
+  | typeof ITEMS
+  | typeof TAXES
+  | typeof SALES
+  | typeof SALE_ITEMS
+  | typeof SALE_TAXES
+  | typeof TAGS
+  | typeof REFUNDS
+  | typeof REFUND_ITEMS
+  | typeof REFUND_TAXES;

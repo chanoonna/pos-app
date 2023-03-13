@@ -14,19 +14,6 @@ export const API_RESPONSE_CHANNEL = {
   DB_TAGS: 'DB_TAGS'
 } as const;
 
-export const TABLE_USERS = 'users' as const;
-export const TABLE_CATEGORIES = 'categories' as const;
-export const TABLE_ITEMS = 'items' as const;
-export const TABLE_TAXES = 'taxes' as const;
-export const TABLE_SALES = 'sales' as const;
-export const TABLE_SALE_ITEMS = 'sale_items' as const;
-export const TABLE_SALE_TAXES = 'sale_taxes' as const;
-export const TABLE_TAGS = 'tags' as const;
-export const TABLE_REFUNDS = 'refunds' as const;
-export const TABLE_REFUND_ITEMS = 'refund_items' as const;
-export const TABLE_REFUND_TAXES = 'refund_taxes' as const;
-export const TABLE_LOGIN_ACTIVITIES = 'login_activities' as const;
-
 export const API = 'API' as const;
 export const API_STARTUP = 'API_STARTUP' as const;
 
@@ -73,3 +60,7 @@ export const ERROR_TABLE_CREATION_FAILED = 'TABLE_CREATION_FAILED';
 export const ERROR_TABLE_ALREADY_EXISTS = 'TABLE_ALREADY_EXISTS';
 export const ERROR_TABLE_DOES_NOT_EXIST = 'TABLE_DOES_NOT_EXIST';
 export const ERROR_TABLE_CHECK_ERROR = 'TABLE_CHECK_ERROR';
+
+/* ----------------------------- Params related ----------------------------- */
+export const SORT_DESC = 'SORT_DESC' as const;
+export const SORT_ASC = 'SORT_ASC' as const;
