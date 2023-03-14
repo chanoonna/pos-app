@@ -2,7 +2,8 @@
 import type { BaseListener, Method, ResponseChannel, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API, API_RESPONSE_CHANNEL, DB_CONNECT, ROUTE } from './constants';
+import { API, API_RESPONSE_CHANNEL, ROUTE } from './constants';
+import { DB_CONNECT } from './connect/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcRenderer } from 'electron';

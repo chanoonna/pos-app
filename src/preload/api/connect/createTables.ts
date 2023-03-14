@@ -14,7 +14,7 @@ import {
   REFUNDS,
   REFUND_ITEMS,
   REFUND_TAXES,
-  LOGIN_ACTIVITIES,
+  LAST_USER,
   COLUMN
 } from '../tablesAndColumns';
 import { ERROR_UNSPECIFIED } from '../constants';
@@ -67,6 +67,7 @@ const tableCreationQuery = {
       ${COLUMN[USERS].language} TEXT DEFAULT 'eng',
       ${COLUMN[USERS].text_size} TEXT DEFAULT 'M',
       ${COLUMN[USERS].is_archived} INTEGER NOT NULL DEFAULT 0,
+      ${COLUMN[USERS].access_level} INTEGER NOT NULL DEFAULT 3,
       UNIQUE(${COLUMN[USERS].username})
     )
 `,
@@ -162,12 +163,12 @@ const tableCreationQuery = {
       FOREIGN KEY(${COLUMN[REFUND_TAXES].tax_id}) REFERENCES ${TAXES}(${COLUMN[TAXES].id})
     )
 `,
-  [LOGIN_ACTIVITIES]: `
-    CREATE TABLE ${LOGIN_ACTIVITIES} (
-      ${COLUMN[LOGIN_ACTIVITIES].id} INTEGER PRIMARY KEY AUTOINCREMENT,
-      ${COLUMN[LOGIN_ACTIVITIES].user_id} INTEGER,
-      ${COLUMN[LOGIN_ACTIVITIES].date} TEXT NOT NULL,
-      FOREIGN KEY(${COLUMN[LOGIN_ACTIVITIES].user_id}) REFERENCES ${USERS}(${COLUMN[USERS].id})
+  [LAST_USER]: `
+    CREATE TABLE ${LAST_USER} (
+      ${COLUMN[LAST_USER].id} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${COLUMN[LAST_USER].user_id} INTEGER,
+      ${COLUMN[LAST_USER].date} TEXT NOT NULL,
+      FOREIGN KEY(${COLUMN[LAST_USER].user_id}) REFERENCES ${USERS}(${COLUMN[USERS].id})
     )
   `
 };

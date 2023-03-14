@@ -26,7 +26,6 @@ export const METHOD = {
 
 export const ROUTE = {
   CONNECT: '/connect',
-  LOGIN_ACTIVITIES: '/login_activities',
   AUTHENTICATION: '/authentication',
   USERS: '/users',
   SALES: '/sales',
@@ -45,10 +44,6 @@ export const REQUEST_RESULT = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE'
 } as const;
-
-/* ------------------------------ Base requests ----------------------------- */
-export const DB_CONNECT = 'DB_CONNECT';
-export const DB_CLOSE = 'DB_CLOSE';
 
 /* ------------------------------- Base errors ------------------------------ */
 export const ERROR_UNSPECIFIED = 'ERROR_UNSPECIFIED';

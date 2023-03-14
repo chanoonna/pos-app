@@ -1,21 +1,22 @@
 /* -------------------------------- constants ------------------------------- */
-import { DB_CONNECT } from 'preload/api/constants';
-import { DB_REGISTER_ADMIN } from 'preload/api/connect/constants';
-import { DB_GET_LOGIN_ACTIVITIES } from 'preload/api/loginActivities/constants';
+import { DB_CONNECT } from 'preload/api/connect/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { createRequestTypeMap } from '../utils';
 
-export const SET_LANGUAGE = 'SET_LANGUAGE' as const;
+export const APP_STARTUP_STATUS = {
+  ERROR: 'ERROR',
+  INITIAL_STATUS: 'INITIAL_STATUS',
+  CONNECTING_DB: 'CONNECTING_DB',
+  SETTING_LANGUAGE: 'SETTING_LANGUAGE',
+  REGISTERING_ADMIN: 'REGISTERING_ADMIN',
+  SETTING_OPTIONS: 'SETTING_OPTIONS',
+  NOTIFICATION: 'NOTIFICATION',
+  REDIRECTING_TO_LOGIN: 'REDIRECTING_TO_LOGIN'
+} as const;
 
 export const DB_CONNECT_ACTION = createRequestTypeMap(DB_CONNECT);
-export const DB_REGISTER_ADMIN_ACTION = createRequestTypeMap(DB_REGISTER_ADMIN);
-export const DB_GET_LOGIN_ACTIVITIES_ACTION = createRequestTypeMap(
-  DB_GET_LOGIN_ACTIVITIES
-);
 
 export const APP_STARTUP_REQUEST = {
-  [DB_CONNECT]: DB_CONNECT_ACTION,
-  [DB_REGISTER_ADMIN]: DB_REGISTER_ADMIN_ACTION,
-  [DB_GET_LOGIN_ACTIVITIES]: DB_GET_LOGIN_ACTIVITIES_ACTION
+  [DB_CONNECT]: DB_CONNECT_ACTION
 } as const;

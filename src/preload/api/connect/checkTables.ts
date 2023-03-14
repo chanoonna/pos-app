@@ -3,7 +3,7 @@ import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { TABLES } from '../tablesAndColumns';
-import { DB_CREATE_TABLES } from './constants';
+import { DB_CHECK_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { dbAsync } from '../database';
@@ -22,16 +22,16 @@ export const checkTables = async (): Promise<{
 
   for await (const tableName of TABLES) {
     const query = `SELECT name FROM sqlite_master WHERE type='table' AND name = ?`;
-    const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
+    const requestAction = `${DB_CHECK_TABLES}_${tableName}`;
 
     try {
       printRequestLog({ params: { requestAction } });
-      const { rows, error } = await dbAsync.all<{ name: Table }>({
+      const { row, error } = await dbAsync.get<{ name: Table }>({
         query,
         params: [tableName]
       });
 
-      if (!rows) {
+      if (!row) {
         uncreatedTables.push(tableName);
       }
       if (error) {

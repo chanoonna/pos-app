@@ -2,7 +2,7 @@
 import type { AppStartupState, ConnectDatabaseRequest } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { APP_STARTUP_REQUEST } from './constants';
+import { APP_STARTUP_REQUEST, APP_STARTUP_STATUS } from './constants';
 import { API_RESPONSE_CHANNEL } from 'preload/api/constants';
 
 /* --------------------------------- imports -------------------------------- */
@@ -12,20 +12,7 @@ import { Method, Route } from 'preload/api/types';
 import { getAppStartupRequestListener } from './appStartupListener';
 
 const initialState: AppStartupState = {
-  isDatabaseConnected: false,
-  isDatabaseConnecting: false,
-  isDatabaseConnectionFailed: false,
-  isDatabaseReady: false,
-  isAdminRegistered: false,
-  isAdminRegistering: false,
-  isAdminRegistrationFailed: false,
-  isGettingLoginActivities: false,
-  lastLoggedInUser: {
-    id: undefined,
-    username: undefined,
-    date: undefined,
-    language: undefined
-  }
+  status: APP_STARTUP_STATUS.INITIAL_STATUS
 };
 
 export const useAppStartupState = () => {

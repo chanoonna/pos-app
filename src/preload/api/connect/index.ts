@@ -2,9 +2,9 @@
 import {
   ERROR_TABLE_CHECK_FAIL,
   ERROR_TABLE_CREATION_FAIL,
-  USER_FRIENDLY_ERROR_CONNECTION_FAILED
+  DB_CONNECT
 } from './constants';
-import { DB_CONNECT, ERROR_UNSPECIFIED } from '../constants';
+import { ERROR_UNSPECIFIED } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { connectDatabase } from '../database';
@@ -15,11 +15,12 @@ import {
   printRequestLog,
   printResultLog
 } from '../utils';
+import { getLastUser, LastLoggedUser } from './getLastUser';
 
 export const handleConnect = async (): Promise<{
   error?: Error;
   userFriendlyError?: string;
-  isDatabaseReady?: boolean;
+  lastLoggedUser?: LastLoggedUser;
 }> => {
   printRequestLog({ params: { requestAction: DB_CONNECT } });
 
@@ -45,21 +46,26 @@ export const handleConnect = async (): Promise<{
       : [];
 
     if (creationFailedTables.length) {
-      throw {
-        message: ERROR_TABLE_CREATION_FAIL,
-        tables: creationFailedTables
-      };
+      throw new Error(
+        `${ERROR_TABLE_CREATION_FAIL}: ${creationFailedTables.join(', ')}`
+      );
+    }
+
+    const lastUserResult = await getLastUser();
+
+    if (lastUserResult.error) {
+      throw new Error(lastUserResult.error.message);
     }
 
     printResultLog({ params: { requestAction: DB_CONNECT } });
 
     return {
-      isDatabaseReady: !creationFailedTables.length
+      lastLoggedUser: lastUserResult.lastLoggedUser
     };
   } catch (error) {
     return {
       error: handleCatchAndPrintLog(error, DB_CONNECT),
-      userFriendlyError: `${ERROR_UNSPECIFIED} while settingup databse and tables.`
+      userFriendlyError: `${ERROR_UNSPECIFIED} while setting up.`
     };
   }
 };

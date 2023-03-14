@@ -10,7 +10,7 @@ export const TAGS = 'tags' as const;
 export const REFUNDS = 'refunds' as const;
 export const REFUND_ITEMS = 'refund_items' as const;
 export const REFUND_TAXES = 'refund_taxes' as const;
-export const LOGIN_ACTIVITIES = 'login_activities' as const;
+export const LAST_USER = 'last_user' as const;
 
 export const TABLES = [
   USERS,
@@ -24,7 +24,7 @@ export const TABLES = [
   REFUNDS,
   REFUND_ITEMS,
   REFUND_TAXES,
-  LOGIN_ACTIVITIES
+  LAST_USER
 ];
 
 /* ------------------------------ Table columns ----------------------------- */
@@ -35,7 +35,8 @@ export const COLUMN = {
     password: 'password' as const,
     language: 'language' as const,
     text_size: 'text_size' as const,
-    is_archived: 'is_archived' as const
+    is_archived: 'is_archived' as const,
+    access_level: 'access_level' as const
   },
   [CATEGORIES]: {
     id: 'id' as const,
@@ -97,10 +98,9 @@ export const COLUMN = {
     refund_item_id: 'refund_item_id' as const,
     tax_id: 'tax_id' as const
   },
-  [LOGIN_ACTIVITIES]: {
+  [LAST_USER]: {
     id: 'id' as const,
     user_id: 'user_id' as const,
-    date: 'date' as const,
-    logout_time: 'logout_time' as const
+    date: 'date' as const
   }
 };
