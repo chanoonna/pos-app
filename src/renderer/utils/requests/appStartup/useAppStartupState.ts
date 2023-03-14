@@ -20,8 +20,10 @@ const initialState: AppStartupState = {
   isAdminRegistering: false,
   isAdminRegistrationFailed: false,
   isGettingLoginActivities: false,
-  lsatLoggedInUser: undefined,
-  lastUserSetting: {
+  lastLoggedInUser: {
+    id: undefined,
+    username: undefined,
+    date: undefined,
     language: undefined
   }
 };

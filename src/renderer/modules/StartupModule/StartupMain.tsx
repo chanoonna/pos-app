@@ -22,7 +22,10 @@ export const StartupMain = () => {
   }, [connect, appStartupState.isDatabaseConnected]);
 
   useEffect(() => {
-    if (appStartupState.isDatabaseReady && !appStartupState.lsatLoggedInUser) {
+    if (
+      appStartupState.isDatabaseReady &&
+      !appStartupState.lastLoggedInUser.id
+    ) {
       callApi({
         method: 'GET',
         route: '/login_activities',
@@ -36,18 +39,15 @@ export const StartupMain = () => {
     }
   }, [
     appStartupState.isDatabaseReady,
-    appStartupState.lsatLoggedInUser,
+    appStartupState.lastLoggedInUser,
     callApi
   ]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">
-      {appStartupState.lsatLoggedInUser ? (
+      {!appStartupState.lastLoggedInUser.language ? (
         <LanguageSelect
-          language={
-            appStartupState.lastUserSetting.language ||
-            LANGUAGE.KOREAN.languageCode
-          }
+          language={LANGUAGE.ENGLISH.languageCode}
           setLanguage={(language: LanguageCode) => {
             dispatch({ type: SET_LANGUAGE, payload: { language } });
           }}

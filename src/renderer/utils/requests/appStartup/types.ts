@@ -21,12 +21,10 @@ export interface AppStartupState {
   isAdminRegistering: boolean;
   isAdminRegistrationFailed: boolean;
   isGettingLoginActivities: boolean;
-  lsatLoggedInUser?: {
-    id: number;
-    username: string;
-    date: string;
-  };
-  lastUserSetting: {
+  lastLoggedInUser: {
+    id?: number;
+    username?: string;
+    date?: string;
     language?: LanguageCode;
   };
 }
@@ -74,7 +72,12 @@ interface GetLoginActivitiesAction {
       offset?: number;
     };
     response?: {
-      loginActivities?: { username: string; date: string; id: number }[];
+      loginActivities?: {
+        username: string;
+        date: string;
+        id: number;
+        language: LanguageCode;
+      }[];
     };
   };
 }

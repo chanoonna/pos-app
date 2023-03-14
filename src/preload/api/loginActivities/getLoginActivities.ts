@@ -27,7 +27,7 @@ export const getLoginActivities = async ({
   total?: number;
 }> => {
   const params: (string | number)[] = [];
-  const selectQuery = `SELECT ${USERS}.${COLUMN[USERS].id}, ${USERS}.${COLUMN[USERS].username}, ${LOGIN_ACTIVITIES}.${COLUMN[LOGIN_ACTIVITIES].date}
+  const selectQuery = `SELECT ${USERS}.${COLUMN[USERS].id}, ${USERS}.${COLUMN[USERS].username}, ${LOGIN_ACTIVITIES}.${COLUMN[LOGIN_ACTIVITIES].date}, ${USERS}.${COLUMN[USERS].language}
     FROM ${LOGIN_ACTIVITIES}
     JOIN ${USERS} ON ${LOGIN_ACTIVITIES}.${COLUMN[LOGIN_ACTIVITIES].user_id} = ${USERS}.${COLUMN[USERS].id}`;
 
@@ -44,12 +44,6 @@ export const getLoginActivities = async ({
     const resultTotal = await dbAsync.get<{ total: number }>({
       query: `SELECT COUNT(*) as total FROM ${LOGIN_ACTIVITIES}`
     });
-
-    // await dbAsync.run({
-    //   query: `UPDATE users
-    //   SET language = '', column2 = 'new_value2', ...
-    //   WHERE id = 123`
-    // });
 
     return {
       loginActivities: result.rows,

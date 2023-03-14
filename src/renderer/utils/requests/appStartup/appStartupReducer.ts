@@ -20,8 +20,8 @@ export const appStartupReducer = (
     case SET_LANGUAGE: {
       return {
         ...state,
-        lastUserSetting: {
-          ...state.lastUserSetting,
+        lastLoggedInUser: {
+          ...state.lastLoggedInUser,
           ...(payload?.language && { language: payload.language })
         }
       };
@@ -63,11 +63,11 @@ export const appStartupReducer = (
       };
     }
     case DB_GET_LOGIN_ACTIVITIES_ACTION.SUCCESS: {
-      console.log(payload);
+      const lastLoggedInUser = payload?.response?.loginActivities?.[0];
       return {
         ...state,
         isGettingLoginActivities: false,
-        lsatLoggedInUser: payload?.response?.loginActivities?.[0]
+        ...(lastLoggedInUser && { lastLoggedInUser })
       };
     }
 
