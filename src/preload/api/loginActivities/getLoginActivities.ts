@@ -2,56 +2,58 @@
 import type { LoginActivitiesSortAttribute } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { LOGIN_ACTIVITIES } from '../tablesAndColumns';
-import { GET_LOGIN_ACTIVITIES } from './constants';
+import { COLUMN, LOGIN_ACTIVITIES, TABLES, USERS } from '../tablesAndColumns';
+import { DB_GET_LOGIN_ACTIVITIES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
-import {
-  buildSortQuery,
-  handleCatchAndPrintLog,
-  printResultLog
-} from '../utils';
+import { buildSortQuery, handleCatchAndPrintLog } from '../utils';
 import { SortAttribute } from '../types';
 import { dbAsync } from '../database';
 
 export const getLoginActivities = async ({
   offset = 0,
   limit = 30,
-  sortAttributes
+  sortAttributes,
+  includeTotal = false
 }: {
   offset?: number;
   limit?: number;
   sortAttributes?: SortAttribute<LoginActivitiesSortAttribute>;
+  includeTotal?: boolean;
 }): Promise<{
-  activities?: any[];
+  loginActivities?: any[];
   error?: Error;
   userFriendlyError?: string;
+  total?: number;
 }> => {
-  const params: (LoginActivitiesSortAttribute | string)[] = [];
-  const selectQuery = `
-    SELECT *,
-      (SELECT COUNT(*) FROM ${LOGIN_ACTIVITIES}) as total`;
-  const sortQuery = sortAttributes
-    ? buildSortQuery(params, sortAttributes)
-    : '';
-  const paginationQuery = 'LIMIT ? OFFSET ?';
-  params.push(limit.toString(), offset.toString());
+  const params: (string | number)[] = [];
+  const selectQuery = `SELECT ${USERS}.${COLUMN[USERS].id}, ${USERS}.${COLUMN[USERS].username}, ${LOGIN_ACTIVITIES}.${COLUMN[LOGIN_ACTIVITIES].date}
+    FROM ${LOGIN_ACTIVITIES}
+    JOIN ${USERS} ON ${LOGIN_ACTIVITIES}.${COLUMN[LOGIN_ACTIVITIES].user_id} = ${USERS}.${COLUMN[USERS].id}`;
 
-  const query = `
-    ${selectQuery}
-    ${sortQuery}
-    ${paginationQuery};`;
+  const sortQuery = sortAttributes ? buildSortQuery(sortAttributes) : '';
+  const paginationQuery = 'LIMIT ? OFFSET ?';
+  params.push(limit, offset);
+
+  const query = `${selectQuery}
+  ${sortQuery}
+  ${paginationQuery}`;
 
   try {
-    const { row, error } = await dbAsync.get<any[]>({ query, params });
+    const result = await dbAsync.all<any[]>({ query, params });
+    const resultTotal = await dbAsync.get<{ total: number }>({
+      query: `SELECT COUNT(*) as total FROM ${LOGIN_ACTIVITIES}`
+    });
 
     return {
-      activities: row,
-      error
+      loginActivities: result.rows,
+      error: result.error,
+      ...(includeTotal &&
+        resultTotal.row?.total && { total: resultTotal.row.total })
     };
   } catch (error) {
     return {
-      error: handleCatchAndPrintLog(error, GET_LOGIN_ACTIVITIES),
+      error: handleCatchAndPrintLog(error, DB_GET_LOGIN_ACTIVITIES),
       userFriendlyError: `Error while getting login_activities.`
     };
   }

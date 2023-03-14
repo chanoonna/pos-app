@@ -2,19 +2,7 @@
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import {
-  USERS,
-  CATEGORIES,
-  ITEMS,
-  TAXES,
-  SALES,
-  SALE_ITEMS,
-  SALE_TAXES,
-  TAGS,
-  REFUNDS,
-  REFUND_ITEMS,
-  REFUND_TAXES
-} from '../tablesAndColumns';
+import { TABLES } from '../tablesAndColumns';
 import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
@@ -32,18 +20,18 @@ export const checkTables = async (): Promise<{
   const tableCheckErrors: Table[] = [];
   const uncreatedTables: Table[] = [];
 
-  for await (const tableName of tables) {
+  for await (const tableName of TABLES) {
     const query = `SELECT name FROM sqlite_master WHERE type='table' AND name = ?`;
     const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
 
     try {
       printRequestLog({ params: { requestAction } });
-      const { row, error } = await dbAsync.get<{ name: Table }>({
+      const { rows, error } = await dbAsync.all<{ name: Table }>({
         query,
         params: [tableName]
       });
 
-      if (!row) {
+      if (!rows) {
         uncreatedTables.push(tableName);
       }
       if (error) {
@@ -61,17 +49,3 @@ export const checkTables = async (): Promise<{
     tableCheckErrors
   };
 };
-
-const tables = [
-  USERS,
-  CATEGORIES,
-  ITEMS,
-  TAXES,
-  SALES,
-  SALE_ITEMS,
-  SALE_TAXES,
-  TAGS,
-  REFUNDS,
-  REFUND_ITEMS,
-  REFUND_TAXES
-];

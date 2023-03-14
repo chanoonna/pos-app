@@ -18,7 +18,10 @@ const initialState: AppStartupState = {
   isDatabaseReady: false,
   isAdminRegistered: false,
   isAdminRegistering: false,
-  isAdminRegistrationFailed: false
+  isAdminRegistrationFailed: false,
+  isGettingLoginActivities: false,
+  lsatLoggedInUser: undefined,
+  lastUserSetting: undefined
 };
 
 export const useAppStartupState = () => {
@@ -35,7 +38,19 @@ export const useAppStartupState = () => {
   }, []);
 
   const callApi = useCallback(
-    (requestAction: ConnectDatabaseRequest, method: Method, route: Route) => {
+    ({
+      requestAction,
+      method,
+      route,
+      params
+    }: {
+      requestAction: ConnectDatabaseRequest;
+      method: Method;
+      route: Route;
+      params?: {
+        [key: string]: any;
+      };
+    }) => {
       dispatch({
         type: APP_STARTUP_REQUEST[requestAction].REQUEST
       });
@@ -45,7 +60,7 @@ export const useAppStartupState = () => {
       >(API_RESPONSE_CHANNEL.DB_STARTUP, {
         method,
         route,
-        params: { requestAction }
+        params: { requestAction, ...params }
       });
     },
     []
@@ -61,5 +76,5 @@ export const useAppStartupState = () => {
     };
   }, []);
 
-  return { initilizationState: appStartupState, callApi, connect };
+  return { appStartupState, callApi, connect };
 };

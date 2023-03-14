@@ -1,3 +1,6 @@
+/* -------------------------------- constants ------------------------------- */
+import { DB_GET_LOGIN_ACTIVITIES } from 'preload/api/loginActivities/constants';
+
 /* --------------------------------- imports -------------------------------- */
 import { useState, useEffect } from 'react';
 
@@ -13,16 +16,31 @@ export const StartupMain = () => {
     password: '',
     language: Language.Eng
   });
-  const { initilizationState, connect } = useAppStartupState();
+  const { appStartupState, connect, callApi } = useAppStartupState();
 
   console.log(state);
-  console.log(initilizationState);
+  console.log(appStartupState);
 
   useEffect(() => {
-    if (!initilizationState.isDatabaseConnected) {
+    if (!appStartupState.isDatabaseConnected) {
       connect();
     }
-  }, [connect, initilizationState.isDatabaseConnected]);
+  }, [connect, appStartupState.isDatabaseConnected]);
+
+  useEffect(() => {
+    if (appStartupState.isDatabaseReady) {
+      callApi({
+        method: 'GET',
+        route: '/login_activities',
+        requestAction: DB_GET_LOGIN_ACTIVITIES,
+        params: {
+          limit: 1,
+          offset: 0,
+          sortAttributes: [['date', 'DESC']]
+        }
+      });
+    }
+  }, [appStartupState.isDatabaseReady, callApi]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">

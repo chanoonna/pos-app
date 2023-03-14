@@ -2,7 +2,11 @@
 import type { AppStartupState, AppStartupRequestAction } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { DB_CONNECT_ACTION, DB_REGISTER_ADMIN_ACTION } from './constants';
+import {
+  DB_CONNECT_ACTION,
+  DB_REGISTER_ADMIN_ACTION,
+  DB_GET_LOGIN_ACTIVITIES_ACTION
+} from './constants';
 
 export const appStartupReducer = (
   state: AppStartupState,
@@ -31,6 +35,28 @@ export const appStartupReducer = (
         isDatabaseConnecting: false,
         isDatabaseConnected: true,
         isDatabaseReady: !!payload?.response?.isDatabaseReady
+      };
+    }
+
+    /* ------------------------- DB_GET_LOGIN_ACTIVITIES ------------------------ */
+    case DB_GET_LOGIN_ACTIVITIES_ACTION.REQUEST: {
+      return {
+        ...state,
+        isGettingLoginActivities: true
+      };
+    }
+    case DB_GET_LOGIN_ACTIVITIES_ACTION.FAILURE: {
+      return {
+        ...state,
+        isGettingLoginActivities: false
+      };
+    }
+    case DB_GET_LOGIN_ACTIVITIES_ACTION.SUCCESS: {
+      console.log(payload);
+      return {
+        ...state,
+        isGettingLoginActivities: false,
+        lsatLoggedInUser: payload?.response?.loginActivities?.[0]
       };
     }
 

@@ -34,11 +34,13 @@ export const printResultLog = <ParamType extends { requestAction: string }>({
   method,
   route,
   params,
+  result,
   error
 }: {
   method?: Method;
   route?: Route;
   params: ParamType;
+  result?: any;
   error?: Error;
 }) => {
   if (app.isPackaged) return;
@@ -50,14 +52,15 @@ export const printResultLog = <ParamType extends { requestAction: string }>({
     `${chalk.yellowBright(action)}` +
     (method ? `:  ${method}` : '') +
     (route ? ` ${route}` : '') +
-    (error ? `\n${error.message}` : '');
+    (error ? `\n${error.message}` : '') +
+    (result ? `\n${chalk.cyan(JSON.stringify(result))}` : '');
 
   console.log(log);
 };
 
 export const getAsyncRun =
   (db: sqlite.Database) =>
-  ({ query, params }: { query: string; params?: string[] }) =>
+  ({ query, params }: { query: string; params?: (number | string)[] }) =>
     new Promise<{ error?: Error }>((resolve) => {
       db.run(query, params, (error: Error | null) => {
         resolve({ ...(error && { error }) });
@@ -66,11 +69,23 @@ export const getAsyncRun =
 
 export const getAsyncGet =
   (db: sqlite.Database) =>
-  <T>({ query, params }: { query: string; params?: string[] }) =>
+  <T>({ query, params }: { query: string; params?: (number | string)[] }) =>
     new Promise<{ row?: T; error?: Error }>((resolve) => {
       db.get(query, params, (error: Error | null, row: T) => {
         resolve({
           ...(row && { row }),
+          ...(error && { error })
+        });
+      });
+    });
+
+export const getAsyncAll =
+  (db: sqlite.Database) =>
+  <T>({ query, params }: { query: string; params?: (number | string)[] }) =>
+    new Promise<{ rows?: T; error?: Error }>((resolve) => {
+      db.all(query, params, (error: Error | null, rows: T) => {
+        resolve({
+          ...(rows && { rows }),
           ...(error && { error })
         });
       });
@@ -98,12 +113,8 @@ export const handleCatchAndPrintLog = (
   }
 };
 
-export const buildSortQuery = <T>(
-  params: (T | string)[],
-  sortAttributes: SortAttribute<T>
-) =>
+export const buildSortQuery = <T>(sortAttributes: SortAttribute<T>) =>
   sortAttributes.reduce((query, [attribute, order]) => {
-    const addition = `? ?`;
-    params.push(attribute, order);
-    return query + (query.length ? ', ' : '') + addition;
-  }, '');
+    const addition = `${attribute} ${order}`;
+    return query + (query.length ? ', ' : 'ORDER BY ') + addition;
+  }, '') + '\n';

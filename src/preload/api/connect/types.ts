@@ -9,7 +9,8 @@ import {
   TAGS,
   REFUNDS,
   REFUND_ITEMS,
-  REFUND_TAXES
+  REFUND_TAXES,
+  LOGIN_ACTIVITIES
 } from '../tablesAndColumns';
 
 export type Table =
@@ -23,4 +24,5 @@ export type Table =
   | typeof TAGS
   | typeof REFUNDS
   | typeof REFUND_ITEMS
-  | typeof REFUND_TAXES;
+  | typeof REFUND_TAXES
+  | typeof LOGIN_ACTIVITIES;

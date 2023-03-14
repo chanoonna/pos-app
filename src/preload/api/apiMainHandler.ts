@@ -38,7 +38,8 @@ export const startDatabaseListeners = () => {
             break;
           }
           case ROUTE.LOGIN_ACTIVITIES: {
-            // result = await handleLoginActivities(request);
+            result = await handleLoginActivities(request);
+            break;
           }
           default: {
             const error = new Error(`Invalid route: ${route}`);

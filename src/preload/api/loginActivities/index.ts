@@ -21,12 +21,18 @@ export const handleLoginActivities = async ({
   });
 
   let result:
-    | { activities?: any[]; error?: Error; userFriendlyError?: string }
+    | {
+        loginActivities?: any[];
+        error?: Error;
+        userFriendlyError?: string;
+        total?: number;
+      }
     | undefined;
 
   switch (method) {
     case 'GET': {
       result = await getLoginActivities(params);
+      break;
     }
 
     default: {
@@ -45,6 +51,7 @@ export const handleLoginActivities = async ({
     method,
     params,
     route,
+    result,
     error: result.error
   });
 

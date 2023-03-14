@@ -12,11 +12,26 @@ export const REFUND_ITEMS = 'refund_items' as const;
 export const REFUND_TAXES = 'refund_taxes' as const;
 export const LOGIN_ACTIVITIES = 'login_activities' as const;
 
+export const TABLES = [
+  USERS,
+  CATEGORIES,
+  ITEMS,
+  TAXES,
+  SALES,
+  SALE_ITEMS,
+  SALE_TAXES,
+  TAGS,
+  REFUNDS,
+  REFUND_ITEMS,
+  REFUND_TAXES,
+  LOGIN_ACTIVITIES
+];
+
 /* ------------------------------ Table columns ----------------------------- */
 export const COLUMN = {
   [USERS]: {
     id: 'id' as const,
-    user_name: 'user_name' as const,
+    username: 'username' as const,
     password: 'password' as const,
     language: 'language' as const,
     text_size: 'text_size' as const,

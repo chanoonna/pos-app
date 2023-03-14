@@ -1,10 +1,7 @@
-/* -------------------------------- constants ------------------------------- */
-import { REQUEST_RESULT } from './constants';
-
 /* --------------------------------- imports -------------------------------- */
 import { app } from 'electron';
 import sqlite from 'sqlite3';
-import { getAsyncRun, getAsyncGet } from './utils';
+import { getAsyncRun, getAsyncGet, getAsyncAll } from './utils';
 
 const isPackaged = app.isPackaged;
 const sqlite3 = isPackaged ? sqlite : sqlite.verbose();
@@ -13,6 +10,7 @@ let db: sqlite.Database | undefined;
 
 export interface AsyncDB {
   run: ReturnType<typeof getAsyncRun>;
+  all: ReturnType<typeof getAsyncAll>;
   get: ReturnType<typeof getAsyncGet>;
 }
 export const dbAsync: AsyncDB = {} as AsyncDB;
@@ -33,6 +31,7 @@ export const connectDatabase = () =>
     if (db) {
       dbAsync.run = getAsyncRun(db);
       dbAsync.get = getAsyncGet(db);
+      dbAsync.all = getAsyncAll(db);
     }
 
     return response;

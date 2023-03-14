@@ -62,12 +62,12 @@ const tableCreationQuery = {
   [USERS]: `
     CREATE TABLE ${USERS} (
       ${COLUMN[USERS].id} INTEGER PRIMARY KEY AUTOINCREMENT,
-      ${COLUMN[USERS].user_name} TEXT NOT NULL,
+      ${COLUMN[USERS].username} TEXT NOT NULL,
       ${COLUMN[USERS].password} TEXT NOT NULL,
       ${COLUMN[USERS].language} TEXT DEFAULT 'eng',
       ${COLUMN[USERS].text_size} TEXT DEFAULT 'M',
       ${COLUMN[USERS].is_archived} INTEGER NOT NULL DEFAULT 0,
-      UNIQUE(${COLUMN[USERS].user_name})
+      UNIQUE(${COLUMN[USERS].username})
     )
 `,
   [CATEGORIES]: `

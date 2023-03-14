@@ -18,11 +18,10 @@ export const apiRequestHandler = {
     responseChannel: ResponseChannel,
     { method, route, params }: { method: Method; route: Route; params: V }
   ) => {
-    ipcRenderer.send(API, {
+    ipcRenderer.send(API, responseChannel, {
       method,
       route,
-      params,
-      responseChannel
+      params
     });
   },
   on: <T extends BaseListener>(
