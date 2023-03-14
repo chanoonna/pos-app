@@ -1,54 +1,64 @@
-/* --------------------------------- imports -------------------------------- */
-import { useState, useEffect } from 'react';
+/* -------------------------------- constants ------------------------------- */
+import { DB_GET_LOGIN_ACTIVITIES } from 'preload/api/loginActivities/constants';
 
+/* --------------------------------- imports -------------------------------- */
+import { useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container/PageContainer';
 import { colors } from 'style/theme';
-import { useInitializationRequest } from 'utils/requests/initialization/useInitializationRequest';
-import { Language } from '../SettingsModule/types';
+import { useAppStartupState } from 'renderer/utils/requests/appStartup/useAppStartupState';
+import { LanguageCode } from '../SettingsModule/types';
+import { LanguageSelect } from './LanguageSelect';
+import { SET_LANGUAGE } from 'utils/requests/appStartup/constants';
+import { LANGUAGE } from '../SettingsModule/constants';
 
 export const StartupMain = () => {
-  const [state, setState] = useState({
-    username: '',
-    password: '',
-    language: Language.Eng
-  });
-  const { initilizationState, connect, checkTables, createTables, callApi } =
-    useInitializationRequest();
-
-  console.log(state);
-  console.log(initilizationState);
+  const { appStartupState, connect, callApi, dispatch } = useAppStartupState();
 
   useEffect(() => {
-    if (!initilizationState.isDatabaseConnected) {
+    if (!appStartupState.isDatabaseConnected) {
       connect();
     }
-  }, [connect, initilizationState.isDatabaseConnected]);
-  useEffect(() => {
-    if (initilizationState.isDatabaseConnected) {
-      checkTables();
-    }
-  }, [checkTables, initilizationState.isDatabaseConnected]);
+  }, [connect, appStartupState.isDatabaseConnected]);
+
   useEffect(() => {
     if (
-      initilizationState.isTableExistenceChecked &&
-      !initilizationState.isAlltheTablesCreated
+      appStartupState.isDatabaseReady &&
+      !appStartupState.lastLoggedInUser.id
     ) {
-      createTables();
+      callApi({
+        method: 'GET',
+        route: '/login_activities',
+        requestAction: DB_GET_LOGIN_ACTIVITIES,
+        params: {
+          limit: 1,
+          offset: 0,
+          sortAttributes: [['date', 'DESC']]
+        }
+      });
     }
   }, [
-    createTables,
-    initilizationState.isTableExistenceChecked,
-    initilizationState.isAlltheTablesCreated
+    appStartupState.isDatabaseReady,
+    appStartupState.lastLoggedInUser,
+    callApi
   ]);
 
   return (
     <PageContainer alignItems="center" flexDirection="column">
-      <CircularProgress
-        size={38}
-        thickness={5}
-        sx={{ color: colors.mediumBlue1 }}
-      />
+      {!appStartupState.lastLoggedInUser.language ? (
+        <LanguageSelect
+          language={LANGUAGE.ENGLISH.languageCode}
+          setLanguage={(language: LanguageCode) => {
+            dispatch({ type: SET_LANGUAGE, payload: { language } });
+          }}
+        />
+      ) : (
+        <CircularProgress
+          size={38}
+          thickness={5}
+          sx={{ color: colors.mediumBlue1 }}
+        />
+      )}
     </PageContainer>
   );
 };

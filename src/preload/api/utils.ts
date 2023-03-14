@@ -1,75 +1,120 @@
 /* ---------------------------------- types --------------------------------- */
-import { Method, Route } from './types';
+import type { Method, Route, SortAttribute } from './types';
+
+/* -------------------------------- constants ------------------------------- */
+import { ERROR_UNSPECIFIED, SORT_ASC, SORT_DESC } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
+import { app } from 'electron';
 import sqlite from 'sqlite3';
 import chalk from 'chalk';
 import isEmpty from 'lodash/isEmpty';
 
-export const printResponseLog = <
-  BodyType extends { requestAction: string },
-  ErrorType = unknown
->({
-  method,
-  route,
-  body,
-  error
-}: {
-  method?: Method;
-  route?: Route;
-  body: BodyType;
-  error?: ErrorType;
-}) => {
-  const action = error
-    ? chalk.red(`${body.requestAction}_FAILURE`)
-    : chalk.green(`${body.requestAction}_SUCCESS`);
-  const log =
-    `${chalk.yellowBright(action)}` +
-    (method ? `:  ${method}` : '') +
-    (route ? ` ${route}` : '');
-
-  console.log(log);
-};
 export const printRequestLog = <T = unknown>({
   method,
   route,
-  body: _body
+  params: _params
 }: {
   method?: string;
   route?: string;
-  body: { requestAction: string } & T;
+  params: { requestAction: string } & T;
 }) => {
-  const { requestAction, ...body } = _body;
+  if (app.isPackaged) return;
+
+  const { requestAction, ...params } = _params;
   const log =
     `${chalk.yellowBright(`${requestAction}_REQUEST`)}` +
     (method ? `:  ${method}` : '') +
     (route ? ` ${route}` : '');
 
-  console.log(log, isEmpty(body) ? '' : body);
+  console.log(log, isEmpty(params) ? '' : params);
+};
+
+export const printResultLog = <ParamType extends { requestAction: string }>({
+  method,
+  route,
+  params,
+  result,
+  error
+}: {
+  method?: Method;
+  route?: Route;
+  params: ParamType;
+  result?: any;
+  error?: Error;
+}) => {
+  if (app.isPackaged) return;
+
+  const action = error
+    ? chalk.red(`${params.requestAction}_FAILURE`)
+    : chalk.green(`${params.requestAction}_SUCCESS`);
+  const log =
+    `${chalk.yellowBright(action)}` +
+    (method ? `:  ${method}` : '') +
+    (route ? ` ${route}` : '') +
+    (error ? `\n${error.message}` : '') +
+    (result ? `\n${chalk.cyan(JSON.stringify(result))}` : '');
+
+  console.log(log);
 };
 
 export const getAsyncRun =
   (db: sqlite.Database) =>
-  async ({ query, params }: { query: string; params?: string[] }) =>
-    new Promise<{
-      error?: Error | null;
-    }>((resolve) => {
+  ({ query, params }: { query: string; params?: (number | string)[] }) =>
+    new Promise<{ error?: Error }>((resolve) => {
       db.run(query, params, (error: Error | null) => {
-        resolve({ error });
+        resolve({ ...(error && { error }) });
       });
     });
 
 export const getAsyncGet =
   (db: sqlite.Database) =>
-  async <RowType>({ query, params }: { query: string; params?: string[] }) =>
-    new Promise<{
-      row?: RowType;
-      error?: Error;
-    }>((resolve) => {
-      db.get(query, params, (error: Error | null, row: RowType) => {
+  <T>({ query, params }: { query: string; params?: (number | string)[] }) =>
+    new Promise<{ row?: T; error?: Error }>((resolve) => {
+      db.get(query, params, (error: Error | null, row: T) => {
         resolve({
-          row,
+          ...(row && { row }),
           ...(error && { error })
         });
       });
     });
+
+export const getAsyncAll =
+  (db: sqlite.Database) =>
+  <T>({ query, params }: { query: string; params?: (number | string)[] }) =>
+    new Promise<{ rows?: T; error?: Error }>((resolve) => {
+      db.all(query, params, (error: Error | null, rows: T) => {
+        resolve({
+          ...(rows && { rows }),
+          ...(error && { error })
+        });
+      });
+    });
+
+export const handleCatchAndPrintLog = (
+  error: unknown,
+  requestAction: string
+) => {
+  if (error instanceof Error) {
+    printResultLog({
+      params: { requestAction },
+      error
+    });
+
+    return error;
+  } else {
+    const error = new Error(ERROR_UNSPECIFIED);
+    printResultLog({
+      params: { requestAction },
+      error
+    });
+
+    return error;
+  }
+};
+
+export const buildSortQuery = <T>(sortAttributes: SortAttribute<T>) =>
+  sortAttributes.reduce((query, [attribute, order]) => {
+    const addition = `${attribute} ${order}`;
+    return query + (query.length ? ', ' : 'ORDER BY ') + addition;
+  }, '') + '\n';

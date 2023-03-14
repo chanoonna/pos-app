@@ -4,18 +4,17 @@ import { LanguageCode } from 'SettingsModule/types';
 import { LANGUAGE } from 'SettingsModule/constants';
 
 const Component = {
-  Login: 'Login'
+  AppSetup: 'AppSetup'
 } as const;
 
 interface Labels {
-  [Component.Login]: {
-    login: string;
-    username: string;
-    password: string;
+  [Component.AppSetup]: {
+    selectLanguage: string;
+    language: string;
   };
 }
 
 export const labels: Record<LanguageCode, Labels> = {
-  [LANGUAGE.KOREAN.languageCode]: korean,
-  [LANGUAGE.ENGLISH.languageCode]: english
+  [LANGUAGE.ENGLISH.languageCode]: english,
+  [LANGUAGE.KOREAN.languageCode]: korean
 };

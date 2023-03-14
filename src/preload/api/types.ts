@@ -3,7 +3,9 @@ import {
   API_RESPONSE_CHANNEL,
   METHOD,
   ROUTE,
-  REQUEST_RESULT
+  REQUEST_RESULT,
+  SORT_ASC,
+  SORT_DESC
 } from './constants';
 
 export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
@@ -12,20 +14,21 @@ export type Route = (typeof ROUTE)[keyof typeof ROUTE];
 
 export type BaseListener = (_event: IpcRendererEvent, ...args: any[]) => void;
 
-export interface Request<T = unknown> {
-  responseChannel: ResponseChannel;
+export interface Request<T extends { requestAction: string }> {
   method?: Method;
   route?: Route;
-  body: { requestAction: string } & T;
+  Params: T;
 }
 
 export interface Response<
   ResponseType = unknown,
   ErrorType = unknown,
-  BodyType = unknown
+  ParamType = unknown
 > {
   result: keyof typeof REQUEST_RESULT;
   response?: ResponseType;
   error?: ErrorType;
-  requestBody: { requestAction: string } & BodyType;
+  requestParams: { requestAction: string } & ParamType;
 }
+
+export type SortAttribute<T> = [T, typeof SORT_ASC | typeof SORT_DESC][];

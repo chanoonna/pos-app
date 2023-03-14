@@ -3,45 +3,67 @@ import type { IpcMainEvent } from 'electron';
 import type { ResponseChannel, Method, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API_MAIN } from './constants';
+import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
-import { printRequestLog, printResponseLog } from './utils';
-import { appStartupListener } from './listeners';
+import { handleCatchAndPrintLog } from './utils';
+import { handleConnect } from './connect';
+import { handleLoginActivities } from './loginActivities';
 
 export const startDatabaseListeners = () => {
-  appStartupListener();
-
   ipcMain.on(
-    API_MAIN,
+    API,
     async (
       event: IpcMainEvent,
-      {
-        method,
-        route,
-        body,
-        responseChannel
-      }: {
+      responseChannel: ResponseChannel,
+      request: {
         method: Method;
         route: Route;
-        body: {
+        params: {
           requestAction: string;
           [key: string]: any;
         };
-        responseChannel: ResponseChannel;
       }
     ) => {
-      printRequestLog({ method, route, body });
+      const { route, params } = request;
+      let result:
+        | { error?: Error; userFriendlyError?: string; [key: string]: any }
+        | undefined;
 
-      switch (route) {
-        default: {
-          event.reply(responseChannel, {
-            requestBody: body,
-            error: Error(`Invalid route: ${route}`)
-          });
+      try {
+        switch (route) {
+          case ROUTE.CONNECT: {
+            result = await handleConnect();
+            break;
+          }
+          case ROUTE.LOGIN_ACTIVITIES: {
+            result = await handleLoginActivities(request);
+            break;
+          }
+          default: {
+            const error = new Error(`Invalid route: ${route}`);
+
+            result = {
+              error,
+              userFriendlyError: error.message
+            };
+          }
         }
+      } catch (error) {
+        result = {
+          error: handleCatchAndPrintLog(error, params.requestAction),
+          userFriendlyError: `${ERROR_UNSPECIFIED} while processing ${params.requestAction}`
+        };
       }
+
+      const { error, userFriendlyError, ...response } = result;
+
+      event.reply(responseChannel, {
+        requestParams: params,
+        response,
+        ...(userFriendlyError && { error: userFriendlyError })
+      });
     }
   );
 };

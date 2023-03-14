@@ -1,5 +1,5 @@
 import { Module } from 'modules/types';
-import { Language } from 'SettingsModule/types';
+import { LanguageCode } from 'SettingsModule/types';
 
 export interface AppDataState {
   auth: {
@@ -11,7 +11,7 @@ export interface AppDataState {
     name: string;
   };
   currentModule: Module;
-  language: Language;
+  language: LanguageCode;
 }
 
 export enum AppDataActionType {
@@ -53,7 +53,7 @@ export interface NavigateToAction {
 export interface SetLanguageAction {
   type: AppDataActionType.SetLanguage;
   payload: {
-    language: Language;
+    language: LanguageCode;
   };
 }
 

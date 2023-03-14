@@ -2,21 +2,26 @@
 import type { BaseListener, Method, ResponseChannel, Route } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API_STARTUP, API_MAIN } from './constants';
+import { API, API_RESPONSE_CHANNEL, DB_CONNECT, ROUTE } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcRenderer } from 'electron';
 
 export const apiRequestHandler = {
+  connect: () => {
+    ipcRenderer.send(API, API_RESPONSE_CHANNEL.DB_STARTUP, {
+      route: ROUTE.CONNECT,
+      params: { requestAction: DB_CONNECT }
+    });
+  },
   request: <T, V extends { requestAction: T }>(
     responseChannel: ResponseChannel,
-    { method, route, body }: { method: Method; route: Route; body: V }
+    { method, route, params }: { method: Method; route: Route; params: V }
   ) => {
-    ipcRenderer.send(API_MAIN, {
+    ipcRenderer.send(API, responseChannel, {
       method,
       route,
-      body,
-      responseChannel
+      params
     });
   },
   on: <T extends BaseListener>(

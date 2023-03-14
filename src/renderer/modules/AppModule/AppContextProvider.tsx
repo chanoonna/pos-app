@@ -2,19 +2,19 @@ import { useMemo, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import { Module } from 'modules/types';
 import { AppDataState } from './types';
-import { Language } from 'SettingsModule/types';
+import { LanguageCode } from 'SettingsModule/types';
 
 interface AppDataProviderProps {
   navigateTo: (module: Module) => void;
   authenticate: (username: string, password: string) => void;
-  setLanguage: (language: Language) => void;
+  setLanguage: (language: LanguageCode) => void;
   logOut: () => void;
   state: AppDataState;
 }
 
 type AppContextValues = Omit<AppDataProviderProps, 'state'> & {
   currentModule: Module;
-  language: Language;
+  language: LanguageCode;
 };
 
 export const AppContextProvider = ({

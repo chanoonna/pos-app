@@ -3,11 +3,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 
 import { labels } from './constants';
-import { Language } from '../SettingsModule/types';
+import { LanguageCode } from '../SettingsModule/types';
 
 interface NavSearchProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  language: Language;
+  language: LanguageCode;
 }
 
 export const NavSearch = ({ onChange, language }: NavSearchProps) => {

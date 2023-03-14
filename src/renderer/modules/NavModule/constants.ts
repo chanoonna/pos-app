@@ -1,6 +1,7 @@
 import english from './english.json';
 import korean from './korean.json';
-import { Language } from 'SettingsModule/types';
+import { LanguageCode } from 'SettingsModule/types';
+import { LANGUAGE } from 'SettingsModule/constants';
 
 const Component = {
   NavSearch: 'NavSearch',
@@ -25,7 +26,7 @@ interface Labels {
   };
 }
 
-export const labels: Record<Language, Labels> = {
-  [Language.Kor]: korean,
-  [Language.Eng]: english
+export const labels: Record<LanguageCode, Labels> = {
+  [LANGUAGE.KOREAN.languageCode]: korean,
+  [LANGUAGE.ENGLISH.languageCode]: english
 };

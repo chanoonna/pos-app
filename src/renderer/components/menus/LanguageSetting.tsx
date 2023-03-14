@@ -1,3 +1,10 @@
+/* ---------------------------------- types --------------------------------- */
+import type { LanguageCode } from 'SettingsModule/types';
+
+/* -------------------------------- constants ------------------------------- */
+import { LANGUAGE } from 'SettingsModule/constants';
+
+/* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
 import TranslateIcon from '@mui/icons-material/Translate';
 import IconButton from '@mui/material/IconButton';
@@ -5,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 import { useAppContext } from 'AppModule/AppContextProvider';
-import { Language } from 'SettingsModule/types';
 
 export const LanguageSetting = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
@@ -42,17 +48,17 @@ export const LanguageSetting = () => {
         onClose={toggleLanguageMenu}
         sx={{ maxHeight: '24rem' }}
       >
-        {Object.values(Language).map((language, index) => (
+        {Object.values(LANGUAGE).map(({ languageCode, languageLabel }) => (
           <MenuItem
-            key={language}
+            key={languageCode}
             onClick={(e) => {
-              if (language !== currentLanguage) {
-                setLanguage(language);
+              if (languageCode !== currentLanguage) {
+                setLanguage(languageCode);
               }
               toggleLanguageMenu(e);
             }}
           >
-            {language}
+            {languageLabel}
           </MenuItem>
         ))}
       </Menu>

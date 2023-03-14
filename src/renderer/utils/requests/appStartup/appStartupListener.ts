@@ -1,24 +1,21 @@
 /* ---------------------------------- types --------------------------------- */
 import type { IpcRendererEvent } from 'electron';
 import type { Dispatch } from 'react';
-import type {
-  InitializationRequestAction,
-  ConnectDatabaseRequest
-} from './types';
+import type { AppStartupRequestAction, ConnectDatabaseRequest } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { INITIALIZATION_REQUEST } from './constants';
+import { APP_STARTUP_REQUEST } from './constants';
 
-export const getInitializationRequestListener =
-  (dispatch: Dispatch<InitializationRequestAction>) =>
+export const getAppStartupRequestListener =
+  (dispatch: Dispatch<AppStartupRequestAction>) =>
   (
     _: IpcRendererEvent,
     {
-      requestBody,
+      requestParams,
       error,
       response
     }: {
-      requestBody: {
+      requestParams: {
         requestAction: ConnectDatabaseRequest;
         [key: string]: any;
       };
@@ -28,8 +25,8 @@ export const getInitializationRequestListener =
   ) => {
     dispatch({
       type: error
-        ? INITIALIZATION_REQUEST[requestBody.requestAction].FAILURE
-        : INITIALIZATION_REQUEST[requestBody.requestAction].SUCCESS,
+        ? APP_STARTUP_REQUEST[requestParams.requestAction].FAILURE
+        : APP_STARTUP_REQUEST[requestParams.requestAction].SUCCESS,
       payload: { response, error }
     });
   };
