@@ -1,8 +1,8 @@
 /* ---------------------------------- types --------------------------------- */
-import { Method, Route } from './types';
+import type { Method, Route, SortAttribute } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { ERROR_UNSPECIFIED } from './constants';
+import { ERROR_UNSPECIFIED, SORT_ASC, SORT_DESC } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { app } from 'electron';
@@ -97,3 +97,13 @@ export const handleCatchAndPrintLog = (
     return error;
   }
 };
+
+export const buildSortQuery = <T>(
+  params: (T | string)[],
+  sortAttributes: SortAttribute<T>
+) =>
+  sortAttributes.reduce((query, [attribute, order]) => {
+    const addition = `? ?`;
+    params.push(attribute, order);
+    return query + (query.length ? ', ' : '') + addition;
+  }, '');

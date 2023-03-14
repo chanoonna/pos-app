@@ -6,10 +6,8 @@ import {
   SORTBY_duration
 } from './constants';
 
-type Attribute =
+export type LoginActivitiesSortAttribute =
   | typeof SORTBY_username
   | typeof SORTBY_loginTime
   | typeof SORTBY_logoutTime
   | typeof SORTBY_duration;
-
-export type LoginActivitiesSortAttribute = SortAttribute<Attribute>;
