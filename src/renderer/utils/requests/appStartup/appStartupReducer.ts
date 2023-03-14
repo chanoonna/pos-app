@@ -5,7 +5,8 @@ import type { AppStartupState, AppStartupRequestAction } from './types';
 import {
   DB_CONNECT_ACTION,
   DB_REGISTER_ADMIN_ACTION,
-  DB_GET_LOGIN_ACTIVITIES_ACTION
+  DB_GET_LOGIN_ACTIVITIES_ACTION,
+  SET_LANGUAGE
 } from './constants';
 
 export const appStartupReducer = (
@@ -15,6 +16,16 @@ export const appStartupReducer = (
   const { type, payload } = action;
 
   switch (type) {
+    /* ------------------------------ SET_LANGUAGE ------------------------------ */
+    case SET_LANGUAGE: {
+      return {
+        ...state,
+        lastUserSetting: {
+          ...state.lastUserSetting,
+          ...(payload?.language && { language: payload.language })
+        }
+      };
+    }
     /* ------------------------------- CONNECT_DB ------------------------------- */
     case DB_CONNECT_ACTION.REQUEST: {
       return {

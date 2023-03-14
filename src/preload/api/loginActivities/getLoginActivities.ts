@@ -45,6 +45,12 @@ export const getLoginActivities = async ({
       query: `SELECT COUNT(*) as total FROM ${LOGIN_ACTIVITIES}`
     });
 
+    // await dbAsync.run({
+    //   query: `UPDATE users
+    //   SET language = '', column2 = 'new_value2', ...
+    //   WHERE id = 123`
+    // });
+
     return {
       loginActivities: result.rows,
       error: result.error,

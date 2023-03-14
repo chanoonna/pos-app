@@ -6,6 +6,8 @@ import { DB_GET_LOGIN_ACTIVITIES } from 'preload/api/loginActivities/constants';
 /* --------------------------------- imports -------------------------------- */
 import { createRequestTypeMap } from '../utils';
 
+export const SET_LANGUAGE = 'SET_LANGUAGE' as const;
+
 export const DB_CONNECT_ACTION = createRequestTypeMap(DB_CONNECT);
 export const DB_REGISTER_ADMIN_ACTION = createRequestTypeMap(DB_REGISTER_ADMIN);
 export const DB_GET_LOGIN_ACTIVITIES_ACTION = createRequestTypeMap(

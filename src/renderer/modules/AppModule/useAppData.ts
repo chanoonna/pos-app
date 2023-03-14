@@ -7,13 +7,14 @@ import once from 'lodash/once';
 /* ---------------------------------- types --------------------------------- */
 
 import { Module } from 'modules/types';
-import { Language } from 'SettingsModule/types';
+import { LanguageCode } from 'SettingsModule/types';
 import { AppDataActionType, AppDataState, AppDataAction } from './types';
+import { LANGUAGE } from '../SettingsModule/constants';
 
 const initialState: AppDataState = {
   auth: { isAuthenticating: false, isAuthenticated: true },
   user: undefined,
-  language: Language.Kor,
+  language: LANGUAGE.KOREAN.languageCode,
   currentModule: Module.Startup
 };
 
@@ -36,7 +37,7 @@ const getActions = once((dispatch: Dispatch<AppDataAction>) => ({
       payload: { isAuthenticated: true }
     });
   },
-  setLanguage: (language: Language) => {
+  setLanguage: (language: LanguageCode) => {
     dispatch({ type: AppDataActionType.SetLanguage, payload: { language } });
   },
   logOut: () => {

@@ -9,6 +9,7 @@ type PageContainerProps = Pick<
   | 'width'
   | 'marginTop'
   | 'flexDirection'
+  | 'rowGap'
 > & {
   children: ReactNode;
 };
@@ -20,7 +21,8 @@ export const PageContainer = ({
   height = '100%',
   width = '100%',
   flexDirection = 'row',
-  marginTop
+  marginTop,
+  rowGap
 }: PageContainerProps) => (
   <Container
     sx={{
@@ -30,7 +32,8 @@ export const PageContainer = ({
       flexDirection,
       height,
       width,
-      marginTop
+      marginTop,
+      rowGap
     }}
   >
     {children}

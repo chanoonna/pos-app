@@ -3,11 +3,12 @@ import { DB_CONNECT } from 'preload/api/constants';
 import { DB_REGISTER_ADMIN } from 'preload/api/connect/constants';
 import { DB_GET_LOGIN_ACTIVITIES } from 'preload/api/loginActivities/constants';
 import {
+  SET_LANGUAGE,
   DB_CONNECT_ACTION,
   DB_REGISTER_ADMIN_ACTION,
   DB_GET_LOGIN_ACTIVITIES_ACTION
 } from './constants';
-import { Language } from 'SettingsModule/types';
+import { LanguageCode } from 'SettingsModule/types';
 
 /* -------------------------- Initialization State -------------------------- */
 
@@ -25,8 +26,8 @@ export interface AppStartupState {
     username: string;
     date: string;
   };
-  lastUserSetting?: {
-    language: Language;
+  lastUserSetting: {
+    language?: LanguageCode;
   };
 }
 
@@ -44,9 +45,16 @@ type RegisterAdminRequestActionType =
   (typeof DB_REGISTER_ADMIN_ACTION)[keyof typeof DB_REGISTER_ADMIN_ACTION];
 type GetLoginActivitiesRequestActionType =
   (typeof DB_GET_LOGIN_ACTIVITIES_ACTION)[keyof typeof DB_GET_LOGIN_ACTIVITIES_ACTION];
+type SetLanguageActionType = typeof SET_LANGUAGE;
 
 /* ------------------------- Initialization Actions ------------------------- */
 
+interface SetLanguageAction {
+  type: SetLanguageActionType;
+  payload?: {
+    language: LanguageCode;
+  };
+}
 interface ConnectDatabaseRequestAction {
   type: ConnectDatabaseRequestActionType;
   payload?: {
@@ -80,6 +88,7 @@ interface RegisterAdminRequestAction {
 }
 
 export type AppStartupRequestAction =
+  | SetLanguageAction
   | ConnectDatabaseRequestAction
   | GetLoginActivitiesAction
   | RegisterAdminRequestAction;

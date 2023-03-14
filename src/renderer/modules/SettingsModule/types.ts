@@ -1,9 +1,4 @@
-export enum Language {
-  Eng = 'Engish',
-  Kor = '한국어'
-}
+import { ENGLISH, KOREAN, LANGUAGE } from './constants';
 
-export type Languages = Record<
-  Language,
-  Record<string, Record<string, string>>
->;
+export type LanguageCode = typeof ENGLISH | typeof KOREAN;
+export type Language = typeof LANGUAGE;

@@ -21,7 +21,9 @@ const initialState: AppStartupState = {
   isAdminRegistrationFailed: false,
   isGettingLoginActivities: false,
   lsatLoggedInUser: undefined,
-  lastUserSetting: undefined
+  lastUserSetting: {
+    language: undefined
+  }
 };
 
 export const useAppStartupState = () => {
@@ -76,5 +78,5 @@ export const useAppStartupState = () => {
     };
   }, []);
 
-  return { appStartupState, callApi, connect };
+  return { appStartupState, callApi, connect, dispatch };
 };
