@@ -1,9 +1,7 @@
-import type { IpcRendererEvent } from 'electron';
 import {
   API_RESPONSE_CHANNEL,
   METHOD,
   ROUTE,
-  REQUEST_RESULT,
   SORT_ASC,
   SORT_DESC
 } from './constants';
@@ -12,23 +10,26 @@ export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
 export type Method = keyof typeof METHOD;
 export type Route = (typeof ROUTE)[keyof typeof ROUTE];
 
-export type BaseListener = (_event: IpcRendererEvent, ...args: any[]) => void;
+export type DataRequest<T = undefined> = T extends undefined
+  ? {
+      route: Route;
+      method: Method;
+      params?: any;
+    }
+  : {
+      route: Route;
+      method: Method;
+      params: T;
+    };
 
-export interface Request<T extends { requestAction: string }> {
-  method?: Method;
-  route?: Route;
-  Params: T;
-}
-
-export interface Response<
-  ResponseType = unknown,
-  ErrorType = unknown,
-  ParamType = unknown
-> {
-  result: keyof typeof REQUEST_RESULT;
-  response?: ResponseType;
-  error?: ErrorType;
-  requestParams: { requestAction: string } & ParamType;
-}
+export type DataResponse<T = undefined> = T extends undefined
+  ? {
+      response?: any;
+      error?: Error;
+    }
+  : {
+      response: T;
+      error?: Error;
+    };
 
 export type SortAttribute<T> = [T, typeof SORT_ASC | typeof SORT_DESC][];

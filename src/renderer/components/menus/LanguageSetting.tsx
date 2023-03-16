@@ -11,11 +11,13 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import { useAppContext } from 'AppModule/AppContextProvider';
+import { useAppContext } from 'renderer/modules/AppModule';
 
 export const LanguageSetting = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
-  const { setLanguage, language: currentLanguage } = useAppContext();
+  const {
+    user: { language: currentLanguage }
+  } = useAppContext();
 
   const toggleLanguageMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
@@ -53,7 +55,7 @@ export const LanguageSetting = () => {
             key={languageCode}
             onClick={(e) => {
               if (languageCode !== currentLanguage) {
-                setLanguage(languageCode);
+                // setLanguage(languageCode);
               }
               toggleLanguageMenu(e);
             }}

@@ -14,13 +14,11 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["src/*", "src/renderer/*", "src/renderer/modules/*", "src/renderer/utils/*"],
-      "utils/*": ["src/renderer/utils/*"],
-      "modules/*": ["src/renderer/modules/*"],
-      "App/*": ["src/renderer/App/*"],
+      "*": ["src/*", "src/renderer/*", "src/renderer/modules/*"],
+      "api/*": ["src/renderer/api/*"],
+      "models/*": ["src/renderer/models/*"],
       "style/*": ["src/renderer/style/*"],
-      "components/*": ["src/renderer/components/*"],
-      "contexts/*": ["src/renderer/components/contexts/*"]
+      "components/*": ["src/renderer/components/*"]
     }
   },
   "include": ["src", "configs"],

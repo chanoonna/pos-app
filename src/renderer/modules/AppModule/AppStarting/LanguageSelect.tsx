@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 import { PageContainer } from 'components/container/PageContainer';
-import { LANGUAGE } from '../SettingsModule/constants';
+import { LANGUAGE } from '../../SettingsModule/constants';
 
 export const LanguageSelect = ({
   language,

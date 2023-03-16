@@ -10,14 +10,16 @@ import IconButton from '@mui/material/IconButton';
 import { colors } from 'style/theme';
 import { NavSearch } from './NavSearch';
 import { NavMenu } from './NavMenu';
-import { useAppContext } from 'AppModule/AppContextProvider';
+import { useAppContext } from 'renderer/modules/AppModule';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
-import { Module } from '../types';
 
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
-  const { currentModule, language, logOut } = useAppContext();
+  const {
+    user: { language },
+    logOut
+  } = useAppContext();
 
   const navBarLabels = labels[language].NavBar;
 
@@ -26,8 +28,6 @@ export const NavBar = () => {
   ) => {
     setSearchText(event.target.value);
   };
-
-  if (currentModule === Module.Auth) return null;
 
   return (
     <Box

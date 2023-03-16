@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { app, BrowserWindow } from 'electron';
 import { DIST_BUILD } from '../configs/paths';
 import { closeDatabase } from './preload/api/database';
-import { startDatabaseListeners } from './preload/api/apiMainHandler';
+import { startApiRequestHandlers } from './preload/api/ipcMain';
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -19,8 +19,6 @@ const createWindow = () => {
         : path.join(DIST_BUILD, 'preload.js')
     }
   });
-
-  startDatabaseListeners();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -46,6 +44,8 @@ const closeWindow = () => {
 
 app.whenReady().then(() => {
   console.log(chalk.yellowBright('App starting...'));
+
+  startApiRequestHandlers();
   createWindow();
 });
 app.on('window-all-closed', closeWindow);

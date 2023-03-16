@@ -1,4 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
+import type { DataRequest } from '../types';
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -18,40 +19,40 @@ import {
   COLUMN
 } from '../tablesAndColumns';
 import { ERROR_UNSPECIFIED } from '../constants';
-import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { dbAsync } from '../database';
-import { printRequestLog, printResultLog } from '../utils';
+import {
+  handleCatchAndPrintLog,
+  printRequestLog,
+  printResultLog
+} from '../utils';
 
 export const createTables = async (
-  uncreatedTables: Table[]
+  request: DataRequest<{ uncreatedTables: Table[] }>
 ): Promise<Table[]> => {
+  const uncreatedTables = request.params.uncreatedTables;
   const creationFailedTables: Table[] = [];
 
   for await (const tableName of uncreatedTables) {
+    printRequestLog(request);
+
     const query = tableCreationQuery[tableName];
-    const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
-    printRequestLog({ params: { requestAction } });
 
     try {
       const { error } = await dbAsync.run({
         query
       });
 
-      printResultLog({ params: { requestAction }, error });
+      printResultLog(request, { error });
       if (error) {
         creationFailedTables.push(tableName);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        printResultLog({ params: { requestAction }, error });
-      } else {
-        printResultLog({
-          params: { requestAction },
-          error: new Error(`${ERROR_UNSPECIFIED} while creating tables.`)
-        });
-      }
+      handleCatchAndPrintLog(request, {
+        error,
+        errorMessage: `${ERROR_UNSPECIFIED} while creating tables.`
+      });
     }
   }
 

@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
-import type { IpcMainEvent } from 'electron';
-import type { ResponseChannel, Method, Route } from './types';
+import type { IpcMainInvokeEvent } from 'electron';
+import type { DataRequest } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
@@ -10,30 +10,19 @@ import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
 import { handleConnect } from './connect';
 
-export const startDatabaseListeners = () => {
-  ipcMain.on(
+export const startApiRequestHandlers = () => {
+  ipcMain.handle(
     API,
-    async (
-      event: IpcMainEvent,
-      responseChannel: ResponseChannel,
-      request: {
-        method: Method;
-        route: Route;
-        params: {
-          requestAction: string;
-          [key: string]: any;
-        };
-      }
-    ) => {
-      const { route, params } = request;
+    async (_event: IpcMainInvokeEvent, request: DataRequest) => {
+      const { route } = request;
       let result:
-        | { error?: Error; userFriendlyError?: string; [key: string]: any }
+        | { error?: Error; userFriendlyError?: string; response?: any }
         | undefined;
 
       try {
         switch (route) {
           case ROUTE.CONNECT: {
-            result = await handleConnect();
+            result = await handleConnect(request);
             break;
           }
           default: {
@@ -46,19 +35,19 @@ export const startDatabaseListeners = () => {
           }
         }
       } catch (error) {
+        const userFriendlyError = `${ERROR_UNSPECIFIED} while processing the request for ${route}}`;
         result = {
-          error: handleCatchAndPrintLog(error, params.requestAction),
-          userFriendlyError: `${ERROR_UNSPECIFIED} while processing ${params.requestAction}`
+          error: handleCatchAndPrintLog(request, error, userFriendlyError),
+          userFriendlyError
         };
       }
 
       const { error, userFriendlyError, ...response } = result;
 
-      event.reply(responseChannel, {
-        requestParams: params,
+      return {
         response,
         ...(userFriendlyError && { error: userFriendlyError })
-      });
+      };
     }
   );
 };

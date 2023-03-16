@@ -26,6 +26,8 @@ export const METHOD = {
 
 export const ROUTE = {
   CONNECT: '/connect',
+  CHECK_TABLES: '/connect/check_tables',
+  CREATE_TABLES: '/connect/create_tables',
   AUTHENTICATION: '/authentication',
   USERS: '/users',
   SALES: '/sales',
@@ -37,7 +39,8 @@ export const ROUTE = {
   REFUND_TAXES: '/refund_taxes',
   CATEGORIES: '/categories',
   ITEMS: '/items',
-  TAGS: '/tags'
+  TAGS: '/tags',
+  LAST_USER: '/last_user'
 } as const;
 
 export const REQUEST_RESULT = {
@@ -46,7 +49,7 @@ export const REQUEST_RESULT = {
 } as const;
 
 /* ------------------------------- Base errors ------------------------------ */
-export const ERROR_UNSPECIFIED = 'ERROR_UNSPECIFIED';
+export const ERROR_UNSPECIFIED = 'Unspecified error';
 
 /* ----------------------------- DB init related ---------------------------- */
 export const ERROR_DATABASE_ALREADY_CONNECTED = 'DATABASE_ALREADY_CONNECTED';

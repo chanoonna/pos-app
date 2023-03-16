@@ -1,12 +1,19 @@
+import type { DataRequest } from '../types';
+
 /* -------------------------------- constants ------------------------------- */
 import { DB_GET_LAST_USER } from './constants';
 import { COLUMN, LAST_USER, USERS } from '../tablesAndColumns';
 
 /* --------------------------------- imports -------------------------------- */
-import { handleCatchAndPrintLog } from '../utils';
+import {
+  handleCatchAndPrintLog,
+  printRequestLog,
+  printResultLog
+} from '../utils';
 import { dbAsync } from '../database';
+import { ERROR_UNSPECIFIED } from '../constants';
 
-export interface LastLoggedUser {
+export interface LastUser {
   username: string;
   user_id: number;
   date: string;
@@ -14,11 +21,15 @@ export interface LastLoggedUser {
   access_level: number;
 }
 
-export const getLastUser = async (): Promise<{
-  lastLoggedUser?: LastLoggedUser;
+export const getLastUser = async (
+  request: DataRequest
+): Promise<{
+  lastUser?: LastUser;
   error?: Error;
   userFriendlyError?: string;
 }> => {
+  printRequestLog(request);
+
   const query = `SELECT ${USERS}.${COLUMN[USERS].id},
     ${USERS}.${COLUMN[USERS].username},
     ${LAST_USER}.${COLUMN[LAST_USER].date},
@@ -28,18 +39,23 @@ export const getLastUser = async (): Promise<{
     JOIN ${USERS} ON ${LAST_USER}.${COLUMN[LAST_USER].user_id} = ${USERS}.${COLUMN[USERS].id}`;
 
   try {
-    const result = await dbAsync.get<LastLoggedUser>({
+    const { row, error } = await dbAsync.get<LastUser>({
       query
     });
 
+    printResultLog(request, { response: row, error });
     return {
-      lastLoggedUser: result.row,
-      error: result.error
+      lastUser: row,
+      error: error
     };
   } catch (error) {
+    const userFriendlyError = `${ERROR_UNSPECIFIED} while getting previous loggedin user.`;
     return {
-      error: handleCatchAndPrintLog(error, DB_GET_LAST_USER),
-      userFriendlyError: `Error while getting previous loggedin user.`
+      error: handleCatchAndPrintLog(request, {
+        error,
+        errorMessage: userFriendlyError
+      }),
+      userFriendlyError
     };
   }
 };
