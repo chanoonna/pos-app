@@ -6,21 +6,27 @@ import type { AppStartingState } from './types';
 /* -------------------------------- constants ------------------------------- */
 import { LANGUAGE } from 'SettingsModule/constants';
 import { SELECT_LANGUAGE, CREATE_ADMIN, IMPORTANT_NOTICE } from './constants';
+import { COLOR_THEME, UI_SIZE } from 'style/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container';
 import { colors } from 'style/theme';
 import { SetupStepper } from './SetupStepper';
 import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
+import { theme } from 'style/theme';
 
 /* ------------------------------------ - ----------------------------------- */
 
 const initialState: AppStartingState = {
   step: 0,
   language: LANGUAGE.ENGLISH.languageCode,
+  uiSize: UI_SIZE.LARGE,
+  colorTheme: COLOR_THEME.DEFAULT,
   username: 'admin',
   password: '1234'
 };
@@ -54,37 +60,41 @@ export const AppStarting = ({
   };
 
   return (
-    <PageContainer
-      padding="2rem 0"
-      alignItems="center"
-      justifyContent={isConnected ? 'space-between' : 'center'}
-      flexDirection="column"
-    >
-      {isConnected ? (
-        <>
-          <SetupStepper
-            steps={STEPS}
-            activeStep={state.step}
-            language={state.language}
+    <ThemeProvider theme={theme[state.colorTheme]}>
+      <CssBaseline />
+      <PageContainer
+        padding="2rem 0"
+        alignItems="center"
+        justifyContent={isConnected ? 'space-between' : 'center'}
+        flexDirection="column"
+      >
+        {isConnected ? (
+          <>
+            <SetupStepper
+              steps={STEPS}
+              activeStep={state.step}
+              language={state.language}
+            />
+            {Component && (
+              <Component language={state.language} setLanguage={setLanguage} />
+            )}
+            <StepButtonGroup
+              language={state.language}
+              activeStep={state.step}
+              steps={STEPS}
+              onClickNext={onClickNext}
+              onClickBack={onClickBack}
+            />
+          </>
+        ) : (
+          <CircularProgress
+            size={38}
+            thickness={5}
+            sx={{ color: colors.mediumBlue1 }}
           />
-          {Component && (
-            <Component language={state.language} setLanguage={setLanguage} />
-          )}
-          <StepButtonGroup
-            language={state.language}
-            activeStep={state.step}
-            steps={STEPS}
-            onClickNext={onClickNext}
-            onClickBack={onClickBack}
-          />
-        </>
-      ) : (
-        <CircularProgress
-          size={38}
-          thickness={5}
-          sx={{ color: colors.mediumBlue1 }}
-        />
-      )}
-    </PageContainer>
+        )}
+      </PageContainer>
+      <CssBaseline />
+    </ThemeProvider>
   );
 };

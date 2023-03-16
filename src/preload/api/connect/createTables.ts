@@ -66,7 +66,8 @@ const tableCreationQuery = {
       ${COLUMN[USERS].username} TEXT NOT NULL,
       ${COLUMN[USERS].password} TEXT NOT NULL,
       ${COLUMN[USERS].language} TEXT DEFAULT 'eng',
-      ${COLUMN[USERS].text_size} TEXT DEFAULT 'M',
+      ${COLUMN[USERS].ui_size} TEXT DEFAULT 'large',
+      ${COLUMN[USERS].color_theme} TEXT DEFAULT 'default',
       ${COLUMN[USERS].is_archived} INTEGER NOT NULL DEFAULT 0,
       ${COLUMN[USERS].access_level} INTEGER NOT NULL DEFAULT 3,
       UNIQUE(${COLUMN[USERS].username})

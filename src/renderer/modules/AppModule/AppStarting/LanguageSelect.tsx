@@ -35,10 +35,10 @@ export const LanguageSelect = ({
 
   return (
     <PageContainer
+      marginTop="-5rem"
       height="fit-content"
-      justifyContent="center"
       flexDirection="column"
-      rowGap={3}
+      rowGap={1}
     >
       <h1>{setupLabels.pleaseSelectLanguage}</h1>
       <div>

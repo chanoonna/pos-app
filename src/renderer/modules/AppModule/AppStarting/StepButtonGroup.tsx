@@ -29,31 +29,18 @@ export const StepButtonGroup = ({
   return (
     <FlexContainer
       height="fit-content"
-      width="80%"
+      width="75%"
       justifyContent="space-between"
     >
       <Button
-        color="inherit"
+        // color="inherit"
+        size="large"
         disabled={activeStep === 0}
         onClick={onClickBack}
-        sx={{
-          px: '1rem',
-          width: 'fit-content',
-          height: 'fit-content',
-          fontSize: '1.5rem'
-        }}
       >
         Back
       </Button>
-      <Button
-        sx={{
-          px: '1rem',
-          width: 'fit-content',
-          height: 'fit-content',
-          fontSize: '1.5rem'
-        }}
-        onClick={onClickNext}
-      >
+      <Button size="large" onClick={onClickNext}>
         {activeStep === steps.length - 1 ? 'Start' : 'Next'}
       </Button>
     </FlexContainer>

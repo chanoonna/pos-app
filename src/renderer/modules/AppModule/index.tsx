@@ -11,11 +11,14 @@ import type { User } from 'models/user';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import { NavBar } from 'NavModule/NavBar';
 import { useAppContextData } from './useAppContextData';
 import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
+import { theme } from 'style/theme';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -31,7 +34,7 @@ export const App = () => {
   const { user, currentPage } = state;
 
   useEffect(() => {
-    const timeout = setTimeout(connect, 1500);
+    const timeout = setTimeout(connect, 0);
 
     return () => {
       clearTimeout(timeout);
@@ -41,19 +44,22 @@ export const App = () => {
   const MainComponent = appPageHash[currentPage];
 
   return user ? (
-    <AppContext.Provider
-      value={{
-        user,
-        currentPage,
-        navigateTo,
-        logOut
-      }}
-    >
-      <AppContainer>
-        <NavBar />
-        <MainComponent />
-      </AppContainer>
-    </AppContext.Provider>
+    <ThemeProvider theme={theme[user.colorTheme]}>
+      <CssBaseline />
+      <AppContext.Provider
+        value={{
+          user,
+          currentPage,
+          navigateTo,
+          logOut
+        }}
+      >
+        <AppContainer>
+          <NavBar />
+          <MainComponent />
+        </AppContainer>
+      </AppContext.Provider>
+    </ThemeProvider>
   ) : (
     <AppStarting isConnected={state.isConnected} navigateTo={navigateTo} />
   );
