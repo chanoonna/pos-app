@@ -55,9 +55,9 @@ export const AppStarting = ({
 
   return (
     <PageContainer
-      marginTop={isConnected ? '3rem' : 0}
+      padding="2rem 0"
       alignItems="center"
-      justifyContent={isConnected ? 'flex-start' : 'center'}
+      justifyContent={isConnected ? 'space-between' : 'center'}
       flexDirection="column"
     >
       {isConnected ? (

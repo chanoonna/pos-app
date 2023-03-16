@@ -35,8 +35,8 @@ export const LanguageSelect = ({
 
   return (
     <PageContainer
-      marginTop="10rem"
-      justifyContent="flexStart"
+      height="fit-content"
+      justifyContent="center"
       flexDirection="column"
       rowGap={3}
     >

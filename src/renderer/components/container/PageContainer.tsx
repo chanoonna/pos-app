@@ -1,39 +1,29 @@
 import type { ReactNode, CSSProperties } from 'react';
 import Container from '@mui/material/Container';
 
-type PageContainerProps = Pick<
-  CSSProperties,
-  | 'justifyContent'
-  | 'alignItems'
-  | 'height'
-  | 'width'
-  | 'marginTop'
-  | 'flexDirection'
-  | 'rowGap'
-> & {
+type PageContainerProps = CSSProperties & {
   children: ReactNode;
 };
 
 export const PageContainer = ({
   children,
+  display = 'flex',
   justifyContent = 'center',
   alignItems = 'center',
   height = '100%',
   width = '100%',
   flexDirection = 'row',
-  marginTop,
-  rowGap
+  ...styles
 }: PageContainerProps) => (
   <Container
     sx={{
-      display: 'flex',
+      display,
       justifyContent,
       alignItems,
       flexDirection,
       height,
       width,
-      marginTop,
-      rowGap
+      ...styles
     }}
   >
     {children}

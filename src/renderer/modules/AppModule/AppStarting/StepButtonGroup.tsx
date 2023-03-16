@@ -6,9 +6,9 @@ import type { Step } from './types';
 import { labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
-import { FlexContainer } from 'components/container';
-
 import Button from '@mui/material/Button';
+
+import { FlexContainer } from 'components/container';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -27,17 +27,33 @@ export const StepButtonGroup = ({
 }) => {
   const stepButtonLabels = labels[language];
   return (
-    <FlexContainer justifyContent="space-between">
+    <FlexContainer
+      height="fit-content"
+      width="80%"
+      justifyContent="space-between"
+    >
       <Button
         color="inherit"
-        size="large"
         disabled={activeStep === 0}
         onClick={onClickBack}
-        sx={{ mr: 1 }}
+        sx={{
+          px: '1rem',
+          width: 'fit-content',
+          height: 'fit-content',
+          fontSize: '1.5rem'
+        }}
       >
         Back
       </Button>
-      <Button size="large" onClick={onClickNext}>
+      <Button
+        sx={{
+          px: '1rem',
+          width: 'fit-content',
+          height: 'fit-content',
+          fontSize: '1.5rem'
+        }}
+        onClick={onClickNext}
+      >
         {activeStep === steps.length - 1 ? 'Start' : 'Next'}
       </Button>
     </FlexContainer>
