@@ -7,3 +7,4 @@ import { createRequestActionMap } from 'api/utils';
 export const CONNECT = createRequestActionMap(DB_CONNECT);
 export const NAVIGATE_TO = 'NAVIGATE_TO' as const;
 export const LOGOUT = 'LOGOUT' as const;
+export const SET_INITIAL_LANGUAGE = 'SET_INITIAL_LANGUAGE' as const;

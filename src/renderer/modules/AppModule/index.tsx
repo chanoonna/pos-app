@@ -31,7 +31,11 @@ export const App = () => {
   const { user, currentPage } = state;
 
   useEffect(() => {
-    connect();
+    const timeout = setTimeout(connect, 1500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [connect]);
 
   const MainComponent = appPageHash[currentPage];
@@ -51,7 +55,7 @@ export const App = () => {
       </AppContainer>
     </AppContext.Provider>
   ) : (
-    <AppStarting state={state} navigateTo={navigateTo} />
+    <AppStarting isConnected={state.isConnected} navigateTo={navigateTo} />
   );
 };
 

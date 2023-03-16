@@ -31,11 +31,16 @@ export const LanguageSelect = ({
     setIsOpen(true);
   };
 
-  const setupLabels = labels[language].AppSetup;
+  const setupLabels = labels[language];
 
   return (
-    <PageContainer marginTop="-3rem" flexDirection="column" rowGap={3}>
-      <h1>{setupLabels.selectLanguage}</h1>
+    <PageContainer
+      marginTop="10rem"
+      justifyContent="flexStart"
+      flexDirection="column"
+      rowGap={3}
+    >
+      <h1>{setupLabels.pleaseSelectLanguage}</h1>
       <div>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="select-language-label">

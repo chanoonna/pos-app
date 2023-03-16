@@ -1,6 +1,9 @@
 {
-  "AppSetup": {
-    "selectLanguage": "Select Language",
-    "language": "Language"
-  }
+  "language": "Language",
+  "pleaseSelectLanguage": "Please select a language",
+  "selectLanguage": "Select Language",
+  "createAdmin": "Create Admin Account",
+  "importantNotice": "Important Notice",
+  "next": "Next",
+  "back": "Back"
 }
