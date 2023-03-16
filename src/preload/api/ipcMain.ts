@@ -51,3 +51,7 @@ export const startApiRequestHandlers = () => {
     }
   );
 };
+
+export const closeApiRequestHandlers = () => {
+  ipcMain.removeHandler(API);
+};
