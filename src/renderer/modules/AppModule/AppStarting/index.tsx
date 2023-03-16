@@ -87,11 +87,7 @@ export const AppStarting = ({
             />
           </>
         ) : (
-          <CircularProgress
-            size={38}
-            thickness={5}
-            sx={{ color: colors.mediumBlue1 }}
-          />
+          <CircularProgress size={40} thickness={5} />
         )}
       </PageContainer>
       <CssBaseline />

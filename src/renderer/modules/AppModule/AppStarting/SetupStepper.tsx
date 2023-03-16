@@ -80,7 +80,7 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`& .${stepConnectorClasses.line}`]: {
     borderColor:
       theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
-    borderTopWidth: 3,
+    borderTopWidth: 4,
     borderRadius: 1
   }
 }));
@@ -97,11 +97,11 @@ const QontoStepIconRoot = styled('div')<{ ownerState: { active?: boolean } }>(
     '& .QontoStepIcon-completedIcon': {
       color: '#784af4',
       zIndex: 1,
-      fontSize: 18
+      fontSize: 30
     },
     '& .QontoStepIcon-circle': {
-      width: 8,
-      height: 8,
+      width: 10,
+      height: 10,
       borderRadius: '50%',
       backgroundColor: 'currentColor'
     }
