@@ -2,7 +2,7 @@
 import { LanguageCode } from 'SettingsModule/types';
 
 /* -------------------------------- constants ------------------------------- */
-import { labels } from './constants';
+import type { Labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
@@ -12,13 +12,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { PageContainer } from 'components/container/PageContainer';
+import { FlexContainer } from 'components/container/FlexContainer';
 import { LANGUAGE } from '../../SettingsModule/constants';
+import { HeadingLabel } from 'components/typography';
+import { UiSize } from 'renderer/style/types';
 
 export const LanguageSelect = ({
+  labels,
+  uiSize,
   language,
   setLanguage
 }: {
+  labels: Labels;
+  uiSize: UiSize;
   language: LanguageCode;
   setLanguage: (language: LanguageCode) => void;
 }) => {
@@ -31,22 +37,19 @@ export const LanguageSelect = ({
     setIsOpen(true);
   };
 
-  const setupLabels = labels[language];
-
   return (
-    <PageContainer
+    <FlexContainer
       marginTop="-5rem"
       height="fit-content"
       flexDirection="column"
       rowGap={1}
     >
-      <h1>{setupLabels.pleaseSelectLanguage}</h1>
+      <HeadingLabel uiSize={uiSize}>{labels.pleaseSelectLanguage}</HeadingLabel>
       <div>
-        <FormControl sx={{ m: 1, width: 300 }}>
-          <InputLabel id="select-language-label">
-            {setupLabels.language}
-          </InputLabel>
+        <FormControl sx={{ m: 1, width: '15rem' }}>
+          <InputLabel id="select-language-label">{labels.language}</InputLabel>
           <Select
+            size="medium"
             labelId="select-language-label"
             id="select-language"
             multiple
@@ -72,7 +75,7 @@ export const LanguageSelect = ({
           </Select>
         </FormControl>
       </div>
-    </PageContainer>
+    </FlexContainer>
   );
 };
 

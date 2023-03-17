@@ -46,10 +46,27 @@ const customThemeBase = {
     MuiButton: {
       variants: [
         {
+          props: { size: 'medium' },
+          style: {
+            fontSize: '1rem',
+            height: 'fit-content',
+            width: 'fit-content'
+          }
+        },
+        {
+          props: { size: 'large' },
+          style: {
+            fontSize: '1.15rem',
+            height: 'fit-content',
+            width: 'fit-content'
+          }
+        },
+        {
           props: { size: 'extraLarge' },
           style: {
-            fontSize: '1.5rem',
-            padding: '0.5rem 1em'
+            fontSize: '1.3rem',
+            height: 'fit-content',
+            width: 'fit-content'
           }
         }
       ]
@@ -80,6 +97,8 @@ export const theme = {
 
 declare module '@mui/material/Button' {
   interface ButtonPropsSizeOverrides {
+    medium: true;
+    large: true;
     extraLarge: true;
   }
 }

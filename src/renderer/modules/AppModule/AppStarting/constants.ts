@@ -3,7 +3,7 @@ import korean from './korean.json';
 import { LanguageCode } from 'SettingsModule/types';
 import { LANGUAGE } from 'SettingsModule/constants';
 
-interface Labels {
+export interface Labels {
   selectLanguage: string;
   language: string;
   pleaseSelectLanguage: string;
@@ -12,6 +12,14 @@ interface Labels {
   importantNotice: string;
   next: string;
   back: string;
+  start: string;
+  uiSize: string;
+  uiSizeMedium: string;
+  uiSizeLarge: string;
+  uiSizeExtraLarge: string;
+  colorTheme: string;
+  colorThemeDefault: string;
+  colorThemeDark: string;
 }
 
 export const labels: Record<LanguageCode, Labels> = {

@@ -1,10 +1,10 @@
-import { PageContainer } from 'components/container/PageContainer';
+import { FlexContainer } from 'renderer/components/container/FlexContainer';
 import { Login } from './Login';
 
 export const Authentication = () => {
   return (
-    <PageContainer>
+    <FlexContainer>
       <Login />
-    </PageContainer>
+    </FlexContainer>
   );
 };

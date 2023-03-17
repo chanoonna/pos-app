@@ -2,6 +2,7 @@
 import type { AppPage } from 'modules/types';
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
+import type { ColorTheme, UiSize } from 'style/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { LANGUAGE } from 'SettingsModule/constants';
@@ -9,7 +10,8 @@ import {
   SELECT_LANGUAGE,
   SYSTEM_SETTINGS,
   CREATE_ADMIN,
-  IMPORTANT_NOTICE
+  IMPORTANT_NOTICE,
+  labels
 } from './constants';
 import { COLOR_THEME, UI_SIZE } from 'style/constants';
 
@@ -22,6 +24,7 @@ import { PageContainer } from 'components/container';
 import { SetupStepper } from './SetupStepper';
 import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
+import { SystemSettings } from './SystemSettings';
 import { theme } from 'style/theme';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -34,12 +37,6 @@ const initialState: AppStartingState = {
   username: 'admin',
   password: '1234'
 };
-
-const componentByStep: Record<number, (props: any) => JSX.Element> = {
-  0: LanguageSelect,
-  1: LanguageSelect,
-  2: LanguageSelect
-} as const;
 
 const STEPS = [
   SELECT_LANGUAGE,
@@ -56,17 +53,29 @@ export const AppStarting = ({
   navigateTo: (nextPage: AppPage) => void;
 }) => {
   const [state, setState] = useState(initialState);
-  const Component = componentByStep[state.step];
 
   const setLanguage = (language: LanguageCode) => {
     setState((curr) => ({ ...curr, language }));
   };
+  const setUiSize = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const uiSize = event.target.value as UiSize;
+    setState((curr) => ({ ...curr, uiSize }));
+  };
+  const setColorTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const colorTheme = event.target.value as ColorTheme;
+    setState((curr) => ({ ...curr, colorTheme }));
+  };
   const onClickNext = () => {
-    setState((curr) => ({ ...curr, step: Math.min(state.step + 1, 2) }));
+    setState((curr) => ({
+      ...curr,
+      step: Math.min(state.step + 1, STEPS.length - 1)
+    }));
   };
   const onClickBack = () => {
     setState((curr) => ({ ...curr, step: Math.max(state.step - 1, 0) }));
   };
+
+  const appStartingLabel = labels[state.language];
 
   return (
     <ThemeProvider theme={theme[state.colorTheme]}>
@@ -84,13 +93,28 @@ export const AppStarting = ({
               activeStep={state.step}
               language={state.language}
             />
-            {Component && (
-              <Component language={state.language} setLanguage={setLanguage} />
+            {state.step === 0 && (
+              <LanguageSelect
+                uiSize={state.uiSize}
+                labels={appStartingLabel}
+                language={state.language}
+                setLanguage={setLanguage}
+              />
+            )}
+            {state.step === 1 && (
+              <SystemSettings
+                labels={appStartingLabel}
+                uiSize={state.uiSize}
+                colorTheme={state.colorTheme}
+                setUiSize={setUiSize}
+                setColorTheme={setColorTheme}
+              />
             )}
             <StepButtonGroup
-              language={state.language}
               activeStep={state.step}
               steps={STEPS}
+              labels={appStartingLabel}
+              uiSize={state.uiSize}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
             />

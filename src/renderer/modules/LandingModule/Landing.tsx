@@ -1,13 +1,13 @@
 import { PaperContainer } from 'components/container/PaperContainer';
-import { PageContainer } from 'components/container/PageContainer';
+import { FlexContainer } from 'renderer/components/container/FlexContainer';
 import { LandingBody } from './LandingBody';
 
 export const Landing = () => {
   return (
-    <PageContainer alignItems="center">
+    <FlexContainer alignItems="center">
       <PaperContainer alignItems="center" justifyContent="center" height={500}>
         <LandingBody />
       </PaperContainer>
-    </PageContainer>
+    </FlexContainer>
   );
 };
