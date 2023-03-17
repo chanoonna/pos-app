@@ -5,7 +5,12 @@ import type { AppStartingState } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { LANGUAGE } from 'SettingsModule/constants';
-import { SELECT_LANGUAGE, CREATE_ADMIN, IMPORTANT_NOTICE } from './constants';
+import {
+  SELECT_LANGUAGE,
+  SYSTEM_SETTINGS,
+  CREATE_ADMIN,
+  IMPORTANT_NOTICE
+} from './constants';
 import { COLOR_THEME, UI_SIZE } from 'style/constants';
 
 /* --------------------------------- imports -------------------------------- */
@@ -14,7 +19,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PageContainer } from 'components/container';
-import { colors } from 'style/theme';
 import { SetupStepper } from './SetupStepper';
 import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
@@ -37,7 +41,12 @@ const componentByStep: Record<number, (props: any) => JSX.Element> = {
   2: LanguageSelect
 } as const;
 
-const STEPS = [SELECT_LANGUAGE, CREATE_ADMIN, IMPORTANT_NOTICE];
+const STEPS = [
+  SELECT_LANGUAGE,
+  SYSTEM_SETTINGS,
+  CREATE_ADMIN,
+  IMPORTANT_NOTICE
+];
 
 export const AppStarting = ({
   isConnected,

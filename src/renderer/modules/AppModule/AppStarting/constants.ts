@@ -7,6 +7,7 @@ interface Labels {
   selectLanguage: string;
   language: string;
   pleaseSelectLanguage: string;
+  systemSettings: string;
   createAdmin: string;
   importantNotice: string;
   next: string;
@@ -19,5 +20,6 @@ export const labels: Record<LanguageCode, Labels> = {
 };
 
 export const SELECT_LANGUAGE = 'selectLanguage' as const;
+export const SYSTEM_SETTINGS = 'systemSettings' as const;
 export const CREATE_ADMIN = 'createAdmin' as const;
 export const IMPORTANT_NOTICE = 'importantNotice' as const;
