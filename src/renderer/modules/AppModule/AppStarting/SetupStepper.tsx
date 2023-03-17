@@ -1,10 +1,7 @@
 /* ---------------------------------- types --------------------------------- */
-import type { LanguageCode } from 'SettingsModule/types';
 import type { Step as StepType } from './types';
 import type { UiSize } from 'style/types';
-
-/* -------------------------------- constants ------------------------------- */
-import { labels } from './constants';
+import type { Labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { styled } from '@mui/material/styles';
@@ -23,15 +20,13 @@ export const SetupStepper = ({
   steps,
   uiSize,
   activeStep,
-  language
+  labels
 }: {
   steps: StepType[];
   uiSize: UiSize;
   activeStep: number;
-  language: LanguageCode;
+  labels: Labels;
 }) => {
-  const stepperLabels = labels[language];
-
   return (
     <Stack sx={{ width: '100%', height: '4.5rem' }} spacing={4}>
       <Stepper
@@ -42,7 +37,7 @@ export const SetupStepper = ({
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={QontoStepIcon}>
-              <TextField uiSize={uiSize}>{stepperLabels[label]}</TextField>
+              <TextField uiSize={uiSize}>{labels[label]}</TextField>
             </StepLabel>
           </Step>
         ))}

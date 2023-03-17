@@ -9,8 +9,9 @@ export interface Labels {
   pleaseSelectLanguage: string;
   systemSettings: string;
   createAdmin: string;
-  importantNotice: string;
+  beforeStarting: string;
   next: string;
+  disabledNextTooltip: string;
   back: string;
   start: string;
   uiSize: string;
@@ -33,4 +34,4 @@ export const labels: Record<LanguageCode, Labels> = {
 export const SELECT_LANGUAGE = 'selectLanguage' as const;
 export const SYSTEM_SETTINGS = 'systemSettings' as const;
 export const CREATE_ADMIN = 'createAdmin' as const;
-export const IMPORTANT_NOTICE = 'importantNotice' as const;
+export const BEFORE_STARTING = 'beforeStarting' as const;

@@ -10,13 +10,14 @@ import {
   SELECT_LANGUAGE,
   SYSTEM_SETTINGS,
   CREATE_ADMIN,
-  IMPORTANT_NOTICE,
+  BEFORE_STARTING,
   labels
 } from './constants';
 import { COLOR_THEME, UI_SIZE } from 'style/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
+import { theme } from 'style/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -25,8 +26,8 @@ import { SetupStepper } from './SetupStepper';
 import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
 import { SystemSettings } from './SystemSettings';
-import { theme } from 'style/theme';
 import { CreateAdmin } from './CreateAdmin';
+import { BeforeStarting } from './BeforeStarting';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -39,12 +40,7 @@ const initialState: AppStartingState = {
   password: ''
 };
 
-const STEPS = [
-  SELECT_LANGUAGE,
-  SYSTEM_SETTINGS,
-  CREATE_ADMIN,
-  IMPORTANT_NOTICE
-];
+const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
 
 export const AppStarting = ({
   isConnected,
@@ -99,7 +95,7 @@ export const AppStarting = ({
               steps={STEPS}
               uiSize={state.uiSize}
               activeStep={state.step}
-              language={state.language}
+              labels={appStartingLabel}
             />
             {state.step === 0 && (
               <LanguageSelect
@@ -128,11 +124,15 @@ export const AppStarting = ({
                 onPasswordChange={onPasswordChange}
               />
             )}
+            {state.step === 3 && (
+              <BeforeStarting labels={appStartingLabel} uiSize={state.uiSize} />
+            )}
             <StepButtonGroup
               activeStep={state.step}
               steps={STEPS}
               labels={appStartingLabel}
               uiSize={state.uiSize}
+              disableNext={state.step === 2 && state.password.length === 0}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
             />

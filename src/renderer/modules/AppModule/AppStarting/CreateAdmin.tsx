@@ -1,14 +1,12 @@
 /* ---------------------------------- types --------------------------------- */
 import type { ChangeEvent } from 'react';
-import type { UiSize, ColorTheme } from 'style/types';
+import type { UiSize } from 'style/types';
 import type { Labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 
 import { useState } from 'react';
 
-import { styled } from '@mui/material/styles';
-import CircularProgress from '@mui/material/CircularProgress';
 import Input from '@mui/material/Input';
 import LockIcon from '@mui/icons-material/Lock';
 import IconButton from '@mui/material/IconButton';
@@ -17,11 +15,11 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { TextField } from 'components/typography';
 import { PageContainer, FlexContainer } from 'components/container';
 import { HeadingLabel } from 'components/typography';
+import { NoMaxWidthTooltip } from 'components/tooltip';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -109,11 +107,3 @@ export const CreateAdmin = ({
     </PageContainer>
   );
 };
-
-const NoMaxWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
-  [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: 'none'
-  }
-});

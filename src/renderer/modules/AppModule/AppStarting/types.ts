@@ -7,7 +7,7 @@ import {
   SELECT_LANGUAGE,
   SYSTEM_SETTINGS,
   CREATE_ADMIN,
-  IMPORTANT_NOTICE
+  BEFORE_STARTING
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -25,4 +25,4 @@ export type Step =
   | typeof SELECT_LANGUAGE
   | typeof SYSTEM_SETTINGS
   | typeof CREATE_ADMIN
-  | typeof IMPORTANT_NOTICE;
+  | typeof BEFORE_STARTING;

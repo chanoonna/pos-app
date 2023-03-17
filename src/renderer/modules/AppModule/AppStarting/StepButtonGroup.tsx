@@ -7,7 +7,10 @@ import { Labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import Button from '@mui/material/Button';
+import Zoom from '@mui/material/Zoom';
 import { FlexContainer } from 'components/container';
+import { NoMaxWidthTooltip } from 'components/tooltip';
+import { TextField } from 'components/typography';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -17,7 +20,8 @@ export const StepButtonGroup = ({
   labels,
   activeStep,
   onClickNext,
-  onClickBack
+  onClickBack,
+  disableNext = false
 }: {
   steps: Step[];
   uiSize: UiSize;
@@ -25,6 +29,7 @@ export const StepButtonGroup = ({
   activeStep: number;
   onClickNext: () => void;
   onClickBack: () => void;
+  disableNext?: boolean;
 }) => {
   return (
     <FlexContainer
@@ -44,9 +49,26 @@ export const StepButtonGroup = ({
         </Button>
       </FlexContainer>
       <FlexContainer alignItems="center" margin={0} height="3rem" width="5rem">
-        <Button size={uiSize} onClick={onClickNext}>
-          {activeStep === steps.length - 1 ? labels.start : labels.next}
-        </Button>
+        <NoMaxWidthTooltip
+          title={
+            disableNext ? (
+              <TextField uiSize={uiSize}>
+                {labels.disabledNextTooltip}
+              </TextField>
+            ) : undefined
+          }
+          placement="top"
+          TransitionComponent={Zoom}
+          sx={{
+            size: '1rem'
+          }}
+        >
+          <span>
+            <Button size={uiSize} onClick={onClickNext} disabled={disableNext}>
+              {activeStep === steps.length - 1 ? labels.start : labels.next}
+            </Button>
+          </span>
+        </NoMaxWidthTooltip>
       </FlexContainer>
     </FlexContainer>
   );
