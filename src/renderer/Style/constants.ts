@@ -1,5 +1,4 @@
 export const UI_SIZE = {
-  SMALL: 'small',
   MEDIUM: 'medium',
   LARGE: 'large',
   EXTRA_LARGE: 'extraLarge'

@@ -90,6 +90,7 @@ export const AppStarting = ({
           <>
             <SetupStepper
               steps={STEPS}
+              uiSize={state.uiSize}
               activeStep={state.step}
               language={state.language}
             />

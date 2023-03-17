@@ -1,6 +1,7 @@
 /* ---------------------------------- types --------------------------------- */
 import type { LanguageCode } from 'SettingsModule/types';
 import type { Step as StepType } from './types';
+import type { UiSize } from 'style/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { labels } from './constants';
@@ -16,13 +17,16 @@ import StepConnector, {
   stepConnectorClasses
 } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
+import { DivLabel } from 'components/typography';
 
 export const SetupStepper = ({
   steps,
+  uiSize,
   activeStep,
   language
 }: {
   steps: StepType[];
+  uiSize: UiSize;
   activeStep: number;
   language: LanguageCode;
 }) => {
@@ -38,7 +42,7 @@ export const SetupStepper = ({
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={QontoStepIcon}>
-              {stepperLabels[label]}
+              <DivLabel uiSize={uiSize}>{stepperLabels[label]}</DivLabel>
             </StepLabel>
           </Step>
         ))}
