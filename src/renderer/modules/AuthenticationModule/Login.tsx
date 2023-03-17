@@ -1,10 +1,17 @@
-import { useState, ChangeEvent } from 'react';
-import { Module } from 'modules/types';
-import { colors } from 'style/theme';
-import { useAppContext } from 'renderer/modules/AppModule/AppContextProvider';
-import { labels } from './constants';
-import CircularProgress from '@mui/material/CircularProgress';
+/* ---------------------------------- types --------------------------------- */
+import type { FormEvent, ChangeEvent } from 'react';
 
+/* -------------------------------- constants ------------------------------- */
+import { APP_PAGE } from '../constants';
+import { labels } from './constants';
+
+/* --------------------------------- imports -------------------------------- */
+
+import { useState } from 'react';
+import { colors } from 'style/theme';
+import { useAppContext } from 'modules/AppModule';
+
+import CircularProgress from '@mui/material/CircularProgress';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import IconButton from '@mui/material/IconButton';
@@ -13,7 +20,6 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-/* ------------------------------- Components ------------------------------- */
 import { HeaderPrimary } from 'components/typography/HeaderPrimary';
 import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'components/container/FlexContainer';
@@ -21,16 +27,17 @@ import { FilledButton } from 'components/button/FilledButton';
 import { StandardInput } from 'components/input/StandardInput';
 import { LanguageSetting } from 'components/menus/LanguageSetting';
 
-/* ---------------------------------- Types --------------------------------- */
-import type { FormEvent } from 'react';
-
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const { navigateTo, authenticate, language } = useAppContext();
+  const {
+    navigateTo,
+    logOut,
+    user: { language }
+  } = useAppContext();
 
   const toggleVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -49,8 +56,7 @@ export const Login = () => {
   };
   const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    authenticate('', '');
-    navigateTo(Module.Landing);
+    navigateTo(APP_PAGE.MENU);
   };
 
   const isLoginButtonDisabled = hasNoUsername || hasNoPassword || isLoggingIn;

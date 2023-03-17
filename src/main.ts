@@ -3,7 +3,10 @@ import chalk from 'chalk';
 import { app, BrowserWindow } from 'electron';
 import { DIST_BUILD } from '../configs/paths';
 import { closeDatabase } from './preload/api/database';
-import { startDatabaseListeners } from './preload/api/apiMainHandler';
+import {
+  closeApiRequestHandlers,
+  startApiRequestHandlers
+} from './preload/api/ipcMain';
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -20,10 +23,12 @@ const createWindow = () => {
     }
   });
 
-  startDatabaseListeners();
+  startApiRequestHandlers();
 
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 
   win.loadURL('http://localhost:8080');
@@ -34,18 +39,21 @@ const createWindow = () => {
   });
 
   win.on('close', () => {
-    closeDatabase().finally(() => {
-      console.log(chalk.yellowBright('App is closed.'));
-    });
+    closeApiRequestHandlers();
   });
 };
 
 const closeWindow = () => {
+  closeDatabase().finally(() => {
+    console.log(chalk.yellowBright('App is closed.'));
+  });
+
   if (process.platform !== 'darwin') app.quit();
 };
 
 app.whenReady().then(() => {
   console.log(chalk.yellowBright('App starting...'));
+
   createWindow();
 });
 app.on('window-all-closed', closeWindow);

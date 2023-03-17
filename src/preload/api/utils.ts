@@ -1,61 +1,50 @@
 /* ---------------------------------- types --------------------------------- */
 import type { Method, Route, SortAttribute } from './types';
 
-/* -------------------------------- constants ------------------------------- */
-import { ERROR_UNSPECIFIED, SORT_ASC, SORT_DESC } from './constants';
-
 /* --------------------------------- imports -------------------------------- */
 import { app } from 'electron';
 import sqlite from 'sqlite3';
 import chalk from 'chalk';
-import isEmpty from 'lodash/isEmpty';
 
-export const printRequestLog = <T = unknown>({
-  method,
-  route,
-  params: _params
-}: {
-  method?: string;
-  route?: string;
-  params: { requestAction: string } & T;
-}) => {
+interface Request {
+  method: Method;
+  route: Route;
+  params?: any;
+}
+interface Result {
+  response?: any;
+  error?: Error;
+}
+
+export const printRequestLog = ({ method, route, params }: Request) => {
   if (app.isPackaged) return;
 
-  const { requestAction, ...params } = _params;
-  const log =
-    `${chalk.yellowBright(`${requestAction}_REQUEST`)}` +
-    (method ? `:  ${method}` : '') +
-    (route ? ` ${route}` : '');
+  const routeAndMethodLog = `(${method}) ${route}`;
+  const paramsLog = chalk.cyan(JSON.stringify(params));
+  const action = chalk.yellowBright(`REQUEST: ${routeAndMethodLog}`);
 
-  console.log(log, isEmpty(params) ? '' : params);
+  console.log(action);
+  params && console.log(paramsLog);
 };
 
-export const printResultLog = <ParamType extends { requestAction: string }>({
-  method,
-  route,
-  params,
-  result,
-  error
-}: {
-  method?: Method;
-  route?: Route;
-  params: ParamType;
-  result?: any;
-  error?: Error;
-}) => {
+export const printResultLog = (
+  { method, route, params }: Request,
+  { response, error }: Result
+) => {
   if (app.isPackaged) return;
 
-  const action = error
-    ? chalk.red(`${params.requestAction}_FAILURE`)
-    : chalk.green(`${params.requestAction}_SUCCESS`);
-  const log =
-    `${chalk.yellowBright(action)}` +
-    (method ? `:  ${method}` : '') +
-    (route ? ` ${route}` : '') +
-    (error ? `\n${error.message}` : '') +
-    (result ? `\n${chalk.cyan(JSON.stringify(result))}` : '');
+  const methodAndRouteLog = `(${method}) ${route}`;
+  const paramsLog = `${chalk.cyan('PARAMS:')} ${params}`;
+  const errorLog = chalk.red(error?.message);
 
-  console.log(log);
+  const action = error
+    ? chalk.red(`FAILURE: ${methodAndRouteLog}`)
+    : chalk.green(`SUCCESS: ${methodAndRouteLog}`);
+
+  console.log(action);
+  params && console.log(paramsLog);
+  response && console.log(response);
+  error && console.log(errorLog);
 };
 
 export const getAsyncRun =
@@ -92,22 +81,17 @@ export const getAsyncAll =
     });
 
 export const handleCatchAndPrintLog = (
+  request: Request,
   error: unknown,
-  requestAction: string
+  errorMessage?: string
 ) => {
   if (error instanceof Error) {
-    printResultLog({
-      params: { requestAction },
-      error
-    });
+    printResultLog(request, { error });
 
     return error;
   } else {
-    const error = new Error(ERROR_UNSPECIFIED);
-    printResultLog({
-      params: { requestAction },
-      error
-    });
+    const error = new Error(errorMessage);
+    printResultLog(request, { error });
 
     return error;
   }

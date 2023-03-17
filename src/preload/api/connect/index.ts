@@ -1,10 +1,8 @@
+import type { DataRequest } from '../types';
+
 /* -------------------------------- constants ------------------------------- */
-import {
-  ERROR_TABLE_CHECK_FAIL,
-  ERROR_TABLE_CREATION_FAIL,
-  USER_FRIENDLY_ERROR_CONNECTION_FAILED
-} from './constants';
-import { DB_CONNECT, ERROR_UNSPECIFIED } from '../constants';
+import { ERROR_TABLE_CHECK_FAIL, ERROR_TABLE_CREATION_FAIL } from './constants';
+import { ERROR_UNSPECIFIED, METHOD, ROUTE } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { connectDatabase } from '../database';
@@ -15,13 +13,17 @@ import {
   printRequestLog,
   printResultLog
 } from '../utils';
+import { getLastUser, LastUser } from './getLastUser';
+import { Table } from './types';
 
-export const handleConnect = async (): Promise<{
+export const handleConnect = async (
+  request: DataRequest
+): Promise<{
   error?: Error;
   userFriendlyError?: string;
-  isDatabaseReady?: boolean;
+  lastUser?: LastUser;
 }> => {
-  printRequestLog({ params: { requestAction: DB_CONNECT } });
+  printRequestLog(request);
 
   try {
     /* --------------------------- database connection -------------------------- */
@@ -32,7 +34,11 @@ export const handleConnect = async (): Promise<{
     }
 
     /* ----------------------------- checking tables ---------------------------- */
-    const { uncreatedTables, tableCheckErrors } = await checkTables();
+    const { uncreatedTables, tableCheckErrors } = await checkTables({
+      method: METHOD.GET,
+      route: ROUTE.CHECK_TABLES,
+      params: undefined
+    });
 
     if (tableCheckErrors.length) {
       throw new Error(
@@ -41,25 +47,39 @@ export const handleConnect = async (): Promise<{
     }
 
     const creationFailedTables = uncreatedTables.length
-      ? await createTables(uncreatedTables)
-      : [];
+      ? await createTables({
+          method: METHOD.GET,
+          route: ROUTE.CREATE_TABLES,
+          params: { uncreatedTables }
+        })
+      : ([] as Table[]);
 
     if (creationFailedTables.length) {
-      throw {
-        message: ERROR_TABLE_CREATION_FAIL,
-        tables: creationFailedTables
-      };
+      throw new Error(
+        `${ERROR_TABLE_CREATION_FAIL}: ${creationFailedTables.join(', ')}`
+      );
     }
 
-    printResultLog({ params: { requestAction: DB_CONNECT } });
+    const lastUserResult = await getLastUser({
+      method: METHOD.GET,
+      route: ROUTE.LAST_USER
+    });
 
-    return {
-      isDatabaseReady: !creationFailedTables.length
+    if (lastUserResult.error) {
+      throw new Error(lastUserResult.error.message);
+    }
+
+    const response = {
+      lastUser: lastUserResult.lastUser
     };
+
+    printResultLog(request, { response });
+
+    return response;
   } catch (error) {
     return {
-      error: handleCatchAndPrintLog(error, DB_CONNECT),
-      userFriendlyError: `${ERROR_UNSPECIFIED} while settingup databse and tables.`
+      error: handleCatchAndPrintLog(request, error),
+      userFriendlyError: `${ERROR_UNSPECIFIED} while starting databse.`
     };
   }
 };

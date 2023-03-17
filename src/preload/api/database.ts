@@ -47,4 +47,6 @@ export const closeDatabase = () =>
     db.close((error) => {
       resolve({ ...(error && { error }) });
     });
+
+    db = undefined;
   });

@@ -38,26 +38,7 @@ const devConfig: Configuration = {
               importLoaders: 1
             }
           },
-          'sass-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [
-                'postcss-flexbugs-fixes',
-                [
-                  'postcss-preset-env',
-                  {
-                    autoprefixer: {
-                      flexbox: 'no-2009'
-                    },
-                    stage: 3
-                  }
-                ],
-                'postcss-normalize'
-              ]
-            }
-          }
+          'sass-loader'
         ],
         include: /\.module\.s?(c|a)ss$/
       },

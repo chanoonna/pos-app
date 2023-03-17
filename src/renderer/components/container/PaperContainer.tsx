@@ -31,7 +31,7 @@ export const PaperContainer = ({
         flexDirection: 'column',
         alignItems,
         justifyContent,
-        rowGap: '2rem',
+        rowGap,
         borderRadius: 0
       }}
       elevation={5}

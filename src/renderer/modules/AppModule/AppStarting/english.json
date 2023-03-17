@@ -1,0 +1,22 @@
+{
+  "language": "Language",
+  "pleaseSelectLanguage": "Please select a language",
+  "selectLanguage": "Select Language",
+  "systemSettings": "System Settings",
+  "createAdmin": "Create Admin",
+  "importantNotice": "Important Notice",
+  "next": "Next",
+  "back": "Back",
+  "start": "Start",
+  "uiSize": "UI Size",
+  "uiSizeMedium": "Medium",
+  "uiSizeLarge": "Large",
+  "uiSizeExtraLarge": "Extra Large",
+  "colorTheme": "Color Theme",
+  "colorThemeDefault": "Bright",
+  "colorThemeDark": "Dark",
+  "username": "Username",
+  "usernameTooltip": "You can't change the username of admin account",
+  "password": "Password",
+  "confirmPassword": "Confirm Password"
+}

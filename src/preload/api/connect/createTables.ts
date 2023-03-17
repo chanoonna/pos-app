@@ -1,4 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
+import type { DataRequest } from '../types';
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -14,44 +15,44 @@ import {
   REFUNDS,
   REFUND_ITEMS,
   REFUND_TAXES,
-  LOGIN_ACTIVITIES,
+  LAST_USER,
   COLUMN
 } from '../tablesAndColumns';
 import { ERROR_UNSPECIFIED } from '../constants';
-import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { dbAsync } from '../database';
-import { printRequestLog, printResultLog } from '../utils';
+import {
+  handleCatchAndPrintLog,
+  printRequestLog,
+  printResultLog
+} from '../utils';
 
 export const createTables = async (
-  uncreatedTables: Table[]
+  request: DataRequest<{ uncreatedTables: Table[] }>
 ): Promise<Table[]> => {
+  const uncreatedTables = request.params.uncreatedTables;
   const creationFailedTables: Table[] = [];
 
   for await (const tableName of uncreatedTables) {
+    printRequestLog(request);
+
     const query = tableCreationQuery[tableName];
-    const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
-    printRequestLog({ params: { requestAction } });
 
     try {
       const { error } = await dbAsync.run({
         query
       });
 
-      printResultLog({ params: { requestAction }, error });
+      printResultLog(request, { error });
       if (error) {
         creationFailedTables.push(tableName);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        printResultLog({ params: { requestAction }, error });
-      } else {
-        printResultLog({
-          params: { requestAction },
-          error: new Error(`${ERROR_UNSPECIFIED} while creating tables.`)
-        });
-      }
+      handleCatchAndPrintLog(request, {
+        error,
+        errorMessage: `${ERROR_UNSPECIFIED} while creating tables.`
+      });
     }
   }
 
@@ -65,8 +66,10 @@ const tableCreationQuery = {
       ${COLUMN[USERS].username} TEXT NOT NULL,
       ${COLUMN[USERS].password} TEXT NOT NULL,
       ${COLUMN[USERS].language} TEXT DEFAULT 'eng',
-      ${COLUMN[USERS].text_size} TEXT DEFAULT 'M',
+      ${COLUMN[USERS].ui_size} TEXT DEFAULT 'large',
+      ${COLUMN[USERS].color_theme} TEXT DEFAULT 'default',
       ${COLUMN[USERS].is_archived} INTEGER NOT NULL DEFAULT 0,
+      ${COLUMN[USERS].access_level} INTEGER NOT NULL DEFAULT 3,
       UNIQUE(${COLUMN[USERS].username})
     )
 `,
@@ -162,12 +165,12 @@ const tableCreationQuery = {
       FOREIGN KEY(${COLUMN[REFUND_TAXES].tax_id}) REFERENCES ${TAXES}(${COLUMN[TAXES].id})
     )
 `,
-  [LOGIN_ACTIVITIES]: `
-    CREATE TABLE ${LOGIN_ACTIVITIES} (
-      ${COLUMN[LOGIN_ACTIVITIES].id} INTEGER PRIMARY KEY AUTOINCREMENT,
-      ${COLUMN[LOGIN_ACTIVITIES].user_id} INTEGER,
-      ${COLUMN[LOGIN_ACTIVITIES].date} TEXT NOT NULL,
-      FOREIGN KEY(${COLUMN[LOGIN_ACTIVITIES].user_id}) REFERENCES ${USERS}(${COLUMN[USERS].id})
+  [LAST_USER]: `
+    CREATE TABLE ${LAST_USER} (
+      ${COLUMN[LAST_USER].id} INTEGER PRIMARY KEY AUTOINCREMENT,
+      ${COLUMN[LAST_USER].user_id} INTEGER,
+      ${COLUMN[LAST_USER].date} TEXT NOT NULL,
+      FOREIGN KEY(${COLUMN[LAST_USER].user_id}) REFERENCES ${USERS}(${COLUMN[USERS].id})
     )
   `
 };

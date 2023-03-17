@@ -10,7 +10,7 @@ import {
   REFUNDS,
   REFUND_ITEMS,
   REFUND_TAXES,
-  LOGIN_ACTIVITIES
+  LAST_USER
 } from '../tablesAndColumns';
 
 export type Table =
@@ -25,4 +25,4 @@ export type Table =
   | typeof REFUNDS
   | typeof REFUND_ITEMS
   | typeof REFUND_TAXES
-  | typeof LOGIN_ACTIVITIES;
+  | typeof LAST_USER;

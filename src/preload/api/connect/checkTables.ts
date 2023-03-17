@@ -1,9 +1,9 @@
 /* ---------------------------------- types --------------------------------- */
+import type { DataRequest } from '../types';
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { TABLES } from '../tablesAndColumns';
-import { DB_CREATE_TABLES } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { dbAsync } from '../database';
@@ -13,7 +13,9 @@ import {
   handleCatchAndPrintLog
 } from '../utils';
 
-export const checkTables = async (): Promise<{
+export const checkTables = async (
+  request: DataRequest<any>
+): Promise<{
   uncreatedTables: Table[];
   tableCheckErrors: Table[];
 }> => {
@@ -22,25 +24,24 @@ export const checkTables = async (): Promise<{
 
   for await (const tableName of TABLES) {
     const query = `SELECT name FROM sqlite_master WHERE type='table' AND name = ?`;
-    const requestAction = `${DB_CREATE_TABLES}_${tableName}`;
 
     try {
-      printRequestLog({ params: { requestAction } });
-      const { rows, error } = await dbAsync.all<{ name: Table }>({
+      printRequestLog(request);
+      const { row, error } = await dbAsync.get<{ name: Table }>({
         query,
         params: [tableName]
       });
 
-      if (!rows) {
+      if (!row) {
         uncreatedTables.push(tableName);
       }
       if (error) {
         tableCheckErrors.push(tableName);
       }
 
-      printResultLog({ params: { requestAction }, error });
+      printResultLog(request, { response: row, error });
     } catch (error) {
-      handleCatchAndPrintLog(error, requestAction);
+      handleCatchAndPrintLog(request, error);
     }
   }
 

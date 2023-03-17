@@ -1,5 +1,5 @@
 import { contextBridge } from 'electron';
-import { apiRequestHandler } from './api/apiRequestHandler';
+import { apiRequestHandler } from './api/ipcRenderer';
 
 contextBridge.exposeInMainWorld('api', apiRequestHandler);
 
