@@ -16,6 +16,7 @@ import { FlexContainer } from 'components/container/FlexContainer';
 import { LANGUAGE } from '../../SettingsModule/constants';
 import { HeadingLabel } from 'components/typography';
 import { UiSize } from 'renderer/style/types';
+import { UI_SIZE } from 'renderer/style/constants';
 
 export const LanguageSelect = ({
   labels,
@@ -40,41 +41,39 @@ export const LanguageSelect = ({
   return (
     <FlexContainer
       marginTop="-5rem"
-      height="fit-content"
+      height="100%"
       flexDirection="column"
       rowGap={1}
     >
       <HeadingLabel uiSize={uiSize}>{labels.pleaseSelectLanguage}</HeadingLabel>
-      <div>
-        <FormControl sx={{ m: 1, width: '15rem' }}>
-          <InputLabel id="select-language-label">{labels.language}</InputLabel>
-          <Select
-            size="medium"
-            labelId="select-language-label"
-            id="select-language"
-            multiple
-            value={[language]}
-            open={isOpen}
-            onClose={handleClose}
-            onOpen={handleOpen}
-            input={<OutlinedInput label="Language" />}
-            MenuProps={MenuProps}
-          >
-            {Object.values(LANGUAGE).map(({ languageCode, languageLabel }) => (
-              <MenuItem
-                key={languageCode}
-                value={languageCode}
-                onClick={() => {
-                  setLanguage(languageCode);
-                  handleClose();
-                }}
-              >
-                {languageLabel}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <FormControl sx={{ m: 1, width: formControlSize[uiSize] }}>
+        <InputLabel id="select-language-label">{labels.language}</InputLabel>
+        <Select
+          size="medium"
+          labelId="select-language-label"
+          id="select-language"
+          multiple
+          value={[language]}
+          open={isOpen}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          input={<OutlinedInput label="Language" />}
+          MenuProps={MenuProps}
+        >
+          {Object.values(LANGUAGE).map(({ languageCode, languageLabel }) => (
+            <MenuItem
+              key={languageCode}
+              value={languageCode}
+              onClick={() => {
+                setLanguage(languageCode);
+                handleClose();
+              }}
+            >
+              {languageLabel}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </FlexContainer>
   );
 };
@@ -88,4 +87,10 @@ const MenuProps = {
       width: 250
     }
   }
+};
+
+const formControlSize = {
+  [UI_SIZE.MEDIUM]: '10rem',
+  [UI_SIZE.LARGE]: '12.5rem',
+  [UI_SIZE.EXTRA_LARGE]: '15rem'
 };

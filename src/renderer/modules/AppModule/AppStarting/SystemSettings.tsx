@@ -27,8 +27,10 @@ export const SystemSettings = ({
   setColorTheme: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <PageContainer marginTop="-5rem" flexDirection="column" rowGap={3}>
-      <HeadingLabel uiSize={uiSize}>{labels.systemSettings}</HeadingLabel>
+    <PageContainer marginTop="-5rem" flexDirection="column">
+      <FlexContainer height="4rem">
+        <HeadingLabel uiSize={uiSize}>{labels.systemSettings}</HeadingLabel>
+      </FlexContainer>
       <FlexContainer
         height="fit-content"
         alignItems="flex-start"

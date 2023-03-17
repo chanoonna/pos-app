@@ -33,7 +33,7 @@ export const SetupStepper = ({
   const stepperLabels = labels[language];
 
   return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
+    <Stack sx={{ width: '100%', height: '4.5rem' }} spacing={4}>
       <Stepper
         alternativeLabel
         activeStep={activeStep}
