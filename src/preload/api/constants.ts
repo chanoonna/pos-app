@@ -17,13 +17,6 @@ export const API_RESPONSE_CHANNEL = {
 export const API = 'API' as const;
 export const API_STARTUP = 'API_STARTUP' as const;
 
-export const METHOD = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE'
-} as const;
-
 export const ROUTE = {
   CONNECT: '/connect',
   CHECK_TABLES: '/connect/check_tables',

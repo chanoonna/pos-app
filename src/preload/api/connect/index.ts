@@ -2,7 +2,7 @@ import type { DataRequest } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { ERROR_TABLE_CHECK_FAIL, ERROR_TABLE_CREATION_FAIL } from './constants';
-import { ERROR_UNSPECIFIED, METHOD, ROUTE } from '../constants';
+import { ERROR_UNSPECIFIED, ROUTE } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { connectDatabase } from '../database';
@@ -35,7 +35,7 @@ export const handleConnect = async (
 
     /* ----------------------------- checking tables ---------------------------- */
     const { uncreatedTables, tableCheckErrors } = await checkTables({
-      method: METHOD.GET,
+      method: 'GET',
       route: ROUTE.CHECK_TABLES,
       params: undefined
     });
@@ -48,7 +48,7 @@ export const handleConnect = async (
 
     const creationFailedTables = uncreatedTables.length
       ? await createTables({
-          method: METHOD.GET,
+          method: 'GET',
           route: ROUTE.CREATE_TABLES,
           params: { uncreatedTables }
         })
@@ -61,7 +61,7 @@ export const handleConnect = async (
     }
 
     const lastUserResult = await getLastUser({
-      method: METHOD.GET,
+      method: 'GET',
       route: ROUTE.LAST_USER
     });
 

@@ -13,7 +13,6 @@ import {
   BEFORE_STARTING,
   labels
 } from './constants';
-import { COLOR_THEME, UI_SIZE } from 'style/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
@@ -34,10 +33,11 @@ import { BeforeStarting } from './BeforeStarting';
 const initialState: AppStartingState = {
   step: 0,
   language: LANGUAGE.ENGLISH.languageCode,
-  uiSize: UI_SIZE.LARGE,
-  colorTheme: COLOR_THEME.DEFAULT,
+  uiSize: 'large',
+  colorTheme: 'bright',
   username: 'admin',
-  password: ''
+  password: '',
+  confirmPassword: ''
 };
 
 const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
@@ -77,8 +77,14 @@ export const AppStarting = ({
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState((curr) => ({ ...curr, password: event.target.value }));
   };
+  const onConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setState((curr) => ({ ...curr, confirmPassword: event.target.value }));
+  };
 
   const appStartingLabel = labels[state.language];
+  const isPasswordValid = state.password === state.confirmPassword;
 
   return (
     <ThemeProvider theme={theme[state.colorTheme]}>
@@ -120,8 +126,10 @@ export const AppStarting = ({
                 labels={appStartingLabel}
                 username={state.username}
                 password={state.password}
+                confirmPassword={state.confirmPassword}
                 onUsernameChange={onUsernameChange}
                 onPasswordChange={onPasswordChange}
+                onConfirmPasswordChange={onConfirmPasswordChange}
               />
             )}
             {state.step === 3 && (
@@ -132,7 +140,10 @@ export const AppStarting = ({
               steps={STEPS}
               labels={appStartingLabel}
               uiSize={state.uiSize}
-              disableNext={state.step === 2 && state.password.length === 0}
+              disableNext={
+                state.step === 2 &&
+                (state.password.length === 0 || !isPasswordValid)
+              }
               onClickNext={onClickNext}
               onClickBack={onClickBack}
             />

@@ -20,7 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { HeaderPrimary } from 'components/typography/HeaderPrimary';
+import { SizeAppliedText } from 'components/typography';
 import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'components/container/FlexContainer';
 import { FilledButton } from 'components/button/FilledButton';
@@ -66,7 +66,9 @@ export const Login = () => {
       <FlexContainer height="fit-content" justifyContent="flex-end">
         <LanguageSetting />
       </FlexContainer>
-      <HeaderPrimary label={loginLabels.login} />
+      <SizeAppliedText variant="heading" uiSize="large">
+        {loginLabels.login}
+      </SizeAppliedText>
       <form
         id="login-form"
         className="form-container"

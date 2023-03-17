@@ -2,8 +2,7 @@
 import type { UiSize, ColorTheme } from 'style/types';
 import type { Labels } from './constants';
 
-/* -------------------------------- constants ------------------------------- */
-import { UI_SIZE, COLOR_THEME } from 'style/constants';
+/* --------------------------------- imports -------------------------------- */
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -11,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { PageContainer, FlexContainer } from 'components/container';
-import { HeadingLabel } from 'components/typography';
+import { SizeAppliedText } from 'components/typography';
 
 export const SystemSettings = ({
   labels,
@@ -29,7 +28,9 @@ export const SystemSettings = ({
   return (
     <PageContainer marginTop="-5rem" flexDirection="column">
       <FlexContainer height="4rem">
-        <HeadingLabel uiSize={uiSize}>{labels.systemSettings}</HeadingLabel>
+        <SizeAppliedText variant="heading" uiSize={uiSize}>
+          {labels.systemSettings}
+        </SizeAppliedText>
       </FlexContainer>
       <FlexContainer
         height="fit-content"
@@ -42,23 +43,23 @@ export const SystemSettings = ({
           </FormLabel>
           <RadioGroup
             aria-labelledby="ui-size-radio-buttons-group-label"
-            defaultValue={UI_SIZE.LARGE}
+            defaultValue="large"
             name="radio-buttons-group"
             value={uiSize}
             onChange={setUiSize}
           >
             <FormControlLabel
-              value={UI_SIZE.MEDIUM}
+              value="medium"
               control={<Radio />}
               label={labels.uiSizeMedium}
             />
             <FormControlLabel
-              value={UI_SIZE.LARGE}
+              value="large"
               control={<Radio />}
               label={labels.uiSizeLarge}
             />
             <FormControlLabel
-              value={UI_SIZE.EXTRA_LARGE}
+              value="extraLarge"
               control={<Radio />}
               label={labels.uiSizeExtraLarge}
             />
@@ -70,18 +71,18 @@ export const SystemSettings = ({
           </FormLabel>
           <RadioGroup
             aria-labelledby="theme-radio-buttons-group-label"
-            defaultValue={COLOR_THEME.DEFAULT}
+            defaultValue="bright"
             name="radio-buttons-group"
             value={colorTheme}
             onChange={setColorTheme}
           >
             <FormControlLabel
-              value={COLOR_THEME.DEFAULT}
+              value="bright"
               control={<Radio />}
               label={labels.colorThemeDefault}
             />
             <FormControlLabel
-              value={COLOR_THEME.DARK}
+              value="dark"
               control={<Radio />}
               label={labels.colorThemeDark}
             />

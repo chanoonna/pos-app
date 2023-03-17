@@ -15,10 +15,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Zoom from '@mui/material/Zoom';
-import { TextField } from 'components/typography';
+import { SizeAppliedText } from 'components/typography';
 import { PageContainer, FlexContainer } from 'components/container';
-import { HeadingLabel } from 'components/typography';
 import { NoMaxWidthTooltip } from 'components/tooltip';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -28,15 +28,19 @@ export const CreateAdmin = ({
   uiSize,
   username,
   password,
+  confirmPassword,
   onUsernameChange,
-  onPasswordChange
+  onPasswordChange,
+  onConfirmPasswordChange
 }: {
   labels: Labels;
   uiSize: UiSize;
   username: string;
   password: string;
+  confirmPassword: string;
   onUsernameChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onConfirmPasswordChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   return (
@@ -45,7 +49,9 @@ export const CreateAdmin = ({
       flexDirection="column"
       justifyContent="center"
     >
-      <HeadingLabel uiSize={uiSize}>{labels.createAdmin}</HeadingLabel>
+      <SizeAppliedText variant="heading" uiSize={uiSize}>
+        {labels.createAdmin}
+      </SizeAppliedText>
       <FlexContainer
         width="25rem"
         height="fit-content"
@@ -54,7 +60,9 @@ export const CreateAdmin = ({
       >
         <NoMaxWidthTooltip
           title={
-            <TextField uiSize={uiSize}>{labels.usernameTooltip}</TextField>
+            <SizeAppliedText variant="tooltip" uiSize={uiSize}>
+              {labels.usernameTooltip}
+            </SizeAppliedText>
           }
           placement="top"
           TransitionComponent={Zoom}
@@ -99,6 +107,20 @@ export const CreateAdmin = ({
                 >
                   {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <FormControl fullWidth variant="standard">
+          <Input
+            id="password"
+            type={isPasswordVisible ? 'text' : 'password'}
+            value={confirmPassword}
+            placeholder={labels.confirmPassword}
+            onChange={onConfirmPasswordChange}
+            startAdornment={
+              <InputAdornment position="start">
+                <ErrorOutlineIcon sx={{ mr: 1 }} />
               </InputAdornment>
             }
           />

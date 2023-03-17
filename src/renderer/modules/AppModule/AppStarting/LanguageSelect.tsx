@@ -14,7 +14,7 @@ import Select from '@mui/material/Select';
 
 import { FlexContainer } from 'components/container/FlexContainer';
 import { LANGUAGE } from '../../SettingsModule/constants';
-import { HeadingLabel } from 'components/typography';
+import { SizeAppliedText } from 'components/typography';
 import { UiSize } from 'renderer/style/types';
 
 export const LanguageSelect = ({
@@ -44,7 +44,9 @@ export const LanguageSelect = ({
       flexDirection="column"
       rowGap={1}
     >
-      <HeadingLabel uiSize={uiSize}>{labels.pleaseSelectLanguage}</HeadingLabel>
+      <SizeAppliedText variant="heading" uiSize={uiSize}>
+        {labels.pleaseSelectLanguage}
+      </SizeAppliedText>
       <FormControl sx={{ m: 1, width: '20rem' }}>
         <InputLabel id="select-language-label">{labels.language}</InputLabel>
         <Select

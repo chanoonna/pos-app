@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Zoom from '@mui/material/Zoom';
 import { FlexContainer } from 'components/container';
 import { NoMaxWidthTooltip } from 'components/tooltip';
-import { TextField } from 'components/typography';
+import { SizeAppliedText } from 'components/typography';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -52,9 +52,9 @@ export const StepButtonGroup = ({
         <NoMaxWidthTooltip
           title={
             disableNext ? (
-              <TextField uiSize={uiSize}>
+              <SizeAppliedText variant="tooltip" uiSize={uiSize}>
                 {labels.disabledNextTooltip}
-              </TextField>
+              </SizeAppliedText>
             ) : undefined
           }
           placement="top"

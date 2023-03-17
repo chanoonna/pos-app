@@ -1,3 +1,1 @@
-export { HeadingLabel } from './HeadingLabel';
-export { HeaderPrimary } from './HeaderPrimary';
-export { TextField } from './TextField';
+export { SizeAppliedText } from './SizeAppliedText';

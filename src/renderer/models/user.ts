@@ -1,5 +1,5 @@
+import type { ColorTheme } from 'style/types';
 import type { LanguageCode } from 'SettingsModule/types';
-import { COLOR_THEME } from 'style/constants';
 
 export interface User {
   id: number;
@@ -7,6 +7,6 @@ export interface User {
   date: string;
   language: LanguageCode;
   uiSize: string;
-  colorTheme: (typeof COLOR_THEME)[keyof typeof COLOR_THEME];
+  colorTheme: ColorTheme;
   accessLevel: number;
 }

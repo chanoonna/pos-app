@@ -19,6 +19,7 @@ export interface AppStartingState {
   colorTheme: ColorTheme;
   username: string;
   password: string;
+  confirmPassword: string;
 }
 
 export type Step =

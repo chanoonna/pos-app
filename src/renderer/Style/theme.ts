@@ -1,6 +1,3 @@
-/* -------------------------------- constants ------------------------------- */
-import { COLOR_THEME, UI_SIZE } from './constants';
-
 import { createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 
@@ -90,9 +87,9 @@ const customMixedTheme = createTheme(
 );
 
 export const theme = {
-  // [COLOR_THEME.MIXED]: customMixedTheme,
-  [COLOR_THEME.DEFAULT]: customTheme,
-  [COLOR_THEME.DARK]: customDarkTheme
+  // mixed: customMixedTheme,
+  bright: customTheme,
+  dark: customDarkTheme
 };
 
 declare module '@mui/material/Button' {

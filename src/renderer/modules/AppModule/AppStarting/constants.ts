@@ -10,6 +10,12 @@ export interface Labels {
   systemSettings: string;
   createAdmin: string;
   beforeStarting: string;
+  beforeStartingText1: string;
+  beforeStartingText2: string;
+  beforeStartingText3: string;
+  beforeStartingText4: string;
+  beforeStartingText5: string;
+  beforeStartingText6: string;
   next: string;
   disabledNextTooltip: string;
   back: string;
@@ -24,6 +30,7 @@ export interface Labels {
   username: string;
   usernameTooltip: string;
   password: string;
+  confirmPassword: string;
 }
 
 export const labels: Record<LanguageCode, Labels> = {
