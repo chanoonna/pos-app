@@ -14,5 +14,9 @@
   "uiSizeExtraLarge": "매우 큼",
   "colorTheme": "색상",
   "colorThemeDefault": "밝게",
-  "colorThemeDark": "어둡게"
+  "colorThemeDark": "어둡게",
+  "username": "사용자 이름",
+  "usernameTooltip": "관리자 계정의 사용자 이름은 변경할 수 없습니다",
+  "password": "비밀번호",
+  "confirmPassword": "비밀번호 확인"
 }

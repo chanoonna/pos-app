@@ -20,6 +20,9 @@ export interface Labels {
   colorTheme: string;
   colorThemeDefault: string;
   colorThemeDark: string;
+  username: string;
+  usernameTooltip: string;
+  password: string;
 }
 
 export const labels: Record<LanguageCode, Labels> = {

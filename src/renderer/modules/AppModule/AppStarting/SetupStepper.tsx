@@ -17,7 +17,7 @@ import StepConnector, {
   stepConnectorClasses
 } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
-import { DivLabel } from 'components/typography';
+import { TextField } from 'components/typography';
 
 export const SetupStepper = ({
   steps,
@@ -42,7 +42,7 @@ export const SetupStepper = ({
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={QontoStepIcon}>
-              <DivLabel uiSize={uiSize}>{stepperLabels[label]}</DivLabel>
+              <TextField uiSize={uiSize}>{stepperLabels[label]}</TextField>
             </StepLabel>
           </Step>
         ))}

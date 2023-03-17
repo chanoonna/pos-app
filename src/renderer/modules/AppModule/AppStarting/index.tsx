@@ -26,6 +26,7 @@ import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
 import { SystemSettings } from './SystemSettings';
 import { theme } from 'style/theme';
+import { CreateAdmin } from './CreateAdmin';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -35,7 +36,7 @@ const initialState: AppStartingState = {
   uiSize: UI_SIZE.LARGE,
   colorTheme: COLOR_THEME.DEFAULT,
   username: 'admin',
-  password: '1234'
+  password: ''
 };
 
 const STEPS = [
@@ -74,6 +75,12 @@ export const AppStarting = ({
   const onClickBack = () => {
     setState((curr) => ({ ...curr, step: Math.max(state.step - 1, 0) }));
   };
+  const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState((curr) => ({ ...curr, username: event.target.value }));
+  };
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState((curr) => ({ ...curr, password: event.target.value }));
+  };
 
   const appStartingLabel = labels[state.language];
 
@@ -109,6 +116,16 @@ export const AppStarting = ({
                 colorTheme={state.colorTheme}
                 setUiSize={setUiSize}
                 setColorTheme={setColorTheme}
+              />
+            )}
+            {state.step === 2 && (
+              <CreateAdmin
+                uiSize={state.uiSize}
+                labels={appStartingLabel}
+                username={state.username}
+                password={state.password}
+                onUsernameChange={onUsernameChange}
+                onPasswordChange={onPasswordChange}
               />
             )}
             <StepButtonGroup
