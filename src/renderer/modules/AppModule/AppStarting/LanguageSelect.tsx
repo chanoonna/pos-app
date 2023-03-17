@@ -16,7 +16,6 @@ import { FlexContainer } from 'components/container/FlexContainer';
 import { LANGUAGE } from '../../SettingsModule/constants';
 import { HeadingLabel } from 'components/typography';
 import { UiSize } from 'renderer/style/types';
-import { UI_SIZE } from 'renderer/style/constants';
 
 export const LanguageSelect = ({
   labels,
@@ -46,7 +45,7 @@ export const LanguageSelect = ({
       rowGap={1}
     >
       <HeadingLabel uiSize={uiSize}>{labels.pleaseSelectLanguage}</HeadingLabel>
-      <FormControl sx={{ m: 1, width: formControlSize[uiSize] }}>
+      <FormControl sx={{ m: 1, width: '20rem' }}>
         <InputLabel id="select-language-label">{labels.language}</InputLabel>
         <Select
           size="medium"
@@ -87,10 +86,4 @@ const MenuProps = {
       width: 250
     }
   }
-};
-
-const formControlSize = {
-  [UI_SIZE.MEDIUM]: '10rem',
-  [UI_SIZE.LARGE]: '12.5rem',
-  [UI_SIZE.EXTRA_LARGE]: '15rem'
 };

@@ -1,5 +1,5 @@
 /* -------------------------------- constants ------------------------------- */
-import { COLOR_THEME } from './constants';
+import { COLOR_THEME, UI_SIZE } from './constants';
 
 import { createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';

@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import Input from '@mui/material/Input';
 import LockIcon from '@mui/icons-material/Lock';
 import IconButton from '@mui/material/IconButton';
@@ -43,9 +42,18 @@ export const CreateAdmin = ({
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   return (
-    <PageContainer width="25rem" flexDirection="column">
+    <PageContainer
+      marginTop="-5rem"
+      flexDirection="column"
+      justifyContent="center"
+    >
       <HeadingLabel uiSize={uiSize}>{labels.createAdmin}</HeadingLabel>
-      <FlexContainer flexDirection="column" rowGap="1rem">
+      <FlexContainer
+        width="25rem"
+        height="fit-content"
+        flexDirection="column"
+        rowGap="1rem"
+      >
         <NoMaxWidthTooltip
           title={
             <TextField uiSize={uiSize}>{labels.usernameTooltip}</TextField>
