@@ -22,6 +22,7 @@ import Zoom from '@mui/material/Zoom';
 import { SizeAppliedText } from 'components/typography';
 import { PageContainer, FlexContainer } from 'components/container';
 import { NoMaxWidthTooltip } from 'components/tooltip';
+import { fontSize } from 'style/theme';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -54,6 +55,7 @@ export const CreateAdmin = ({
       marginTop="-5rem"
       flexDirection="column"
       justifyContent="center"
+      rowGap="2rem"
     >
       <SizeAppliedText textTypeVariant="heading" uiSize={uiSize}>
         {labels.createAdmin}
@@ -84,9 +86,14 @@ export const CreateAdmin = ({
               value={username}
               placeholder={labels.username}
               onChange={onUsernameChange}
+              sx={{
+                fontSize: fontSize.menu[uiSize]
+              }}
               startAdornment={
                 <InputAdornment position="start">
-                  <ManageAccountsIcon sx={{ mr: 1 }} />
+                  <ManageAccountsIcon
+                    sx={{ mr: 1, fontSize: fontSize.icon[uiSize] }}
+                  />
                 </InputAdornment>
               }
             />
@@ -99,19 +106,26 @@ export const CreateAdmin = ({
             value={password}
             placeholder={labels.password}
             onChange={onPasswordChange}
+            sx={{
+              fontSize: fontSize.menu[uiSize]
+            }}
             startAdornment={
               <InputAdornment position="start">
-                <LockIcon sx={{ mr: 1 }} />
+                <LockIcon sx={{ mr: 1, fontSize: fontSize.icon[uiSize] }} />
               </InputAdornment>
             }
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  sx={{ ml: 1 }}
+                  sx={{ ml: 1, fontSize: fontSize.icon[uiSize] }}
                   onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                 >
-                  {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
+                  {isPasswordVisible ? (
+                    <VisibilityOff fontSize="inherit" />
+                  ) : (
+                    <Visibility fontSize="inherit" />
+                  )}
                 </IconButton>
               </InputAdornment>
             }
@@ -128,15 +142,23 @@ export const CreateAdmin = ({
             value={confirmPassword}
             placeholder={labels.confirmPassword}
             onChange={onConfirmPasswordChange}
+            sx={{
+              fontSize: fontSize.menu[uiSize]
+            }}
             startAdornment={
               <InputAdornment position="start">
-                <ErrorOutlineIcon sx={{ mr: 1 }} />
+                <ErrorOutlineIcon
+                  sx={{ mr: 1, fontSize: fontSize.icon[uiSize] }}
+                />
               </InputAdornment>
             }
             endAdornment={
               !isPasswordEmpty && isPasswordValid ? (
                 <InputAdornment position="end">
-                  <CheckIcon color="success" sx={{ mr: 1 }} />
+                  <CheckIcon
+                    color="success"
+                    sx={{ mr: 1, fontSize: fontSize.icon[uiSize] }}
+                  />
                 </InputAdornment>
               ) : undefined
             }

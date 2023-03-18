@@ -6,4 +6,5 @@ export type TextTypeVariant =
   | 'body'
   | 'tooltip'
   | 'helper'
-  | 'menuTitle';
+  | 'menuTitle'
+  | 'icon';

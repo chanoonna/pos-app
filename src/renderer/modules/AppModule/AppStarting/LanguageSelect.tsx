@@ -55,7 +55,6 @@ export const LanguageSelect = ({
           </SizeAppliedText>
         </InputLabel>
         <Select
-          size="medium"
           labelId="select-language-label"
           id="select-language"
           value={language}

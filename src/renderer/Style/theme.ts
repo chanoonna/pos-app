@@ -72,13 +72,20 @@ const helperTextFontSize = {
   extraLarge: '0.9rem'
 };
 
+const iconSize = {
+  medium: '1.5rem',
+  large: '1.75rem',
+  extraLarge: '2rem'
+};
+
 export const fontSize: Record<TextTypeVariant, Record<UiSize, string>> = {
   heading: headingTextFontSize,
   menuTitle: menuTitleFontSize,
   menu: menuItemFontSize,
   body: bodyTextFontSize,
   tooltip: tooltipTextFontSize,
-  helper: helperTextFontSize
+  helper: helperTextFontSize,
+  icon: iconSize
 };
 
 const customThemeBase = {
