@@ -2,8 +2,7 @@
 import type { UiSize, ColorTheme } from 'style/types';
 import type { Labels } from './constants';
 
-/* -------------------------------- constants ------------------------------- */
-import { UI_SIZE, COLOR_THEME } from 'style/constants';
+/* --------------------------------- imports -------------------------------- */
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -11,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { PageContainer, FlexContainer } from 'components/container';
-import { HeadingLabel } from 'components/typography';
+import { SizeAppliedText } from 'components/typography';
 
 export const SystemSettings = ({
   labels,
@@ -29,61 +28,87 @@ export const SystemSettings = ({
   return (
     <PageContainer marginTop="-5rem" flexDirection="column">
       <FlexContainer height="4rem">
-        <HeadingLabel uiSize={uiSize}>{labels.systemSettings}</HeadingLabel>
+        <SizeAppliedText textTypeVariant="heading" uiSize={uiSize}>
+          {labels.systemSettings}
+        </SizeAppliedText>
       </FlexContainer>
       <FlexContainer
-        height="fit-content"
+        height="25%"
         alignItems="flex-start"
         justifyContent="space-evenly"
       >
         <FormControl>
           <FormLabel id="ui-size-radio-buttons-group-label">
-            {labels.uiSize}
+            <SizeAppliedText textTypeVariant="menuTitle" uiSize={uiSize}>
+              {labels.uiSize}
+            </SizeAppliedText>
           </FormLabel>
           <RadioGroup
             aria-labelledby="ui-size-radio-buttons-group-label"
-            defaultValue={UI_SIZE.LARGE}
+            defaultValue="large"
             name="radio-buttons-group"
             value={uiSize}
             onChange={setUiSize}
           >
             <FormControlLabel
-              value={UI_SIZE.MEDIUM}
+              value="medium"
               control={<Radio />}
-              label={labels.uiSizeMedium}
+              label={
+                <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
+                  {labels.uiSizeMedium}
+                </SizeAppliedText>
+              }
             />
             <FormControlLabel
-              value={UI_SIZE.LARGE}
+              value="large"
               control={<Radio />}
-              label={labels.uiSizeLarge}
+              label={
+                <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
+                  {labels.uiSizeLarge}
+                </SizeAppliedText>
+              }
             />
             <FormControlLabel
-              value={UI_SIZE.EXTRA_LARGE}
+              value="extraLarge"
               control={<Radio />}
-              label={labels.uiSizeExtraLarge}
+              label={
+                <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
+                  {labels.uiSizeExtraLarge}
+                </SizeAppliedText>
+              }
             />
           </RadioGroup>
         </FormControl>
         <FormControl>
           <FormLabel id="theme-radio-buttons-group-label">
-            {labels.colorTheme}
+            <SizeAppliedText textTypeVariant="menuTitle" uiSize={uiSize}>
+              {labels.colorTheme}
+            </SizeAppliedText>
           </FormLabel>
           <RadioGroup
             aria-labelledby="theme-radio-buttons-group-label"
-            defaultValue={COLOR_THEME.DEFAULT}
+            defaultValue="bright"
             name="radio-buttons-group"
             value={colorTheme}
             onChange={setColorTheme}
           >
             <FormControlLabel
-              value={COLOR_THEME.DEFAULT}
+              value="bright"
               control={<Radio />}
-              label={labels.colorThemeDefault}
+              label={
+                <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
+                  {labels.colorThemeDefault}
+                </SizeAppliedText>
+              }
             />
             <FormControlLabel
-              value={COLOR_THEME.DARK}
+              value="dark"
               control={<Radio />}
-              label={labels.colorThemeDark}
+              label={
+                <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
+                  {labels.colorThemeDark}
+                </SizeAppliedText>
+              }
             />
           </RadioGroup>
         </FormControl>

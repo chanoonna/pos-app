@@ -1,13 +1,7 @@
-import {
-  API_RESPONSE_CHANNEL,
-  METHOD,
-  ROUTE,
-  SORT_ASC,
-  SORT_DESC
-} from './constants';
+import { API_RESPONSE_CHANNEL, ROUTE, SORT_ASC, SORT_DESC } from './constants';
 
 export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
-export type Method = keyof typeof METHOD;
+export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type Route = (typeof ROUTE)[keyof typeof ROUTE];
 
 export type DataRequest<T = undefined> = T extends undefined

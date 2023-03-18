@@ -1,5 +1,5 @@
-/* -------------------------------- constants ------------------------------- */
-import { COLOR_THEME } from './constants';
+/* ---------------------------------- types --------------------------------- */
+import type { TextTypeVariant, UiSize } from 'style/types';
 
 import { createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
@@ -34,6 +34,58 @@ export const colors = {
 
   white: '#FFFFFF',
   black: '#000000'
+};
+
+const headingTextFontSize = {
+  medium: '1.5rem',
+  large: '1.75rem',
+  extraLarge: '2rem'
+};
+
+const menuTitleFontSize = {
+  medium: '1.2rem',
+  large: '1.3rem',
+  extraLarge: '1.4rem'
+};
+
+const menuItemFontSize = {
+  medium: '1rem',
+  large: '1.15rem',
+  extraLarge: '1.3rem'
+};
+
+const bodyTextFontSize = {
+  medium: '1rem',
+  large: '1.15rem',
+  extraLarge: '1.3rem'
+};
+
+const tooltipTextFontSize = {
+  medium: '0.9rem',
+  large: '1rem',
+  extraLarge: '1.1rem'
+};
+
+const helperTextFontSize = {
+  medium: '0.8rem',
+  large: '0.85rem',
+  extraLarge: '0.9rem'
+};
+
+const iconSize = {
+  medium: '1.5rem',
+  large: '1.75rem',
+  extraLarge: '2rem'
+};
+
+export const fontSize: Record<TextTypeVariant, Record<UiSize, string>> = {
+  heading: headingTextFontSize,
+  menuTitle: menuTitleFontSize,
+  menu: menuItemFontSize,
+  body: bodyTextFontSize,
+  tooltip: tooltipTextFontSize,
+  helper: helperTextFontSize,
+  icon: iconSize
 };
 
 const customThemeBase = {
@@ -90,9 +142,9 @@ const customMixedTheme = createTheme(
 );
 
 export const theme = {
-  // [COLOR_THEME.MIXED]: customMixedTheme,
-  [COLOR_THEME.DEFAULT]: customTheme,
-  [COLOR_THEME.DARK]: customDarkTheme
+  // mixed: customMixedTheme,
+  bright: customTheme,
+  dark: customDarkTheme
 };
 
 declare module '@mui/material/Button' {
