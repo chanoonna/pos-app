@@ -17,22 +17,22 @@ export const BeforeStarting = ({
 }) => {
   return (
     <FlexContainer marginTop="-5rem" rowGap={3} flexDirection="column">
-      <SizeAppliedText variant="heading" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="heading" uiSize={uiSize}>
         {labels.beforeStarting}
       </SizeAppliedText>
-      <SizeAppliedText variant="body" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="body" uiSize={uiSize}>
         {labels.beforeStartingText1}
       </SizeAppliedText>
-      <SizeAppliedText variant="body" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="body" uiSize={uiSize}>
         {labels.beforeStartingText2}
       </SizeAppliedText>
-      <SizeAppliedText variant="body" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="body" uiSize={uiSize}>
         {labels.beforeStartingText3}
       </SizeAppliedText>
-      <SizeAppliedText variant="body" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="body" uiSize={uiSize}>
         {labels.beforeStartingText4}
       </SizeAppliedText>
-      <SizeAppliedText variant="body" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="body" uiSize={uiSize}>
         {labels.beforeStartingText5}
       </SizeAppliedText>
     </FlexContainer>

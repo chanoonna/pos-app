@@ -66,7 +66,7 @@ export const Login = () => {
       <FlexContainer height="fit-content" justifyContent="flex-end">
         <LanguageSetting />
       </FlexContainer>
-      <SizeAppliedText variant="heading" uiSize="large">
+      <SizeAppliedText textTypeVariant="heading" uiSize="large">
         {loginLabels.login}
       </SizeAppliedText>
       <form

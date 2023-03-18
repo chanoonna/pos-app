@@ -37,7 +37,7 @@ export const SetupStepper = ({
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel StepIconComponent={QontoStepIcon}>
-              <SizeAppliedText variant="menu" uiSize={uiSize}>
+              <SizeAppliedText textTypeVariant="menu" uiSize={uiSize}>
                 {labels[label]}
               </SizeAppliedText>
             </StepLabel>

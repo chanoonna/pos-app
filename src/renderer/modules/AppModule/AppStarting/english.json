@@ -25,5 +25,6 @@
   "username": "Username",
   "usernameTooltip": "You can't change the username of admin account",
   "password": "Password",
-  "confirmPassword": "Confirm Password"
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordError": "Passwords don't match"
 }

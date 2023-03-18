@@ -1,55 +1,23 @@
 /* ---------------------------------- types --------------------------------- */
-import type { ReactNode } from 'react';
-import type { TextVariant, UiSize } from 'style/types';
+import type { ReactNode, CSSProperties } from 'react';
+import type { TextTypeVariant, UiSize } from 'style/types';
 
 /* --------------------------------- imports -------------------------------- */
 import Typography from '@mui/material/Typography';
 
+import { fontSize } from 'style/theme';
+
 export const SizeAppliedText = ({
   uiSize,
-  variant,
-  children
-}: {
+  textTypeVariant,
+  children,
+  ...styles
+}: Omit<CSSProperties, 'fontSize' | 'translate'> & {
   uiSize: UiSize;
-  variant: TextVariant;
+  textTypeVariant: TextTypeVariant;
   children: ReactNode;
 }) => (
-  <Typography
-    sx={{
-      fontSize: fontSize[variant][uiSize]
-    }}
-  >
+  <Typography {...styles} fontSize={fontSize[textTypeVariant][uiSize]}>
     {children}
   </Typography>
 );
-
-const headingTextFontSize = {
-  medium: '1.5rem',
-  large: '1.75rem',
-  extraLarge: '2rem'
-};
-
-const menuTextFontSize = {
-  medium: '1rem',
-  large: '1.15rem',
-  extraLarge: '1.3rem'
-};
-
-const bodyTextFontSize = {
-  medium: '1rem',
-  large: '1.15rem',
-  extraLarge: '1.3rem'
-};
-
-const tooltipTextFontSize = {
-  medium: '0.9rem',
-  large: '1rem',
-  extraLarge: '1.1rem'
-};
-
-const fontSize: Record<TextVariant, Record<UiSize, string>> = {
-  heading: headingTextFontSize,
-  menu: menuTextFontSize,
-  body: bodyTextFontSize,
-  tooltip: tooltipTextFontSize
-};

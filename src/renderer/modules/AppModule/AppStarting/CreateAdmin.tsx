@@ -16,6 +16,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckIcon from '@mui/icons-material/Check';
+import FormHelperText from '@mui/material/FormHelperText';
 import Zoom from '@mui/material/Zoom';
 import { SizeAppliedText } from 'components/typography';
 import { PageContainer, FlexContainer } from 'components/container';
@@ -29,6 +31,8 @@ export const CreateAdmin = ({
   username,
   password,
   confirmPassword,
+  isPasswordEmpty,
+  isPasswordValid,
   onUsernameChange,
   onPasswordChange,
   onConfirmPasswordChange
@@ -38,6 +42,8 @@ export const CreateAdmin = ({
   username: string;
   password: string;
   confirmPassword: string;
+  isPasswordEmpty: boolean;
+  isPasswordValid: boolean;
   onUsernameChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onConfirmPasswordChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -49,7 +55,7 @@ export const CreateAdmin = ({
       flexDirection="column"
       justifyContent="center"
     >
-      <SizeAppliedText variant="heading" uiSize={uiSize}>
+      <SizeAppliedText textTypeVariant="heading" uiSize={uiSize}>
         {labels.createAdmin}
       </SizeAppliedText>
       <FlexContainer
@@ -60,7 +66,7 @@ export const CreateAdmin = ({
       >
         <NoMaxWidthTooltip
           title={
-            <SizeAppliedText variant="tooltip" uiSize={uiSize}>
+            <SizeAppliedText textTypeVariant="tooltip" uiSize={uiSize}>
               {labels.usernameTooltip}
             </SizeAppliedText>
           }
@@ -111,9 +117,13 @@ export const CreateAdmin = ({
             }
           />
         </FormControl>
-        <FormControl fullWidth variant="standard">
+        <FormControl
+          error={!isPasswordEmpty && !isPasswordValid}
+          fullWidth
+          variant="standard"
+        >
           <Input
-            id="password"
+            id="confirm-password"
             type={isPasswordVisible ? 'text' : 'password'}
             value={confirmPassword}
             placeholder={labels.confirmPassword}
@@ -123,7 +133,26 @@ export const CreateAdmin = ({
                 <ErrorOutlineIcon sx={{ mr: 1 }} />
               </InputAdornment>
             }
+            endAdornment={
+              !isPasswordEmpty && isPasswordValid ? (
+                <InputAdornment position="end">
+                  <CheckIcon color="success" sx={{ mr: 1 }} />
+                </InputAdornment>
+              ) : undefined
+            }
           />
+          <FormHelperText id="confirm-password-helper">
+            <SizeAppliedText
+              marginLeft="2.5rem"
+              textTypeVariant="helper"
+              uiSize={uiSize}
+              minHeight="1.5rem"
+            >
+              {!isPasswordEmpty && !isPasswordValid
+                ? labels.confirmPasswordError
+                : ''}
+            </SizeAppliedText>
+          </FormHelperText>
         </FormControl>
       </FlexContainer>
     </PageContainer>

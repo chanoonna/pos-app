@@ -52,7 +52,7 @@ export const StepButtonGroup = ({
         <NoMaxWidthTooltip
           title={
             disableNext ? (
-              <SizeAppliedText variant="tooltip" uiSize={uiSize}>
+              <SizeAppliedText textTypeVariant="tooltip" uiSize={uiSize}>
                 {labels.disabledNextTooltip}
               </SizeAppliedText>
             ) : undefined

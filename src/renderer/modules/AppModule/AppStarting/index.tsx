@@ -84,7 +84,8 @@ export const AppStarting = ({
   };
 
   const appStartingLabel = labels[state.language];
-  const isPasswordValid = state.password === state.confirmPassword;
+  const isPasswordValid =
+    !!state.password.length && state.password === state.confirmPassword;
 
   return (
     <ThemeProvider theme={theme[state.colorTheme]}>
@@ -127,6 +128,10 @@ export const AppStarting = ({
                 username={state.username}
                 password={state.password}
                 confirmPassword={state.confirmPassword}
+                isPasswordEmpty={
+                  !state.password.length && !state.confirmPassword.length
+                }
+                isPasswordValid={isPasswordValid}
                 onUsernameChange={onUsernameChange}
                 onPasswordChange={onPasswordChange}
                 onConfirmPasswordChange={onConfirmPasswordChange}
@@ -140,10 +145,7 @@ export const AppStarting = ({
               steps={STEPS}
               labels={appStartingLabel}
               uiSize={state.uiSize}
-              disableNext={
-                state.step === 2 &&
-                (state.password.length === 0 || !isPasswordValid)
-              }
+              disableNext={state.step === 2 && !isPasswordValid}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
             />

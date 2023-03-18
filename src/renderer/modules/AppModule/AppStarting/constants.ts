@@ -31,6 +31,7 @@ export interface Labels {
   usernameTooltip: string;
   password: string;
   confirmPassword: string;
+  confirmPasswordError: string;
 }
 
 export const labels: Record<LanguageCode, Labels> = {

@@ -25,5 +25,6 @@
   "username": "사용자 이름",
   "usernameTooltip": "관리자 계정의 사용자 이름은 변경할 수 없습니다",
   "password": "비밀번호",
-  "confirmPassword": "비밀번호 확인"
+  "confirmPassword": "비밀번호 확인",
+  "confirmPasswordError": "비밀번호가 일치하지 않습니다"
 }
