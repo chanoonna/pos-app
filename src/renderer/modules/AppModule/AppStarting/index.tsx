@@ -145,6 +145,7 @@ export const AppStarting = ({
               steps={STEPS}
               labels={appStartingLabel}
               uiSize={state.uiSize}
+              disabledTooltip={appStartingLabel.noPasswordMatchTooltip}
               disableNext={state.step === 2 && !isPasswordValid}
               onClickNext={onClickNext}
               onClickBack={onClickBack}

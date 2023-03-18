@@ -10,16 +10,15 @@ export interface Labels {
   systemSettings: string;
   createAdmin: string;
   beforeStarting: string;
+  beforeStartingCaution: string;
   beforeStartingText1: string;
+  beforeStartingTextClickHere: string;
   beforeStartingText2: string;
   beforeStartingText3: string;
-  beforeStartingText4: string;
-  beforeStartingText5: string;
-  beforeStartingText6: string;
   next: string;
-  disabledNextTooltip: string;
+  noPasswordMatchTooltip: string;
   back: string;
-  start: string;
+  agree: string;
   uiSize: string;
   uiSizeMedium: string;
   uiSizeLarge: string;
@@ -32,6 +31,12 @@ export interface Labels {
   password: string;
   confirmPassword: string;
   confirmPasswordError: string;
+  licenseHeader: string;
+  license1: string;
+  license2: string;
+  license3: string;
+  license4: string;
+  license5: string;
 }
 
 export const labels: Record<LanguageCode, Labels> = {

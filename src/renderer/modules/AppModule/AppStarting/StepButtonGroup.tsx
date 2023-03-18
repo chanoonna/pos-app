@@ -19,17 +19,19 @@ export const StepButtonGroup = ({
   uiSize,
   labels,
   activeStep,
+  disabledTooltip,
+  disableNext = false,
   onClickNext,
-  onClickBack,
-  disableNext = false
+  onClickBack
 }: {
   steps: Step[];
   uiSize: UiSize;
   labels: Labels;
   activeStep: number;
+  disabledTooltip: string;
+  disableNext?: boolean;
   onClickNext: () => void;
   onClickBack: () => void;
-  disableNext?: boolean;
 }) => {
   return (
     <FlexContainer
@@ -53,7 +55,7 @@ export const StepButtonGroup = ({
           title={
             disableNext ? (
               <SizeAppliedText textTypeVariant="tooltip" uiSize={uiSize}>
-                {labels.disabledNextTooltip}
+                {disabledTooltip}
               </SizeAppliedText>
             ) : undefined
           }
@@ -65,7 +67,7 @@ export const StepButtonGroup = ({
         >
           <span>
             <Button size={uiSize} onClick={onClickNext} disabled={disableNext}>
-              {activeStep === steps.length - 1 ? labels.start : labels.next}
+              {activeStep === steps.length - 1 ? labels.agree : labels.next}
             </Button>
           </span>
         </NoMaxWidthTooltip>
