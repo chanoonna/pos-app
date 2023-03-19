@@ -29,9 +29,9 @@ export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const { user, navigateTo, logOut, logIn } = useAppContext();
+  const { user, isLoggingIn, isLoggingInError, navigateTo, logIn } =
+    useAppContext();
 
   const toggleVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -50,7 +50,10 @@ export const Login = () => {
   };
   const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigateTo(APP_PAGE.MENU);
+    logIn({
+      username,
+      password
+    });
   };
 
   useEffect(() => {

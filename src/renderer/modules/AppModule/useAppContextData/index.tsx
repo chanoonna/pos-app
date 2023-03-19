@@ -47,6 +47,7 @@ export const useAppContextData = () => {
           type: LOGIN.SUCCESS,
           payload: { response }
         });
+        navigateTo(APP_PAGE.MENU);
       }
     } catch (error) {
       // TODO

@@ -40,6 +40,8 @@ export const App = () => {
       <AppContext.Provider
         value={{
           user,
+          isLoggingIn: state.isLoggingIn,
+          isLoggingInError: state.isLoggingInError,
           currentPage,
           navigateTo,
           logOut,
@@ -65,6 +67,8 @@ export const App = () => {
 
 interface AppContextValues {
   user: User;
+  isLoggingIn: boolean;
+  isLoggingInError: boolean;
   currentPage: AppPage;
   navigateTo: (nextPage: AppPage) => void;
   logOut: () => void;
