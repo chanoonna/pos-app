@@ -1,15 +1,17 @@
 /* ---------------------------------- types --------------------------------- */
 import type { User } from 'models/user';
 import type { AppPage } from 'modules/types';
-import type { CreateUserParams } from 'preload/api/users/types';
+import type { CreateUserParams, UserDB } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT } from './constants';
+import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT, LOGIN } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
 export interface AppContextDataState {
   user?: User;
+  isLoggingIn: boolean;
+  isLoggingInError: boolean;
   isAuthenticated: boolean;
   isConnected: boolean;
   isConnecting: boolean;
@@ -30,6 +32,9 @@ export type AppContextDataAction =
   | CreateAdminRequestAction
   | CreateAdminSuccessAction
   | CreateAdminFailureAction
+  | LoginRequestAction
+  | LoginSuccessAction
+  | LoginFailureAction
   | NavigateToAction
   | LogoutAction;
 
@@ -39,7 +44,7 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: { response?: User };
+  payload: { response?: UserDB };
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;
@@ -53,10 +58,22 @@ interface CreateAdminRequestAction {
 }
 interface CreateAdminSuccessAction {
   type: typeof CREATE_ADMIN.SUCCESS;
-  payload: { response: User[] };
 }
 interface CreateAdminFailureAction {
   type: typeof CREATE_ADMIN.FAILURE;
+  payload: { error: Error };
+}
+
+/* ---------------------------------- LOGIN --------------------------------- */
+interface LoginRequestAction {
+  type: typeof LOGIN.REQUEST;
+}
+interface LoginSuccessAction {
+  type: typeof LOGIN.SUCCESS;
+  payload: { response: UserDB };
+}
+interface LoginFailureAction {
+  type: typeof LOGIN.FAILURE;
   payload: { error: Error };
 }
 

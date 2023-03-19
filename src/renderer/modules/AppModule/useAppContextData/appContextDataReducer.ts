@@ -2,14 +2,14 @@
 import type { AppContextDataState, AppContextDataAction } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT, NAVIGATE_TO, LOGOUT, CREATE_ADMIN } from './constants';
+import { CONNECT, NAVIGATE_TO, LOGOUT, CREATE_ADMIN, LOGIN } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
 export const appContextDataReducer = (
   state: AppContextDataState,
   action: AppContextDataAction
-) => {
+): AppContextDataState => {
   switch (action.type) {
     /* --------------------------------- LOGOUT --------------------------------- */
     case LOGOUT: {
@@ -52,11 +52,11 @@ export const appContextDataReducer = (
           user: {
             id: action.payload.response.id,
             username: action.payload.response.username,
-            last_login: action.payload.response.last_login,
+            lastLogin: action.payload.response.last_login,
             language: action.payload.response.language,
-            ui_size: action.payload.response.ui_size,
-            color_theme: action.payload.response.color_theme,
-            access_level: action.payload.response.access_level
+            uiSize: action.payload.response.ui_size,
+            colorTheme: action.payload.response.color_theme,
+            accessLevel: action.payload.response.access_level
           }
         };
       }
@@ -87,8 +87,39 @@ export const appContextDataReducer = (
       return {
         ...state,
         isCreatingAdmin: false,
-        isCreatingAdminError: false,
-        user: action.payload.response[0]
+        isCreatingAdminError: false
+      };
+    }
+
+    /* ---------------------------------- LOGIN --------------------------------- */
+    case LOGIN.REQUEST: {
+      return {
+        ...state,
+        isLoggingIn: true
+      };
+    }
+    case LOGIN.FAILURE: {
+      return {
+        ...state,
+        isLoggingIn: false,
+        isLoggingInError: true
+      };
+    }
+    case LOGIN.SUCCESS: {
+      return {
+        ...state,
+        isLoggingIn: false,
+        isLoggingInError: false,
+        isAuthenticated: true,
+        user: {
+          id: action.payload.response.id,
+          username: action.payload.response.username,
+          lastLogin: action.payload.response.last_login,
+          language: action.payload.response.language,
+          uiSize: action.payload.response.ui_size,
+          colorTheme: action.payload.response.color_theme,
+          accessLevel: action.payload.response.access_level
+        }
       };
     }
 

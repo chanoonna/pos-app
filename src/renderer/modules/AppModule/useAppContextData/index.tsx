@@ -4,16 +4,18 @@ import type { AppPage } from 'modules/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
-import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT } from './constants';
+import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT, LOGIN } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 import { useReducer, useCallback } from 'react';
 import { appContextDataReducer } from './appContextDataReducer';
-import { connectToMain, createUser } from 'api';
-import { CreateUserParams } from 'preload/api/users/types';
+import { connectToMain, createUser, login } from 'api';
+import { CreateUserParams, LoginParams } from 'preload/api/users/types';
 
 const initialData: AppContextDataState = {
   user: undefined,
+  isLoggingIn: false,
+  isLoggingInError: false,
   isAuthenticated: false,
   isConnected: false,
   isConnecting: false,
@@ -28,6 +30,28 @@ export const useAppContextData = () => {
 
   const navigateTo = useCallback((nextPage: AppPage) => {
     dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
+  }, []);
+
+  const logIn = useCallback(async (params: LoginParams) => {
+    try {
+      dispatch({ type: LOGIN.REQUEST });
+      const { response, error } = await login(params);
+
+      if (error) {
+        dispatch({
+          type: LOGIN.FAILURE,
+          payload: { error }
+        });
+      } else {
+        dispatch({
+          type: LOGIN.SUCCESS,
+          payload: { response }
+        });
+      }
+    } catch (error) {
+      // TODO
+      console.log(error);
+    }
   }, []);
 
   const logOut = useCallback(() => {
@@ -60,13 +84,13 @@ export const useAppContextData = () => {
       // TODO
       console.log(error);
     }
-  }, []);
+  }, [navigateTo]);
 
   const createAdmin = useCallback(
     async (params: CreateUserParams) => {
       try {
         dispatch({ type: CREATE_ADMIN.REQUEST, payload: { params } });
-        const { response, error } = await createUser(params);
+        const { error } = await createUser(params);
 
         if (error) {
           dispatch({
@@ -75,17 +99,19 @@ export const useAppContextData = () => {
           });
         } else {
           dispatch({
-            type: CREATE_ADMIN.SUCCESS,
-            payload: { response }
+            type: CREATE_ADMIN.SUCCESS
           });
-          navigateTo(APP_PAGE.LOGIN);
+          logIn({
+            username: params.username,
+            password: params.password
+          });
         }
       } catch (error) {
         // TODO
         console.log(error);
       }
     },
-    [navigateTo]
+    [logIn]
   );
 
   return { state, connect, navigateTo, logOut, createAdmin };

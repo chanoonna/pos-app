@@ -17,7 +17,12 @@ export interface GetUsersParams {
   access_level?: number;
 }
 
-export interface User {
+export interface LoginParams {
+  username: string;
+  password: string;
+}
+
+export interface UserDB {
   id: number;
   username: string;
   password: string;

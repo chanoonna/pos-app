@@ -1,2 +1,2 @@
 export { connectToMain } from './connect';
-export { createUser } from './users';
+export { createUser, login } from './users';

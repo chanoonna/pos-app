@@ -3,6 +3,8 @@ import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
 import type { CreateUserParams } from 'preload/api/users/types';
+import type { User } from 'models/user';
+import type { AppPage } from 'renderer/modules/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { LANGUAGE } from 'SettingsModule/constants';
@@ -13,9 +15,10 @@ import {
   BEFORE_STARTING,
   labels
 } from './constants';
+import { APP_PAGE } from 'modules/constants';
 
 /* --------------------------------- imports -------------------------------- */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { theme } from 'style/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -43,11 +46,17 @@ const initialState: AppStartingState = {
 const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
 
 export const AppStarting = ({
+  user,
   isConnected,
-  createAdmin
+  isAuthenticated,
+  createAdmin,
+  navigateTo
 }: {
+  user?: User;
   isConnected: boolean;
+  isAuthenticated: boolean;
   createAdmin: (params: CreateUserParams) => void;
+  navigateTo: (page: AppPage) => void;
 }) => {
   const [state, setState] = useState(initialState);
 
@@ -92,6 +101,12 @@ export const AppStarting = ({
       access_level: 1
     });
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo(APP_PAGE.LOGIN);
+    }
+  }, [isAuthenticated, navigateTo]);
 
   const appStartingLabel = labels[state.language];
   const isPasswordValid =

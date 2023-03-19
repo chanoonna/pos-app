@@ -15,9 +15,9 @@ import {
   printResultLog
 } from '../utils';
 import { Table } from './types';
-import { User } from '../users/types';
+import { UserDB } from '../users/types';
 
-export const connect = async (): Promise<QueryResult<User | undefined>> => {
+export const connect = async (): Promise<QueryResult<UserDB | undefined>> => {
   const ACTION = 'connect';
   printRequestLog({ action: ACTION });
 
@@ -54,7 +54,7 @@ export const connect = async (): Promise<QueryResult<User | undefined>> => {
       throw new Error(lastUserResult.error.message);
     }
 
-    printResultLog<User | undefined>({
+    printResultLog<UserDB | undefined>({
       action: ACTION,
       queryResult: lastUserResult.queryResult,
       error: lastUserResult.error

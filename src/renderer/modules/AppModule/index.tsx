@@ -42,7 +42,7 @@ export const App = () => {
   const MainComponent = appPageHash[currentPage];
 
   return user && currentPage !== APP_PAGE.APP_START ? (
-    <ThemeProvider theme={theme[user.color_theme]}>
+    <ThemeProvider theme={theme[user.colorTheme]}>
       <CssBaseline />
       <AppContext.Provider
         value={{
@@ -59,7 +59,13 @@ export const App = () => {
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
-    <AppStarting isConnected={state.isConnected} createAdmin={createAdmin} />
+    <AppStarting
+      user={user}
+      isAuthenticated={state.isAuthenticated}
+      isConnected={state.isConnected}
+      createAdmin={createAdmin}
+      navigateTo={navigateTo}
+    />
   );
 };
 

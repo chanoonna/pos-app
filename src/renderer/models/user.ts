@@ -4,9 +4,9 @@ import type { LanguageCode } from 'SettingsModule/types';
 export interface User {
   id: number;
   username: string;
-  last_login: string;
+  lastLogin: string;
   language: LanguageCode;
-  ui_size: string;
-  color_theme: ColorTheme;
-  access_level: number;
+  uiSize: string;
+  colorTheme: ColorTheme;
+  accessLevel: number;
 }

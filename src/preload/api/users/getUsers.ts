@@ -1,5 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
-import type { GetUsersParams, User } from './types';
+import type { GetUsersParams, UserDB } from './types';
 import type { QueryResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -21,8 +21,8 @@ export const getUsers = async ({
   pickOnly = ['id', 'username', 'last_login', 'is_archived', 'access_level']
 }: {
   params: GetUsersParams;
-  pickOnly?: (keyof User)[];
-}): Promise<QueryResult<User[]>> => {
+  pickOnly?: (keyof UserDB)[];
+}): Promise<QueryResult<UserDB[]>> => {
   const ACTION = 'getUsers';
 
   printRequestLog({ action: ACTION, params });
@@ -32,7 +32,7 @@ export const getUsers = async ({
     FROM ${USERS}
     ${buildWhereQuery(whereColums)};`;
 
-  const { rows, error } = await dbAsync.all<User>({
+  const { rows, error } = await dbAsync.all<UserDB>({
     query: getQuery,
     params: Object.values(params)
   });
@@ -46,7 +46,7 @@ export const getUsers = async ({
 };
 
 export const getLastLoggedInUser = async (): Promise<
-  QueryResult<User | undefined>
+  QueryResult<UserDB | undefined>
 > => {
   const ACTION = 'getLastLoggedInUser';
   printRequestLog({ action: ACTION });
@@ -65,7 +65,7 @@ export const getLastLoggedInUser = async (): Promise<
     LIMIT 1;`;
 
   try {
-    const { row, error } = await dbAsync.get<User>({
+    const { row, error } = await dbAsync.get<UserDB>({
       query
     });
 

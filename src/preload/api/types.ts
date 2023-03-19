@@ -6,7 +6,8 @@ export type Action =
   | 'createTables'
   | 'getLastLoggedInUser'
   | 'createUser'
-  | 'getUsers';
+  | 'getUsers'
+  | 'login';
 
 export type DataRequest<T = undefined> = T extends undefined
   ? {

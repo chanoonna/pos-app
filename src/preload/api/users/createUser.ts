@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { QueryResult } from '../types';
-import type { CreateUserParams, User } from './types';
+import type { CreateUserParams, UserDB } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { USERS, COLUMN } from '../tablesAndColumns';
@@ -17,7 +17,7 @@ import { getUsers } from './getUsers';
 
 export const createUser = async (
   params: CreateUserParams
-): Promise<QueryResult<User[] | undefined>> => {
+): Promise<QueryResult<UserDB[] | undefined>> => {
   const ACTION = 'createUser';
 
   const postQuery = `INSERT INTO ${USERS} (
