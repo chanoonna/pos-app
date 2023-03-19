@@ -1,4 +1,4 @@
-import type { ColorTheme } from 'style/types';
+import type { ColorTheme, UiSize } from 'style/types';
 import type { LanguageCode } from 'SettingsModule/types';
 
 export interface User {
@@ -6,7 +6,7 @@ export interface User {
   username: string;
   lastLogin: string;
   language: LanguageCode;
-  uiSize: string;
+  uiSize: UiSize;
   colorTheme: ColorTheme;
   accessLevel: number;
 }

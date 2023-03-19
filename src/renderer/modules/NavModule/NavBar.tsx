@@ -13,11 +13,12 @@ import { NavMenu } from './NavMenu';
 import { useAppContext } from 'renderer/modules/AppModule';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
+import { SizeAppliedText } from 'renderer/components/typography';
 
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
   const {
-    user: { language },
+    user: { language, uiSize },
     logOut
   } = useAppContext();
 
@@ -33,9 +34,6 @@ export const NavBar = () => {
     <Box
       sx={{
         flexGrow: 1,
-        '.MuiAppBar-root': {
-          backgroundColor: colors.backgroundBlack4
-        },
         '.MuiToolbar-root': {
           padding: 0
         }
@@ -44,9 +42,14 @@ export const NavBar = () => {
       <AppBar position="fixed">
         <Toolbar>
           <NavMenu />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <SizeAppliedText
+            component="div"
+            textTypeVariant="heading"
+            uiSize={uiSize}
+            flexGrow={1}
+          >
             Store name or Logo
-          </Typography>
+          </SizeAppliedText>
           <NavSearch onChange={handleChangeSearchText} language={language} />
           <Divider
             orientation="vertical"
@@ -55,8 +58,7 @@ export const NavBar = () => {
             sx={{
               mt: 2,
               mb: 2,
-              ml: 2.5,
-              backgroundColor: colors.mediumGray1
+              ml: 2.5
             }}
           />
           <Tooltip
@@ -64,16 +66,7 @@ export const NavBar = () => {
             arrow
             placement="bottom-start"
           >
-            <IconButton
-              size="large"
-              color="inherit"
-              sx={{
-                ':hover': {
-                  color: colors.mediumBlue1
-                }
-              }}
-              onClick={logOut}
-            >
+            <IconButton size="large" color="inherit" onClick={logOut}>
               <HomeIcon fontSize="large" />
             </IconButton>
           </Tooltip>
