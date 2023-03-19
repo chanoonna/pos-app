@@ -38,13 +38,12 @@ export const appContextDataReducer = (
       };
     }
     case CONNECT.SUCCESS: {
-      const { lastUser } = action.payload.response;
       return {
         ...state,
         isConnecting: false,
         isConnected: true,
         isConnectedError: false,
-        user: lastUser
+        user: action.payload.response
       };
     }
     default:

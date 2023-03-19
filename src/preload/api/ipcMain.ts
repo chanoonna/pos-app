@@ -3,51 +3,48 @@ import type { IpcMainInvokeEvent } from 'electron';
 import type { DataRequest } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
+import { API, ERROR_UNSPECIFIED } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
-import { handleConnect } from './connect';
+import { connect } from './connect';
 
 export const startApiRequestHandlers = () => {
   ipcMain.handle(
     API,
     async (_event: IpcMainInvokeEvent, request: DataRequest) => {
-      const { route } = request;
-      let result:
-        | { error?: Error; userFriendlyError?: string; response?: any }
-        | undefined;
+      const { action } = request;
 
       try {
-        switch (route) {
-          case ROUTE.CONNECT: {
-            result = await handleConnect(request);
-            break;
+        switch (action) {
+          case 'connect': {
+            const { queryResult, userFriendlyError } = await connect(request);
+
+            return {
+              response: queryResult,
+              error: userFriendlyError
+            };
           }
           default: {
-            const error = new Error(`Invalid route: ${route}`);
+            const error = new Error(`Invalid request action: ${action}`);
 
-            result = {
-              error,
-              userFriendlyError: error.message
+            return {
+              error: error.message
             };
           }
         }
       } catch (error) {
-        const userFriendlyError = `${ERROR_UNSPECIFIED} while processing the request for ${route}}`;
-        result = {
-          error: handleCatchAndPrintLog(request, error, userFriendlyError),
+        const userFriendlyError = `${ERROR_UNSPECIFIED} while processing the request for ${action}}`;
+        return {
+          error: handleCatchAndPrintLog({
+            action,
+            error,
+            alternateMessage: userFriendlyError
+          }),
           userFriendlyError
         };
       }
-
-      const { error, userFriendlyError, ...response } = result;
-
-      return {
-        response,
-        ...(userFriendlyError && { error: userFriendlyError })
-      };
     }
   );
 };

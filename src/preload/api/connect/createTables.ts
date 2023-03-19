@@ -1,5 +1,4 @@
 /* ---------------------------------- types --------------------------------- */
-import type { DataRequest } from '../types';
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -15,7 +14,6 @@ import {
   REFUNDS,
   REFUND_ITEMS,
   REFUND_TAXES,
-  LAST_USER,
   COLUMN
 } from '../tablesAndColumns';
 import { ERROR_UNSPECIFIED } from '../constants';
@@ -29,13 +27,13 @@ import {
 } from '../utils';
 
 export const createTables = async (
-  request: DataRequest<{ uncreatedTables: Table[] }>
+  uncreatedTables: Table[]
 ): Promise<Table[]> => {
-  const uncreatedTables = request.params.uncreatedTables;
+  const ACTION = 'createTables';
   const creationFailedTables: Table[] = [];
 
   for await (const tableName of uncreatedTables) {
-    printRequestLog(request);
+    printRequestLog({ action: ACTION, params: { tableName } });
 
     const query = tableCreationQuery[tableName];
 
@@ -44,14 +42,15 @@ export const createTables = async (
         query
       });
 
-      printResultLog(request, { error });
       if (error) {
         creationFailedTables.push(tableName);
       }
+      printResultLog({ action: ACTION, error });
     } catch (error) {
-      handleCatchAndPrintLog(request, {
+      handleCatchAndPrintLog({
+        action: ACTION,
         error,
-        errorMessage: `${ERROR_UNSPECIFIED} while creating tables.`
+        alternateMessage: `${ERROR_UNSPECIFIED} while creating tables.`
       });
     }
   }
@@ -70,6 +69,7 @@ const tableCreationQuery = {
       ${COLUMN[USERS].color_theme} TEXT DEFAULT 'default',
       ${COLUMN[USERS].is_archived} INTEGER NOT NULL DEFAULT 0,
       ${COLUMN[USERS].access_level} INTEGER NOT NULL DEFAULT 3,
+      ${COLUMN[USERS].last_login} TEXT,
       UNIQUE(${COLUMN[USERS].username})
     )
 `,
@@ -164,13 +164,5 @@ const tableCreationQuery = {
       FOREIGN KEY(${COLUMN[REFUND_TAXES].refund_item_id}) REFERENCES ${REFUND_ITEMS}(${COLUMN[REFUND_ITEMS].id}),
       FOREIGN KEY(${COLUMN[REFUND_TAXES].tax_id}) REFERENCES ${TAXES}(${COLUMN[TAXES].id})
     )
-`,
-  [LAST_USER]: `
-    CREATE TABLE ${LAST_USER} (
-      ${COLUMN[LAST_USER].id} INTEGER PRIMARY KEY AUTOINCREMENT,
-      ${COLUMN[LAST_USER].user_id} INTEGER,
-      ${COLUMN[LAST_USER].date} TEXT NOT NULL,
-      FOREIGN KEY(${COLUMN[LAST_USER].user_id}) REFERENCES ${USERS}(${COLUMN[USERS].id})
-    )
-  `
+`
 };

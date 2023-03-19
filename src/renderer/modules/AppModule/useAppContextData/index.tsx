@@ -5,13 +5,12 @@ import type { AppPage } from 'modules/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
-import { ROUTE } from 'preload/api/constants';
 import { CONNECT, NAVIGATE_TO, LOGOUT } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 import { useReducer, useCallback } from 'react';
 import { appContextDataReducer } from './appContextDataReducer';
-import { request } from 'api/utils';
+import { connectToMain } from 'api';
 
 const initialData: AppContextDataState = {
   user: undefined,
@@ -29,12 +28,7 @@ export const useAppContextData = () => {
     try {
       dispatch({ type: CONNECT.REQUEST });
 
-      const { response, error } = await request<undefined, { lastUser?: User }>(
-        {
-          route: ROUTE.CONNECT,
-          method: 'GET'
-        }
-      );
+      const { response, error } = await connectToMain();
 
       if (error) {
         dispatch({

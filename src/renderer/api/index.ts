@@ -1,1 +1,1 @@
-export { connect } from './connect';
+export { connectToMain } from './connect';

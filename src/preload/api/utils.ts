@@ -1,58 +1,48 @@
 /* ---------------------------------- types --------------------------------- */
-import type { Method, Route, SortAttribute } from './types';
+import type { DataRequest, Action, QueryResult, SortAttribute } from './types';
 
 /* --------------------------------- imports -------------------------------- */
 import { app } from 'electron';
-import sqlite from 'sqlite3';
+import sqlite, { RunResult } from 'sqlite3';
 import chalk from 'chalk';
 
-interface Request {
-  method: Method;
-  route: Route;
-  params?: any;
-}
-interface Result {
-  response?: any;
-  error?: Error;
-}
-
-export const printRequestLog = ({ method, route, params }: Request) => {
+export const printRequestLog = <T = undefined>({
+  action,
+  params
+}: DataRequest<T>) => {
   if (app.isPackaged) return;
 
-  const routeAndMethodLog = `(${method}) ${route}`;
-  const paramsLog = chalk.cyan(JSON.stringify(params));
-  const action = chalk.yellowBright(`REQUEST: ${routeAndMethodLog}`);
+  const actionLog = chalk.yellowBright(`ACTION: ${action}`);
+  const paramsLog = `${chalk.cyan('PARAMS:')} ${JSON.stringify(params)}`;
 
-  console.log(action);
+  console.log(actionLog);
   params && console.log(paramsLog);
 };
 
-export const printResultLog = (
-  { method, route, params }: Request,
-  { response, error }: Result
-) => {
+export const printResultLog = <T = undefined>({
+  action,
+  queryResult: result,
+  error
+}: QueryResult<T> & { action: Action }) => {
   if (app.isPackaged) return;
 
-  const methodAndRouteLog = `(${method}) ${route}`;
-  const paramsLog = `${chalk.cyan('PARAMS:')} ${params}`;
   const errorLog = chalk.red(error?.message);
+  const paramsLog = `${chalk.cyan('RESULT:')} ${JSON.stringify(result)}`;
+  const actionLog = error
+    ? chalk.red(`FAILURE: ${action}`)
+    : chalk.green(`SUCCESS ${action}`);
 
-  const action = error
-    ? chalk.red(`FAILURE: ${methodAndRouteLog}`)
-    : chalk.green(`SUCCESS: ${methodAndRouteLog}`);
-
-  console.log(action);
-  params && console.log(paramsLog);
-  response && console.log(response);
+  console.log(actionLog);
   error && console.log(errorLog);
+  result && console.log(paramsLog);
 };
 
 export const getAsyncRun =
   (db: sqlite.Database) =>
   ({ query, params }: { query: string; params?: (number | string)[] }) =>
-    new Promise<{ error?: Error }>((resolve) => {
-      db.run(query, params, (error: Error | null) => {
-        resolve({ ...(error && { error }) });
+    new Promise<{ runResult: RunResult; error?: Error }>((resolve) => {
+      db.run(query, params, function (error: Error | null) {
+        resolve({ runResult: this, ...(error && { error }) });
       });
     });
 
@@ -71,31 +61,38 @@ export const getAsyncGet =
 export const getAsyncAll =
   (db: sqlite.Database) =>
   <T>({ query, params }: { query: string; params?: (number | string)[] }) =>
-    new Promise<{ rows?: T; error?: Error }>((resolve) => {
-      db.all(query, params, (error: Error | null, rows: T) => {
+    new Promise<{ rows: T[]; error?: Error }>((resolve) => {
+      db.all(query, params, (error: Error | null, rows: T[]) => {
         resolve({
-          ...(rows && { rows }),
+          rows,
           ...(error && { error })
         });
       });
     });
 
-export const handleCatchAndPrintLog = (
-  request: Request,
-  error: unknown,
-  errorMessage?: string
-) => {
+export const handleCatchAndPrintLog = ({
+  action,
+  error,
+  alternateMessage
+}: {
+  action: Action;
+  error: unknown;
+  alternateMessage?: string;
+}) => {
   if (error instanceof Error) {
-    printResultLog(request, { error });
+    printResultLog({ action, error });
 
     return error;
   } else {
-    const error = new Error(errorMessage);
-    printResultLog(request, { error });
+    const error = new Error(alternateMessage);
+    printResultLog({ action, error });
 
     return error;
   }
 };
+
+export const buildWhereQuery = (wheres: string[]) =>
+  `WHERE ${wheres.join(' = ? AND ')} = ?\n`;
 
 export const buildSortQuery = <T>(sortAttributes: SortAttribute<T>) =>
   sortAttributes.reduce((query, [attribute, order]) => {

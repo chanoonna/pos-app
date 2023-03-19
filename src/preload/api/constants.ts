@@ -1,40 +1,4 @@
-export const API_RESPONSE_CHANNEL = {
-  DB_STARTUP: 'DB_STARTUP',
-  DB_AUTHENTICATION: 'DB_AUTHENTICATION',
-  DB_USERS: 'DB_USERS',
-  DB_SALES: 'DB_SALES',
-  DB_SALE_ITEMS: 'DB_SALE_ITEMS',
-  DB_TAXES: 'DB_TAXES',
-  DB_SALE_TAXES: 'DB_SALE_TAXES',
-  DB_REFUNDS: 'DB_REFUNDS',
-  DB_REFUND_ITEMS: 'DB_REFUND_ITEMS',
-  DB_REFUND_TAXES: 'DB_REFUND_TAXES',
-  DB_CATEGORIES: 'DB_CATEGORIES',
-  DB_ITEMS: 'DB_ITEMS',
-  DB_TAGS: 'DB_TAGS'
-} as const;
-
 export const API = 'API' as const;
-export const API_STARTUP = 'API_STARTUP' as const;
-
-export const ROUTE = {
-  CONNECT: '/connect',
-  CHECK_TABLES: '/connect/check_tables',
-  CREATE_TABLES: '/connect/create_tables',
-  AUTHENTICATION: '/authentication',
-  USERS: '/users',
-  SALES: '/sales',
-  SALE_ITEMS: '/sale_items',
-  TAXES: '/taxes',
-  SALE_TAXES: '/sale_taxes',
-  REFUNDS: '/refunds',
-  REFUND_ITEMS: '/refund_items',
-  REFUND_TAXES: '/refund_taxes',
-  CATEGORIES: '/categories',
-  ITEMS: '/items',
-  TAGS: '/tags',
-  LAST_USER: '/last_user'
-} as const;
 
 export const REQUEST_RESULT = {
   SUCCESS: 'SUCCESS',

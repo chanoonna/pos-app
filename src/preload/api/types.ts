@@ -1,19 +1,33 @@
-import { API_RESPONSE_CHANNEL, ROUTE, SORT_ASC, SORT_DESC } from './constants';
+import { SORT_ASC, SORT_DESC } from './constants';
 
-export type ResponseChannel = keyof typeof API_RESPONSE_CHANNEL;
-export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
-export type Route = (typeof ROUTE)[keyof typeof ROUTE];
+export type Action =
+  | 'connect'
+  | 'checkTables'
+  | 'createTables'
+  | 'getLastLoggedInUser'
+  | 'createUser'
+  | 'getUsers';
 
 export type DataRequest<T = undefined> = T extends undefined
   ? {
-      route: Route;
-      method: Method;
+      action: Action;
       params?: any;
     }
   : {
-      route: Route;
-      method: Method;
+      action: Action;
       params: T;
+    };
+
+export type QueryResult<T = undefined> = T extends undefined
+  ? {
+      queryResult?: any;
+      error?: Error;
+      userFriendlyError?: string;
+    }
+  : {
+      queryResult: T;
+      error?: Error;
+      userFriendlyError?: string;
     };
 
 export type DataResponse<T = undefined> = T extends undefined

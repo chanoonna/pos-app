@@ -33,7 +33,7 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: { response: { lastUser?: User } };
+  payload: { response?: User };
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;

@@ -1,0 +1,1 @@
+export { getLastLoggedInUser } from './getLastLoggedInUser';

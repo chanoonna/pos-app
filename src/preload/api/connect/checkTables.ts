@@ -13,12 +13,11 @@ import {
   handleCatchAndPrintLog
 } from '../utils';
 
-export const checkTables = async (
-  request: DataRequest<any>
-): Promise<{
+export const checkTables = async (): Promise<{
   uncreatedTables: Table[];
   tableCheckErrors: Table[];
 }> => {
+  const ACTION = 'checkTables';
   const tableCheckErrors: Table[] = [];
   const uncreatedTables: Table[] = [];
 
@@ -26,7 +25,7 @@ export const checkTables = async (
     const query = `SELECT name FROM sqlite_master WHERE type='table' AND name = ?`;
 
     try {
-      printRequestLog(request);
+      printRequestLog({ action: ACTION });
       const { row, error } = await dbAsync.get<{ name: Table }>({
         query,
         params: [tableName]
@@ -39,9 +38,9 @@ export const checkTables = async (
         tableCheckErrors.push(tableName);
       }
 
-      printResultLog(request, { response: row, error });
+      printResultLog({ action: ACTION, queryResult: row, error });
     } catch (error) {
-      handleCatchAndPrintLog(request, error);
+      handleCatchAndPrintLog({ action: ACTION, error });
     }
   }
 
