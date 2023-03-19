@@ -22,8 +22,7 @@ const initialData: AppContextDataState = {
   isConnectedError: false,
   isCreatingAdmin: false,
   isCreatingAdminError: false,
-  currentPage: APP_PAGE.APP_START,
-  isSettingsModalOpen: false
+  currentPage: APP_PAGE.APP_START
 };
 
 export const useAppContextData = () => {
