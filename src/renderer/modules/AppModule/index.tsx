@@ -23,15 +23,8 @@ import { APP_PAGE } from '../constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
-type AppContextValues = {
-  user: User;
-  currentPage: AppPage;
-  navigateTo: (nextPage: AppPage) => void;
-  logOut: () => void;
-};
-
 export const App = () => {
-  const { state, connect, navigateTo, createAdmin, logOut } =
+  const { state, connect, navigateTo, createAdmin, logOut, logIn } =
     useAppContextData();
   const { user, currentPage } = state;
 
@@ -49,7 +42,8 @@ export const App = () => {
           user,
           currentPage,
           navigateTo,
-          logOut
+          logOut,
+          logIn
         }}
       >
         <AppContainer>
@@ -68,6 +62,20 @@ export const App = () => {
     />
   );
 };
+
+interface AppContextValues {
+  user: User;
+  currentPage: AppPage;
+  navigateTo: (nextPage: AppPage) => void;
+  logOut: () => void;
+  logIn: ({
+    username,
+    password
+  }: {
+    username: string;
+    password: string;
+  }) => void;
+}
 
 const AppContext = createContext<AppContextValues>({} as AppContextValues);
 

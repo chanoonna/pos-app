@@ -100,25 +100,19 @@ const customThemeBase = {
         {
           props: { size: 'medium' },
           style: {
-            fontSize: '1rem',
-            height: 'fit-content',
-            width: 'fit-content'
+            fontSize: '1rem'
           }
         },
         {
           props: { size: 'large' },
           style: {
-            fontSize: '1.15rem',
-            height: 'fit-content',
-            width: 'fit-content'
+            fontSize: '1.15rem'
           }
         },
         {
           props: { size: 'extraLarge' },
           style: {
-            fontSize: '1.3rem',
-            height: 'fit-content',
-            width: 'fit-content'
+            fontSize: '1.3rem'
           }
         }
       ]

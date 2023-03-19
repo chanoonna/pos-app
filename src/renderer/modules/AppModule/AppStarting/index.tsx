@@ -104,9 +104,14 @@ export const AppStarting = ({
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigateTo(APP_PAGE.LOGIN);
+      navigateTo(APP_PAGE.MENU);
     }
   }, [isAuthenticated, navigateTo]);
+  useEffect(() => {
+    if (user && !isAuthenticated) {
+      navigateTo(APP_PAGE.LOGIN);
+    }
+  }, [isAuthenticated, navigateTo, user]);
 
   const appStartingLabel = labels[state.language];
   const isPasswordValid =

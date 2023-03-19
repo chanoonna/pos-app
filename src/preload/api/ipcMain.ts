@@ -29,7 +29,9 @@ export const startApiRequestHandlers = () => {
 
           /* ---------------------------------- users --------------------------------- */
           case 'createUser': {
-            const { queryResult, userFriendlyError } = await createUser(params);
+            const { queryResult, userFriendlyError } = await createUser({
+              params
+            });
 
             return {
               response: queryResult,

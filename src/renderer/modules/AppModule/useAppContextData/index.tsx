@@ -56,7 +56,7 @@ export const useAppContextData = () => {
 
   const logOut = useCallback(() => {
     dispatch({ type: LOGOUT });
-    navigateTo(APP_PAGE.APP_START);
+    navigateTo(APP_PAGE.LOGIN);
   }, [navigateTo]);
 
   const connect = useCallback(async () => {
@@ -114,5 +114,5 @@ export const useAppContextData = () => {
     [logIn]
   );
 
-  return { state, connect, navigateTo, logOut, createAdmin };
+  return { state, connect, navigateTo, logOut, logIn, createAdmin };
 };

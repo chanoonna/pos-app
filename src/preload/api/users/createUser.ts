@@ -15,9 +15,11 @@ import {
 } from '../utils';
 import { getUsers } from './getUsers';
 
-export const createUser = async (
-  params: CreateUserParams
-): Promise<QueryResult<UserDB[] | undefined>> => {
+export const createUser = async ({
+  params
+}: {
+  params: CreateUserParams;
+}): Promise<QueryResult<UserDB[] | undefined>> => {
   const ACTION = 'createUser';
 
   const postQuery = `INSERT INTO ${USERS} (

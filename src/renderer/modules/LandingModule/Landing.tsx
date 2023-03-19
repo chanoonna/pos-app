@@ -6,7 +6,7 @@ export const Landing = () => {
   return (
     <FlexContainer alignItems="center">
       <PaperContainer alignItems="center" justifyContent="center" height={500}>
-        {/* <LandingBody /> */}
+        <LandingBody />
       </PaperContainer>
     </FlexContainer>
   );
