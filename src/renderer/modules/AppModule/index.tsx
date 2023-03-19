@@ -36,11 +36,7 @@ export const App = () => {
   const { user, currentPage } = state;
 
   useEffect(() => {
-    const timeout = setTimeout(connect, 0);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    connect();
   }, [connect]);
 
   const MainComponent = appPageHash[currentPage];
