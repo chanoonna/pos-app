@@ -14,11 +14,13 @@ import { useAppContext } from 'renderer/modules/AppModule';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { labels } from './constants';
 import { SizeAppliedText } from 'renderer/components/typography';
+import { APP_PAGE } from '../constants';
 
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
   const {
     user: { language, uiSize },
+    currentPage,
     logOut
   } = useAppContext();
 
@@ -29,6 +31,8 @@ export const NavBar = () => {
   ) => {
     setSearchText(event.target.value);
   };
+
+  if (currentPage === APP_PAGE.LOGIN) return <div />;
 
   return (
     <Box
