@@ -64,12 +64,12 @@ export const login = async ({
     };
   } else {
     const passwordOmittedRow = omit(row, 'password');
-    printResultLog({ action: ACTION, queryResult: row, error });
 
     const now = new Date();
-    const date = `${now.getFullYear()}-${
-      now.getMonth() + 1
-    }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    const isoDateTime = new Date(
+      now.getTime() - now.getTimezoneOffset() * 60000
+    ).toISOString();
+    const date = isoDateTime.replace(/T|\.(\d{3})Z/g, ' ').trim();
 
     await dbAsync.run({
       query: `UPDATE ${USERS}
@@ -78,8 +78,17 @@ export const login = async ({
       params: [date, row.id]
     });
 
+    printResultLog({
+      action: ACTION,
+      queryResult: { ...passwordOmittedRow, last_login: date },
+      error
+    });
+
     return {
-      queryResult: passwordOmittedRow
+      queryResult: {
+        ...passwordOmittedRow,
+        last_login: date
+      }
     };
   }
 };
