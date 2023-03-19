@@ -22,7 +22,8 @@ const initialData: AppContextDataState = {
   isConnectedError: false,
   isCreatingAdmin: false,
   isCreatingAdminError: false,
-  currentPage: APP_PAGE.APP_START
+  currentPage: APP_PAGE.APP_START,
+  isSettingsModalOpen: false
 };
 
 export const useAppContextData = () => {
@@ -32,28 +33,31 @@ export const useAppContextData = () => {
     dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
   }, []);
 
-  const logIn = useCallback(async (params: LoginParams) => {
-    try {
-      dispatch({ type: LOGIN.REQUEST });
-      const { response, error } = await login(params);
+  const logIn = useCallback(
+    async (params: LoginParams) => {
+      try {
+        dispatch({ type: LOGIN.REQUEST });
+        const { response, error } = await login(params);
 
-      if (error) {
-        dispatch({
-          type: LOGIN.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: LOGIN.SUCCESS,
-          payload: { response }
-        });
-        navigateTo(APP_PAGE.MENU);
+        if (error) {
+          dispatch({
+            type: LOGIN.FAILURE,
+            payload: { error }
+          });
+        } else {
+          dispatch({
+            type: LOGIN.SUCCESS,
+            payload: { response }
+          });
+          navigateTo(APP_PAGE.MENU);
+        }
+      } catch (error) {
+        // TODO
+        console.log(error);
       }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
-  }, []);
+    },
+    [navigateTo]
+  );
 
   const logOut = useCallback(() => {
     dispatch({ type: LOGOUT });
