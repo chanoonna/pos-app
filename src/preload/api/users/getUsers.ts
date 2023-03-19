@@ -1,26 +1,34 @@
 /* ---------------------------------- types --------------------------------- */
 import type { GetUsersParams, User } from './types';
+import type { QueryResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { USERS, COLUMN } from '../tablesAndColumns';
+import { ERROR_UNSPECIFIED } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
-import { printRequestLog, buildWhereQuery, printResultLog } from '../utils';
+import {
+  handleCatchAndPrintLog,
+  printRequestLog,
+  printResultLog,
+  buildSelectQuery,
+  buildWhereQuery
+} from '../utils';
 import { dbAsync } from '../database';
 
-export const getUsers = async (
-  params: GetUsersParams
-): Promise<{ result: User[]; error?: Error }> => {
+export const getUsers = async ({
+  params,
+  pickOnly = ['id', 'username', 'last_login', 'is_archived', 'access_level']
+}: {
+  params: GetUsersParams;
+  pickOnly?: (keyof User)[];
+}): Promise<QueryResult<User[]>> => {
   const ACTION = 'getUsers';
 
   printRequestLog({ action: ACTION, params });
 
   const whereColums = Object.keys(params);
-  const getQuery = `SELECT ${COLUMN[USERS].id},
-    ${COLUMN[USERS].username},
-    ${COLUMN[USERS].last_login},
-    ${COLUMN[USERS].is_archived},
-    ${COLUMN[USERS].access_level}
+  const getQuery = `${buildSelectQuery(pickOnly)}
     FROM ${USERS}
     ${buildWhereQuery(whereColums)};`;
 
@@ -32,7 +40,49 @@ export const getUsers = async (
   printResultLog({ action: ACTION, queryResult: rows, error });
 
   return {
-    result: rows,
+    queryResult: rows,
     error
   };
+};
+
+export const getLastLoggedInUser = async (): Promise<
+  QueryResult<User | undefined>
+> => {
+  const ACTION = 'getLastLoggedInUser';
+  printRequestLog({ action: ACTION });
+
+  const query = `SELECT ${COLUMN[USERS].id},
+      ${COLUMN[USERS].username},
+      ${COLUMN[USERS].last_login},
+      ${COLUMN[USERS].access_level},
+      ${COLUMN[USERS].language},
+      ${COLUMN[USERS].ui_size},
+      ${COLUMN[USERS].color_theme}
+    FROM ${USERS}
+    WHERE ${COLUMN[USERS].is_archived} != 1 
+      AND ${COLUMN[USERS].last_login} IS NOT NULL
+    ORDER BY ${COLUMN[USERS].last_login} DESC
+    LIMIT 1;`;
+
+  try {
+    const { row, error } = await dbAsync.get<User>({
+      query
+    });
+
+    printResultLog({ action: ACTION, queryResult: row, error });
+    return {
+      queryResult: row,
+      error: error
+    };
+  } catch (error) {
+    const userFriendlyError = `${ERROR_UNSPECIFIED} while getting previous logged in user.`;
+    return {
+      error: handleCatchAndPrintLog({
+        action: ACTION,
+        error,
+        alternateMessage: userFriendlyError
+      }),
+      userFriendlyError
+    };
+  }
 };

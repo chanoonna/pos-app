@@ -26,4 +26,5 @@ export interface User {
   color_theme: ColorTheme;
   is_archived: number;
   access_level: number;
+  last_login: string;
 }

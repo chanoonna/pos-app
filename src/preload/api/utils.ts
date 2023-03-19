@@ -21,20 +21,20 @@ export const printRequestLog = <T = undefined>({
 
 export const printResultLog = <T = undefined>({
   action,
-  queryResult: result,
+  queryResult,
   error
 }: QueryResult<T> & { action: Action }) => {
   if (app.isPackaged) return;
 
   const errorLog = chalk.red(error?.message);
-  const paramsLog = `${chalk.cyan('RESULT:')} ${JSON.stringify(result)}`;
+  const paramsLog = `${chalk.cyan('RESULT:')} ${JSON.stringify(queryResult)}`;
   const actionLog = error
     ? chalk.red(`FAILURE: ${action}`)
     : chalk.green(`SUCCESS ${action}`);
 
   console.log(actionLog);
   error && console.log(errorLog);
-  result && console.log(paramsLog);
+  queryResult && console.log(paramsLog);
 };
 
 export const getAsyncRun =
@@ -90,6 +90,9 @@ export const handleCatchAndPrintLog = ({
     return error;
   }
 };
+
+export const buildSelectQuery = (attributes: string[]) =>
+  `SELECT ${attributes.join(', ')}\n`;
 
 export const buildWhereQuery = (wheres: string[]) =>
   `WHERE ${wheres.join(' = ? AND ')} = ?\n`;

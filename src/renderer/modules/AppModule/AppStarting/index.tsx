@@ -1,8 +1,8 @@
 /* ---------------------------------- types --------------------------------- */
-import type { AppPage } from 'modules/types';
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
+import type { CreateUserParams } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { LANGUAGE } from 'SettingsModule/constants';
@@ -44,10 +44,10 @@ const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
 
 export const AppStarting = ({
   isConnected,
-  navigateTo
+  createAdmin
 }: {
   isConnected: boolean;
-  navigateTo: (nextPage: AppPage) => void;
+  createAdmin: (params: CreateUserParams) => void;
 }) => {
   const [state, setState] = useState(initialState);
 
@@ -81,6 +81,16 @@ export const AppStarting = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setState((curr) => ({ ...curr, confirmPassword: event.target.value }));
+  };
+  const onCreateAdmin = () => {
+    createAdmin({
+      username: state.username,
+      password: state.password,
+      ui_size: state.uiSize,
+      color_theme: state.colorTheme,
+      language: state.language,
+      access_level: 1
+    });
   };
 
   const appStartingLabel = labels[state.language];
@@ -149,6 +159,7 @@ export const AppStarting = ({
               disableNext={state.step === 2 && !isPasswordValid}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
+              onCreateAdmin={onCreateAdmin}
             />
           </>
         ) : (

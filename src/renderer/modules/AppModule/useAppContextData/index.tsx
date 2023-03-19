@@ -1,16 +1,16 @@
 /* ---------------------------------- types --------------------------------- */
 import type { AppContextDataState } from './types';
-import type { User } from 'models/user';
 import type { AppPage } from 'modules/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
-import { CONNECT, NAVIGATE_TO, LOGOUT } from './constants';
+import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 import { useReducer, useCallback } from 'react';
 import { appContextDataReducer } from './appContextDataReducer';
-import { connectToMain } from 'api';
+import { connectToMain, createUser } from 'api';
+import { CreateUserParams } from 'preload/api/users/types';
 
 const initialData: AppContextDataState = {
   user: undefined,
@@ -18,11 +18,22 @@ const initialData: AppContextDataState = {
   isConnected: false,
   isConnecting: false,
   isConnectedError: false,
+  isCreatingAdmin: false,
+  isCreatingAdminError: false,
   currentPage: APP_PAGE.APP_START
 };
 
 export const useAppContextData = () => {
   const [state, dispatch] = useReducer(appContextDataReducer, initialData);
+
+  const navigateTo = useCallback((nextPage: AppPage) => {
+    dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
+  }, []);
+
+  const logOut = useCallback(() => {
+    dispatch({ type: LOGOUT });
+    navigateTo(APP_PAGE.APP_START);
+  }, [navigateTo]);
 
   const connect = useCallback(async () => {
     try {
@@ -40,6 +51,10 @@ export const useAppContextData = () => {
           type: CONNECT.SUCCESS,
           payload: { response }
         });
+
+        if (response) {
+          navigateTo(APP_PAGE.LOGIN);
+        }
       }
     } catch (error) {
       // TODO
@@ -47,14 +62,31 @@ export const useAppContextData = () => {
     }
   }, []);
 
-  const navigateTo = useCallback((nextPage: AppPage) => {
-    dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
-  }, []);
+  const createAdmin = useCallback(
+    async (params: CreateUserParams) => {
+      try {
+        dispatch({ type: CREATE_ADMIN.REQUEST, payload: { params } });
+        const { response, error } = await createUser(params);
 
-  const logOut = useCallback(() => {
-    dispatch({ type: LOGOUT });
-    navigateTo(APP_PAGE.APP_START);
-  }, [navigateTo]);
+        if (error) {
+          dispatch({
+            type: CREATE_ADMIN.FAILURE,
+            payload: { error }
+          });
+        } else {
+          dispatch({
+            type: CREATE_ADMIN.SUCCESS,
+            payload: { response }
+          });
+          navigateTo(APP_PAGE.LOGIN);
+        }
+      } catch (error) {
+        // TODO
+        console.log(error);
+      }
+    },
+    [navigateTo]
+  );
 
-  return { state, connect, navigateTo, logOut };
+  return { state, connect, navigateTo, logOut, createAdmin };
 };

@@ -10,4 +10,4 @@ import { request } from 'api/utils';
 /* ------------------------------------ - ----------------------------------- */
 
 export const createUser = (params: CreateUserParams) =>
-  request<CreateUserParams, User>({ action: 'createUser', params });
+  request<CreateUserParams, User | undefined>({ action: 'createUser', params });

@@ -32,7 +32,7 @@ export const COLUMN = {
     username: 'username' as const,
     password: 'password' as const,
     language: 'language' as const,
-    ui_size: 'text_size' as const,
+    ui_size: 'ui_size' as const,
     color_theme: 'color_theme' as const,
     is_archived: 'is_archived' as const,
     access_level: 'access_level' as const,

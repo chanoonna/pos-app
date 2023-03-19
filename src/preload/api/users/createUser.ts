@@ -50,8 +50,20 @@ export const createUser = async (
     printResultLog({ action: ACTION, error });
 
     if (!error) {
-      const { result, error } = await getUsers({ id: lastID });
-      return { queryResult: result, error };
+      const { queryResult, error } = await getUsers({
+        params: { id: lastID },
+        pickOnly: [
+          COLUMN[USERS].id,
+          COLUMN[USERS].username,
+          COLUMN[USERS].last_login,
+          COLUMN[USERS].is_archived,
+          COLUMN[USERS].access_level,
+          COLUMN[USERS].language,
+          COLUMN[USERS].ui_size,
+          COLUMN[USERS].color_theme
+        ]
+      });
+      return { queryResult, error };
     }
     return { error };
   } catch (error) {

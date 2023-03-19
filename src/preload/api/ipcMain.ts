@@ -9,17 +9,24 @@ import { API, ERROR_UNSPECIFIED } from './constants';
 import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
 import { connect } from './connect';
+import { createUser } from './users';
 
 export const startApiRequestHandlers = () => {
   ipcMain.handle(
     API,
-    async (_event: IpcMainInvokeEvent, request: DataRequest) => {
-      const { action } = request;
-
+    async (_event: IpcMainInvokeEvent, { action, params }: DataRequest) => {
       try {
         switch (action) {
           case 'connect': {
-            const { queryResult, userFriendlyError } = await connect(request);
+            const { queryResult, userFriendlyError } = await connect();
+
+            return {
+              response: queryResult,
+              error: userFriendlyError
+            };
+          }
+          case 'createUser': {
+            const { queryResult, userFriendlyError } = await createUser(params);
 
             return {
               response: queryResult,

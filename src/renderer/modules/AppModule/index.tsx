@@ -19,6 +19,7 @@ import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
 import { theme } from 'style/theme';
+import { APP_PAGE } from '../constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -30,7 +31,8 @@ type AppContextValues = {
 };
 
 export const App = () => {
-  const { state, connect, navigateTo, logOut } = useAppContextData();
+  const { state, connect, navigateTo, createAdmin, logOut } =
+    useAppContextData();
   const { user, currentPage } = state;
 
   useEffect(() => {
@@ -43,8 +45,8 @@ export const App = () => {
 
   const MainComponent = appPageHash[currentPage];
 
-  return user ? (
-    <ThemeProvider theme={theme[user.colorTheme]}>
+  return user && currentPage !== APP_PAGE.APP_START ? (
+    <ThemeProvider theme={theme[user.color_theme]}>
       <CssBaseline />
       <AppContext.Provider
         value={{
@@ -61,7 +63,7 @@ export const App = () => {
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
-    <AppStarting isConnected={state.isConnected} navigateTo={navigateTo} />
+    <AppStarting isConnected={state.isConnected} createAdmin={createAdmin} />
   );
 };
 

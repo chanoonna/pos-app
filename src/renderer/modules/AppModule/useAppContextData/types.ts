@@ -1,9 +1,10 @@
 /* ---------------------------------- types --------------------------------- */
 import type { User } from 'models/user';
 import type { AppPage } from 'modules/types';
+import type { CreateUserParams } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT, NAVIGATE_TO, LOGOUT } from './constants';
+import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -13,6 +14,8 @@ export interface AppContextDataState {
   isConnected: boolean;
   isConnecting: boolean;
   isConnectedError: boolean;
+  isCreatingAdmin: boolean;
+  isCreatingAdminError: boolean;
   currentPage: AppPage;
 }
 
@@ -24,6 +27,9 @@ export type AppContextDataAction =
   | ConnectRequestAction
   | ConnectSuccessAction
   | ConnectFailureAction
+  | CreateAdminRequestAction
+  | CreateAdminSuccessAction
+  | CreateAdminFailureAction
   | NavigateToAction
   | LogoutAction;
 
@@ -37,6 +43,20 @@ interface ConnectSuccessAction {
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;
+  payload: { error: Error };
+}
+
+/* ------------------------------ CREATE_ADMIN ------------------------------ */
+interface CreateAdminRequestAction {
+  type: typeof CREATE_ADMIN.REQUEST;
+  payload: { params: CreateUserParams };
+}
+interface CreateAdminSuccessAction {
+  type: typeof CREATE_ADMIN.SUCCESS;
+  payload: { response: User[] };
+}
+interface CreateAdminFailureAction {
+  type: typeof CREATE_ADMIN.FAILURE;
   payload: { error: Error };
 }
 

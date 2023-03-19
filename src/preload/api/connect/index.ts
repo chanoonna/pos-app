@@ -17,10 +17,9 @@ import {
 import { Table } from './types';
 import { User } from '../users/types';
 
-export const connect = async (
-  request: DataRequest
-): Promise<QueryResult<User | undefined>> => {
-  printRequestLog(request);
+export const connect = async (): Promise<QueryResult<User | undefined>> => {
+  const ACTION = 'connect';
+  printRequestLog({ action: ACTION });
 
   try {
     /* --------------------------- database connection -------------------------- */
@@ -56,7 +55,7 @@ export const connect = async (
     }
 
     printResultLog<User | undefined>({
-      action: 'connect',
+      action: ACTION,
       queryResult: lastUserResult.queryResult,
       error: lastUserResult.error
     });
@@ -66,7 +65,7 @@ export const connect = async (
     const userFriendlyError = `${ERROR_UNSPECIFIED} while starting databse.`;
     return {
       error: handleCatchAndPrintLog({
-        action: request.action,
+        action: ACTION,
         error,
         alternateMessage: userFriendlyError
       }),
