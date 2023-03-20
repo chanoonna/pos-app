@@ -7,7 +7,8 @@ import '@fontsource/roboto/700.css';
 
 /* ---------------------------------- types --------------------------------- */
 import type { AppPage } from 'modules/types';
-import type { User } from 'models/user';
+import type { User, Settings } from 'models';
+import type { AppContextDataState } from './useAppContextData/types';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
@@ -18,52 +19,90 @@ import { useAppContextData } from './useAppContextData';
 import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
+import { SettingsModal } from 'SettingsModule/SettingsModal';
 import { theme } from 'style/theme';
+import { APP_PAGE } from '../constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
-type AppContextValues = {
-  user: User;
-  currentPage: AppPage;
-  navigateTo: (nextPage: AppPage) => void;
-  logOut: () => void;
-};
-
 export const App = () => {
-  const { state, connect, navigateTo, logOut } = useAppContextData();
-  const { user, currentPage } = state;
+  const {
+    state,
+    connect,
+    navigateTo,
+    createAdmin,
+    logOut,
+    logIn,
+    getSettings,
+    updateSettings,
+    setSettingsModalOpen
+  } = useAppContextData();
+  const { user, currentPage, settingsState } = state;
 
   useEffect(() => {
-    const timeout = setTimeout(connect, 0);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [connect]);
+    connect();
+    getSettings();
+  }, [connect, getSettings]);
 
   const MainComponent = appPageHash[currentPage];
 
-  return user ? (
-    <ThemeProvider theme={theme[user.colorTheme]}>
+  return user && currentPage !== APP_PAGE.APP_START ? (
+    <ThemeProvider theme={theme[settingsState.colorTheme]}>
       <CssBaseline />
       <AppContext.Provider
         value={{
           user,
+          settingsState,
+          isLoggingIn: state.isLoggingIn,
+          isLoggingInError: state.isLoggingInError,
           currentPage,
           navigateTo,
-          logOut
+          logOut,
+          logIn,
+          updateSettings,
+          setSettingsModalOpen
         }}
       >
         <AppContainer>
           <NavBar />
           <MainComponent />
         </AppContainer>
+        <SettingsModal />
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
-    <AppStarting isConnected={state.isConnected} navigateTo={navigateTo} />
+    <AppStarting
+      user={user}
+      language={settingsState.language}
+      uiSize={settingsState.uiSize}
+      colorTheme={settingsState.colorTheme}
+      isAuthenticated={state.isAuthenticated}
+      isConnected={state.isConnected}
+      createAdmin={createAdmin}
+      navigateTo={navigateTo}
+      updateSettings={updateSettings}
+    />
   );
 };
+
+interface AppContextValues {
+  user: User;
+  settingsState: AppContextDataState['settingsState'];
+  isLoggingIn: boolean;
+  isLoggingInError: boolean;
+  currentPage: AppPage;
+  navigateTo: (nextPage: AppPage) => void;
+  logOut: () => void;
+  logIn: ({
+    username,
+    password
+  }: {
+    username: string;
+    password: string;
+  }) => void;
+  updateSettings: (settings: Settings) => void;
+  setSettingsModalOpen: (isOpen: boolean) => void;
+}
 
 const AppContext = createContext<AppContextValues>({} as AppContextValues);
 

@@ -1,11 +1,12 @@
 /* ---------------------------------- types --------------------------------- */
-import type { AppPage } from 'modules/types';
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
+import type { CreateUserParams } from 'preload/api/users/types';
+import type { Settings, User } from 'renderer/models';
+import type { AppPage } from 'renderer/modules/types';
 
 /* -------------------------------- constants ------------------------------- */
-import { LANGUAGE } from 'SettingsModule/constants';
 import {
   SELECT_LANGUAGE,
   SYSTEM_SETTINGS,
@@ -13,9 +14,10 @@ import {
   BEFORE_STARTING,
   labels
 } from './constants';
+import { APP_PAGE } from 'modules/constants';
 
 /* --------------------------------- imports -------------------------------- */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { theme } from 'style/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -32,9 +34,6 @@ import { BeforeStarting } from './BeforeStarting';
 
 const initialState: AppStartingState = {
   step: 0,
-  language: LANGUAGE.ENGLISH.languageCode,
-  uiSize: 'large',
-  colorTheme: 'bright',
   username: 'admin',
   password: '',
   confirmPassword: ''
@@ -43,24 +42,38 @@ const initialState: AppStartingState = {
 const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
 
 export const AppStarting = ({
+  user,
+  language,
+  uiSize,
+  colorTheme,
   isConnected,
-  navigateTo
+  isAuthenticated,
+  createAdmin,
+  navigateTo,
+  updateSettings
 }: {
+  user?: User;
+  language: LanguageCode;
+  uiSize: UiSize;
+  colorTheme: ColorTheme;
   isConnected: boolean;
-  navigateTo: (nextPage: AppPage) => void;
+  isAuthenticated: boolean;
+  createAdmin: (params: CreateUserParams) => void;
+  navigateTo: (page: AppPage) => void;
+  updateSettings: (params: Settings) => void;
 }) => {
   const [state, setState] = useState(initialState);
 
-  const setLanguage = (language: LanguageCode) => {
-    setState((curr) => ({ ...curr, language }));
+  const setLanguage = (newLanguage: LanguageCode) => {
+    updateSettings({ language: newLanguage, uiSize, colorTheme });
   };
   const setUiSize = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uiSize = event.target.value as UiSize;
-    setState((curr) => ({ ...curr, uiSize }));
+    const newUiSize = event.target.value as UiSize;
+    updateSettings({ language, uiSize: newUiSize, colorTheme });
   };
   const setColorTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const colorTheme = event.target.value as ColorTheme;
-    setState((curr) => ({ ...curr, colorTheme }));
+    const newColorTheme = event.target.value as ColorTheme;
+    updateSettings({ language, uiSize, colorTheme: newColorTheme });
   };
   const onClickNext = () => {
     setState((curr) => ({
@@ -82,13 +95,31 @@ export const AppStarting = ({
   ) => {
     setState((curr) => ({ ...curr, confirmPassword: event.target.value }));
   };
+  const onCreateAdmin = () => {
+    createAdmin({
+      username: state.username,
+      password: state.password,
+      access_level: 1
+    });
+  };
 
-  const appStartingLabel = labels[state.language];
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo(APP_PAGE.MENU);
+    }
+  }, [isAuthenticated, navigateTo]);
+  useEffect(() => {
+    if (user && !isAuthenticated) {
+      navigateTo(APP_PAGE.LOGIN);
+    }
+  }, [isAuthenticated, navigateTo, user]);
+
+  const appStartingLabel = labels[language];
   const isPasswordValid =
     !!state.password.length && state.password === state.confirmPassword;
 
   return (
-    <ThemeProvider theme={theme[state.colorTheme]}>
+    <ThemeProvider theme={theme[colorTheme]}>
       <CssBaseline />
       <PageContainer
         padding="2rem 0"
@@ -100,30 +131,30 @@ export const AppStarting = ({
           <>
             <SetupStepper
               steps={STEPS}
-              uiSize={state.uiSize}
+              uiSize={uiSize}
               activeStep={state.step}
               labels={appStartingLabel}
             />
             {state.step === 0 && (
               <LanguageSelect
-                uiSize={state.uiSize}
+                uiSize={uiSize}
                 labels={appStartingLabel}
-                language={state.language}
+                language={language}
                 setLanguage={setLanguage}
               />
             )}
             {state.step === 1 && (
               <SystemSettings
                 labels={appStartingLabel}
-                uiSize={state.uiSize}
-                colorTheme={state.colorTheme}
+                uiSize={uiSize}
+                colorTheme={colorTheme}
                 setUiSize={setUiSize}
                 setColorTheme={setColorTheme}
               />
             )}
             {state.step === 2 && (
               <CreateAdmin
-                uiSize={state.uiSize}
+                uiSize={uiSize}
                 labels={appStartingLabel}
                 username={state.username}
                 password={state.password}
@@ -138,17 +169,18 @@ export const AppStarting = ({
               />
             )}
             {state.step === 3 && (
-              <BeforeStarting labels={appStartingLabel} uiSize={state.uiSize} />
+              <BeforeStarting labels={appStartingLabel} uiSize={uiSize} />
             )}
             <StepButtonGroup
               activeStep={state.step}
               steps={STEPS}
               labels={appStartingLabel}
-              uiSize={state.uiSize}
+              uiSize={uiSize}
               disabledTooltip={appStartingLabel.noPasswordMatchTooltip}
               disableNext={state.step === 2 && !isPasswordValid}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
+              onCreateAdmin={onCreateAdmin}
             />
           </>
         ) : (

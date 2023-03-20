@@ -6,7 +6,7 @@
   "createAdmin": "Create Admin",
   "beforeStarting": "Before Starting",
   "beforeStartingCaution": "CAUTION",
-  "beforeStartingText1": ": This is an open source software. Please note that the authors are not responsible for any damage caused by this software. Please read the license agreement before clicking 'AGREE'. ",
+  "beforeStartingText1": ": This is an open source software. No technical support will be provided and the authors are not responsible for any damage caused by this software. Please read the license agreement before clicking 'AGREE'. ",
   "beforeStartingTextClickHere": "(Click here)",
   "beforeStartingText2": "By clicking 'AGREE', you are agreeing to the license agreement and admin account will be created. Admin account has all of the permissions of database options.",
   "beforeStartingText3": "You can set 'Automatic database backup' option in Settings page. Automatic backup option is highly recommended. If your database is corrupted, restore it with one of the backups. You can restore database with backup in Settings page. If you want to reset the system, you can do it in Settings page. Or simply deleting the main database file will work the same way.",

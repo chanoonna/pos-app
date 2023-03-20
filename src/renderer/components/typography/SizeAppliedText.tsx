@@ -11,13 +11,19 @@ export const SizeAppliedText = ({
   uiSize,
   textTypeVariant,
   children,
+  component = 'p',
   ...styles
 }: Omit<CSSProperties, 'fontSize' | 'translate'> & {
   uiSize: UiSize;
   textTypeVariant: TextTypeVariant;
+  component?: 'p' | 'div' | 'span';
   children: ReactNode;
 }) => (
-  <Typography {...styles} fontSize={fontSize[textTypeVariant][uiSize]}>
+  <Typography
+    component={component}
+    {...styles}
+    fontSize={fontSize[textTypeVariant][uiSize]}
+  >
     {children}
   </Typography>
 );

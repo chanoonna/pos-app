@@ -1,53 +1,91 @@
 /* ---------------------------------- types --------------------------------- */
 import type { IpcMainInvokeEvent } from 'electron';
-import type { DataRequest } from './types';
+import type { RequestAction } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { API, ERROR_UNSPECIFIED, ROUTE } from './constants';
+import { API, ERROR_UNSPECIFIED } from './constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
-import { handleConnect } from './connect';
+import { connect } from './connect';
+import { createUser, login } from './users';
+import { getSettings, updateSettings } from './settings';
 
 export const startApiRequestHandlers = () => {
   ipcMain.handle(
     API,
-    async (_event: IpcMainInvokeEvent, request: DataRequest) => {
-      const { route } = request;
-      let result:
-        | { error?: Error; userFriendlyError?: string; response?: any }
-        | undefined;
-
+    async (_event: IpcMainInvokeEvent, { action, params }: RequestAction) => {
       try {
-        switch (route) {
-          case ROUTE.CONNECT: {
-            result = await handleConnect(request);
-            break;
-          }
-          default: {
-            const error = new Error(`Invalid route: ${route}`);
+        switch (action) {
+          /* --------------------------------- connect -------------------------------- */
+          case 'connect': {
+            const { result, userFriendlyError } = await connect();
 
-            result = {
-              error,
-              userFriendlyError: error.message
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+
+          /* ---------------------------------- users --------------------------------- */
+          case 'createUser': {
+            const { result, userFriendlyError } = await createUser({
+              params
+            });
+
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+          case 'login': {
+            const { result, userFriendlyError } = await login({ params });
+
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+
+          /* -------------------------------- settings -------------------------------- */
+          case 'getSettings': {
+            const { result, userFriendlyError } = await getSettings();
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+          case 'updateSettings': {
+            const { result, userFriendlyError } = await updateSettings({
+              params
+            });
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+
+          /* --------------------------------- default -------------------------------- */
+          default: {
+            const error = new Error(`Invalid request action: ${action}`);
+
+            return {
+              error: error.message
             };
           }
         }
       } catch (error) {
-        const userFriendlyError = `${ERROR_UNSPECIFIED} while processing the request for ${route}}`;
-        result = {
-          error: handleCatchAndPrintLog(request, error, userFriendlyError),
+        const userFriendlyError = `${ERROR_UNSPECIFIED} while processing the request for ${action}}`;
+        return {
+          error: handleCatchAndPrintLog({
+            action,
+            error,
+            alternateMessage: userFriendlyError
+          }),
           userFriendlyError
         };
       }
-
-      const { error, userFriendlyError, ...response } = result;
-
-      return {
-        response,
-        ...(userFriendlyError && { error: userFriendlyError })
-      };
     }
   );
 };

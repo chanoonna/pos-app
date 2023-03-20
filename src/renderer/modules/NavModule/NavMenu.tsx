@@ -21,12 +21,18 @@ export const NavMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const open = Boolean(targetRef);
   const {
-    user: { language },
-    logOut
+    settingsState: { language },
+    logOut,
+    setSettingsModalOpen
   } = useAppContext();
   const appMenuLabels = labels[language].NavMenu;
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTargetRef((prev) => (prev ? null : event.currentTarget));
+  };
+
+  const openSettingsModal = (event: React.MouseEvent<HTMLElement>) => {
+    setSettingsModalOpen(true);
+    toggleMenu(event);
   };
 
   return (
@@ -109,7 +115,7 @@ export const NavMenu = () => {
           </ListItemIcon>
           {appMenuLabels.myProfile}
         </MenuItem>
-        <MenuItem onClick={toggleMenu}>
+        <MenuItem onClick={openSettingsModal}>
           <ListItemIcon>
             <Settings />
           </ListItemIcon>

@@ -1,7 +1,3 @@
-/* ---------------------------------- types --------------------------------- */
-import type { LanguageCode } from 'SettingsModule/types';
-import type { ColorTheme, UiSize } from 'style/types';
-
 /* -------------------------------- constants ------------------------------- */
 import {
   SELECT_LANGUAGE,
@@ -14,9 +10,6 @@ import {
 
 export interface AppStartingState {
   step: number;
-  language: LanguageCode;
-  uiSize: UiSize;
-  colorTheme: ColorTheme;
   username: string;
   password: string;
   confirmPassword: string;

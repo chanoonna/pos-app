@@ -18,7 +18,6 @@ export const PaperContainer = ({
   alignItems = 'center',
   justifyContent = 'flex-start',
   rowGap = '2rem',
-  backgroundColor = colors.charcoalGray1,
   children
 }: PaperContainerProps & { children: ReactNode }) => {
   return (
@@ -26,7 +25,6 @@ export const PaperContainer = ({
       sx={{
         width,
         height,
-        backgroundColor,
         display: 'flex',
         flexDirection: 'column',
         alignItems,

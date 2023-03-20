@@ -16,7 +16,7 @@ import { useAppContext } from 'renderer/modules/AppModule';
 export const LanguageSetting = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const {
-    user: { language: currentLanguage }
+    settingsState: { language: currentLanguage }
   } = useAppContext();
 
   const toggleLanguageMenu = (event: React.MouseEvent<HTMLElement>) => {

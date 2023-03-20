@@ -1,29 +1,25 @@
-import type { DataRequest } from '../types';
+import type { RequestAction, RequestResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { ERROR_TABLE_CHECK_FAIL, ERROR_TABLE_CREATION_FAIL } from './constants';
-import { ERROR_UNSPECIFIED, ROUTE } from '../constants';
+import { ERROR_UNSPECIFIED } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { connectDatabase } from '../database';
 import { checkTables } from './checkTables';
 import { createTables } from './createTables';
+import { getLastLoggedInUser } from '../users';
 import {
   handleCatchAndPrintLog,
   printRequestLog,
   printResultLog
 } from '../utils';
-import { getLastUser, LastUser } from './getLastUser';
 import { Table } from './types';
+import { UserDB } from '../users/types';
 
-export const handleConnect = async (
-  request: DataRequest
-): Promise<{
-  error?: Error;
-  userFriendlyError?: string;
-  lastUser?: LastUser;
-}> => {
-  printRequestLog(request);
+export const connect = async (): Promise<RequestResult<UserDB | undefined>> => {
+  const ACTION = 'connect';
+  printRequestLog({ action: ACTION });
 
   try {
     /* --------------------------- database connection -------------------------- */
@@ -34,11 +30,7 @@ export const handleConnect = async (
     }
 
     /* ----------------------------- checking tables ---------------------------- */
-    const { uncreatedTables, tableCheckErrors } = await checkTables({
-      method: 'GET',
-      route: ROUTE.CHECK_TABLES,
-      params: undefined
-    });
+    const { uncreatedTables, tableCheckErrors } = await checkTables();
 
     if (tableCheckErrors.length) {
       throw new Error(
@@ -47,11 +39,7 @@ export const handleConnect = async (
     }
 
     const creationFailedTables = uncreatedTables.length
-      ? await createTables({
-          method: 'GET',
-          route: ROUTE.CREATE_TABLES,
-          params: { uncreatedTables }
-        })
+      ? await createTables(uncreatedTables)
       : ([] as Table[]);
 
     if (creationFailedTables.length) {
@@ -60,26 +48,28 @@ export const handleConnect = async (
       );
     }
 
-    const lastUserResult = await getLastUser({
-      method: 'GET',
-      route: ROUTE.LAST_USER
-    });
+    const lastUserResult = await getLastLoggedInUser();
 
     if (lastUserResult.error) {
       throw new Error(lastUserResult.error.message);
     }
 
-    const response = {
-      lastUser: lastUserResult.lastUser
-    };
+    printResultLog<UserDB | undefined>({
+      action: ACTION,
+      result: lastUserResult.result,
+      error: lastUserResult.error
+    });
 
-    printResultLog(request, { response });
-
-    return response;
+    return { result: lastUserResult.result };
   } catch (error) {
+    const userFriendlyError = `${ERROR_UNSPECIFIED} while starting databse.`;
     return {
-      error: handleCatchAndPrintLog(request, error),
-      userFriendlyError: `${ERROR_UNSPECIFIED} while starting databse.`
+      error: handleCatchAndPrintLog({
+        action: ACTION,
+        error,
+        alternateMessage: userFriendlyError
+      }),
+      userFriendlyError
     };
   }
 };
