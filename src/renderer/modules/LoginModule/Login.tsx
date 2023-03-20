@@ -2,7 +2,6 @@
 import type { FormEvent, ChangeEvent } from 'react';
 
 /* -------------------------------- constants ------------------------------- */
-import { APP_PAGE } from '../constants';
 import { labels } from './constants';
 
 /* --------------------------------- imports -------------------------------- */

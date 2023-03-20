@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { UiSize, ColorTheme } from 'style/types';
-import type { Labels } from 'AppModule/AppStarting/constants';
+import type { Labels } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 
@@ -19,7 +19,7 @@ export const SizeAndColorOptions = ({
   setUiSize,
   setColorTheme
 }: {
-  labels: Labels;
+  labels: Labels['SizeAndColorOptions'];
   uiSize: UiSize;
   colorTheme: ColorTheme;
   setUiSize: (event: React.ChangeEvent<HTMLInputElement>) => void;

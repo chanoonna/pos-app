@@ -1,12 +1,10 @@
 /* ---------------------------------- types --------------------------------- */
 import type { LanguageCode } from 'SettingsModule/types';
 import type { UiSize } from 'style/types';
-import type { Labels } from 'AppModule/AppStarting/constants';
+import type { Labels } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -24,7 +22,7 @@ export const LanguageSelect = ({
   language,
   setLanguage
 }: {
-  labels: Labels;
+  labels: Labels['LanguageSelector'];
   uiSize: UiSize;
   language: LanguageCode;
   setLanguage: (language: LanguageCode) => void;
