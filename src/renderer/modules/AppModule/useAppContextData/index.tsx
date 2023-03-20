@@ -11,7 +11,8 @@ import {
   LOGOUT,
   LOGIN,
   GET_SETTINGS,
-  UPDATE_SETTINGS
+  UPDATE_SETTINGS,
+  SET_SETTINGS_MODAL_OPEN
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -97,6 +98,16 @@ export const useAppContextData = () => {
       console.log(error);
     }
   }, []);
+
+  const setSettingsModalOpen = useCallback(
+    (isSettingsModalOpen: boolean) => {
+      dispatch({
+        type: SET_SETTINGS_MODAL_OPEN,
+        payload: { isSettingsModalOpen }
+      });
+    },
+    [dispatch]
+  );
 
   const navigateTo = useCallback((nextPage: AppPage) => {
     dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
@@ -196,6 +207,7 @@ export const useAppContextData = () => {
     logIn,
     createAdmin,
     getSettings,
-    updateSettings
+    updateSettings,
+    setSettingsModalOpen
   };
 };

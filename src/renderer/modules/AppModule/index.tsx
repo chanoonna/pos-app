@@ -19,6 +19,7 @@ import { useAppContextData } from './useAppContextData';
 import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
+import { SettingsModal } from 'SettingsModule/SettingsModal';
 import { theme } from 'style/theme';
 import { APP_PAGE } from '../constants';
 
@@ -33,7 +34,8 @@ export const App = () => {
     logOut,
     logIn,
     getSettings,
-    updateSettings
+    updateSettings,
+    setSettingsModalOpen
   } = useAppContextData();
   const { user, currentPage, settingsState } = state;
 
@@ -56,13 +58,15 @@ export const App = () => {
           currentPage,
           navigateTo,
           logOut,
-          logIn
+          logIn,
+          setSettingsModalOpen
         }}
       >
         <AppContainer>
           <NavBar />
           <MainComponent />
         </AppContainer>
+        <SettingsModal />
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
@@ -95,6 +99,7 @@ interface AppContextValues {
     username: string;
     password: string;
   }) => void;
+  setSettingsModalOpen: (isOpen: boolean) => void;
 }
 
 const AppContext = createContext<AppContextValues>({} as AppContextValues);

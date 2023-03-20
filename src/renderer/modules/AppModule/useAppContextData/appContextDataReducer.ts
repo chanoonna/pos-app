@@ -9,7 +9,8 @@ import {
   CREATE_ADMIN,
   LOGIN,
   GET_SETTINGS,
-  UPDATE_SETTINGS
+  UPDATE_SETTINGS,
+  SET_SETTINGS_MODAL_OPEN
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -147,6 +148,17 @@ export const appContextDataReducer = (
           language: action.payload.response.language,
           uiSize: action.payload.response.ui_size,
           colorTheme: action.payload.response.color_theme
+        }
+      };
+    }
+
+    /* ------------------------- SET_SETTINGS_MODAL_OPEN ------------------------ */
+    case SET_SETTINGS_MODAL_OPEN: {
+      return {
+        ...state,
+        settingsState: {
+          ...state.settingsState,
+          isSettingsModalOpen: action.payload.isSettingsModalOpen
         }
       };
     }

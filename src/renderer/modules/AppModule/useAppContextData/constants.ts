@@ -9,3 +9,4 @@ export const LOGOUT = 'LOGOUT' as const;
 export const SET_INITIAL_LANGUAGE = 'SET_INITIAL_LANGUAGE' as const;
 export const GET_SETTINGS = createRequestActionMap('GET_SETTINGS');
 export const UPDATE_SETTINGS = createRequestActionMap('UPDATE_SETTINGS');
+export const SET_SETTINGS_MODAL_OPEN = 'SET_SETTINGS_MODAL_OPEN' as const;

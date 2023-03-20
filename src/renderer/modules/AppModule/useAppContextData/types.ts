@@ -11,7 +11,8 @@ import {
   LOGOUT,
   LOGIN,
   GET_SETTINGS,
-  UPDATE_SETTINGS
+  UPDATE_SETTINGS,
+  SET_SETTINGS_MODAL_OPEN
 } from './constants';
 import { SettingsDB } from 'preload/api/settings/types';
 
@@ -56,7 +57,8 @@ export type AppContextDataAction =
   | GetSettingsFailureAction
   | UpdateSettingsRequestAction
   | UpdateSettingsSuccessAction
-  | UpdateSettingsFailureAction;
+  | UpdateSettingsFailureAction
+  | SetSettingsModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
 interface ConnectRequestAction {
@@ -139,5 +141,13 @@ interface UpdateSettingsFailureAction {
   type: typeof UPDATE_SETTINGS.FAILURE;
   payload: {
     error: Error;
+  };
+}
+
+/* ---------------------------- SET_SETTINGS_MODAL_OPEN --------------------- */
+interface SetSettingsModalOpenAction {
+  type: typeof SET_SETTINGS_MODAL_OPEN;
+  payload: {
+    isSettingsModalOpen: boolean;
   };
 }
