@@ -87,25 +87,33 @@ export const SettingsModal = () => {
               {settingsLabel.title}
             </SizeAppliedText>
           </FlexContainer>
-          <LanguageSelect
-            labels={languageSelectorLabels[language]}
-            uiSize={uiSize}
-            language={language}
-            setLanguage={(newLanguage: LanguageCode) => {
-              updateSettings({
-                language: newLanguage,
-                uiSize,
-                colorTheme
-              });
-            }}
-          />
-          <SizeAndColorOptions
-            labels={languageSelectorLabels[language]}
-            uiSize={uiSize}
-            colorTheme={colorTheme}
-            setUiSize={setUiSize}
-            setColorTheme={setColorTheme}
-          />
+          <FlexContainer
+            height="fit-content"
+            alignItems="flex-start"
+            flexDirection="column"
+            marginTop="1rem"
+            rowGap={3}
+          >
+            <LanguageSelect
+              labels={languageSelectorLabels[language]}
+              uiSize={uiSize}
+              language={language}
+              setLanguage={(newLanguage: LanguageCode) => {
+                updateSettings({
+                  language: newLanguage,
+                  uiSize,
+                  colorTheme
+                });
+              }}
+            />
+            <SizeAndColorOptions
+              labels={languageSelectorLabels[language]}
+              uiSize={uiSize}
+              colorTheme={colorTheme}
+              setUiSize={setUiSize}
+              setColorTheme={setColorTheme}
+            />
+          </FlexContainer>
         </Box>
       </Fade>
     </Modal>
@@ -118,7 +126,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '30%',
-  height: '60%',
+  height: '55%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,

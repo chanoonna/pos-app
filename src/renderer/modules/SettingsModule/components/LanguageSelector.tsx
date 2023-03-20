@@ -39,19 +39,14 @@ export const LanguageSelect = ({
   };
 
   return (
-    <FlexContainer height="fit-height" flexDirection="column" rowGap={1}>
-      <FlexContainer height="3rem">
+    <FlexContainer height="fit-height" flexDirection="column">
+      <FlexContainer height="2.5rem">
         <SizeAppliedText textTypeVariant="menuTitle" uiSize={uiSize}>
           {labels.language}
         </SizeAppliedText>
       </FlexContainer>
-      <FlexContainer height="6rem">
+      <FlexContainer height="5rem">
         <FormControl sx={{ m: 1, width: '20rem' }}>
-          <InputLabel id="select-language-label">
-            <SizeAppliedText textTypeVariant="tooltip" uiSize={uiSize}>
-              {labels.language}
-            </SizeAppliedText>
-          </InputLabel>
           <Select
             labelId="select-language-label"
             id="select-language"
@@ -59,7 +54,6 @@ export const LanguageSelect = ({
             open={isOpen}
             onClose={handleClose}
             onOpen={handleOpen}
-            input={<OutlinedInput label={labels.language} />}
             MenuProps={MenuProps}
             sx={{
               '& .MuiInputBase-input': {
