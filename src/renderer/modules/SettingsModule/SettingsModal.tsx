@@ -1,5 +1,4 @@
 /* ---------------------------------- types --------------------------------- */
-import type { Settings } from 'models';
 import type { ColorTheme, UiSize } from 'style/types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -7,11 +6,11 @@ import { labels } from './constants';
 import { labels as languageSelectorLabels } from 'AppModule/AppStarting/constants';
 
 /* --------------------------------- imports -------------------------------- */
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
 
 import { SizeAppliedText } from 'components/typography';
 import { FlexContainer } from 'components/container';
@@ -32,6 +31,10 @@ export const SettingsModal = () => {
     updateSettings
   } = useAppContext();
   const settingsLabel = labels[language].SettingsModal;
+
+  const closeSettingsModal = () => {
+    setSettingsModalOpen(false);
+  };
 
   const setLanguage = (newLanguage: LanguageCode) => {
     updateSettings({
@@ -98,13 +101,7 @@ export const SettingsModal = () => {
               labels={languageSelectorLabels[language]}
               uiSize={uiSize}
               language={language}
-              setLanguage={(newLanguage: LanguageCode) => {
-                updateSettings({
-                  language: newLanguage,
-                  uiSize,
-                  colorTheme
-                });
-              }}
+              setLanguage={setLanguage}
             />
             <SizeAndColorOptions
               labels={languageSelectorLabels[language]}
@@ -113,6 +110,15 @@ export const SettingsModal = () => {
               setUiSize={setUiSize}
               setColorTheme={setColorTheme}
             />
+          </FlexContainer>
+          <FlexContainer height="fit-content">
+            <Button
+              type="button"
+              variant="contained"
+              onClick={closeSettingsModal}
+            >
+              Close
+            </Button>
           </FlexContainer>
         </Box>
       </Fade>
@@ -125,8 +131,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '30%',
-  height: '55%',
+  width: '30rem',
+  height: '35rem',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
