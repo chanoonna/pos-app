@@ -2,7 +2,15 @@
 import type { AppContextDataState, AppContextDataAction } from './types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT, NAVIGATE_TO, LOGOUT, CREATE_ADMIN, LOGIN } from './constants';
+import {
+  CONNECT,
+  NAVIGATE_TO,
+  LOGOUT,
+  CREATE_ADMIN,
+  LOGIN,
+  GET_SETTINGS,
+  UPDATE_SETTINGS
+} from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -53,9 +61,6 @@ export const appContextDataReducer = (
             id: action.payload.response.id,
             username: action.payload.response.username,
             lastLogin: action.payload.response.last_login,
-            language: action.payload.response.language,
-            uiSize: action.payload.response.ui_size,
-            colorTheme: action.payload.response.color_theme,
             accessLevel: action.payload.response.access_level
           }
         };
@@ -115,10 +120,33 @@ export const appContextDataReducer = (
           id: action.payload.response.id,
           username: action.payload.response.username,
           lastLogin: action.payload.response.last_login,
+          accessLevel: action.payload.response.access_level
+        }
+      };
+    }
+
+    /* ------------------------------ GET_SETTINGS ------------------------------ */
+    case GET_SETTINGS.SUCCESS: {
+      return {
+        ...state,
+        settingsState: {
+          ...state.settingsState,
           language: action.payload.response.language,
           uiSize: action.payload.response.ui_size,
-          colorTheme: action.payload.response.color_theme,
-          accessLevel: action.payload.response.access_level
+          colorTheme: action.payload.response.color_theme
+        }
+      };
+    }
+
+    /* ----------------------------- UPDATE_SETTINGS ---------------------------- */
+    case UPDATE_SETTINGS.SUCCESS: {
+      return {
+        ...state,
+        settingsState: {
+          ...state.settingsState,
+          language: action.payload.response.language,
+          uiSize: action.payload.response.ui_size,
+          colorTheme: action.payload.response.color_theme
         }
       };
     }

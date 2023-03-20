@@ -1,4 +1,4 @@
-import type { DataRequest, QueryResult } from '../types';
+import type { RequestAction, RequestResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { ERROR_TABLE_CHECK_FAIL, ERROR_TABLE_CREATION_FAIL } from './constants';
@@ -17,7 +17,7 @@ import {
 import { Table } from './types';
 import { UserDB } from '../users/types';
 
-export const connect = async (): Promise<QueryResult<UserDB | undefined>> => {
+export const connect = async (): Promise<RequestResult<UserDB | undefined>> => {
   const ACTION = 'connect';
   printRequestLog({ action: ACTION });
 
@@ -56,11 +56,11 @@ export const connect = async (): Promise<QueryResult<UserDB | undefined>> => {
 
     printResultLog<UserDB | undefined>({
       action: ACTION,
-      queryResult: lastUserResult.queryResult,
+      result: lastUserResult.result,
       error: lastUserResult.error
     });
 
-    return { queryResult: lastUserResult.queryResult };
+    return { result: lastUserResult.result };
   } catch (error) {
     const userFriendlyError = `${ERROR_UNSPECIFIED} while starting databse.`;
     return {

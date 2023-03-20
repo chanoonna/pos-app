@@ -1,5 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
-import type { User } from 'models/user';
+import type { User } from 'renderer/models';
 
 /* --------------------------------- imports -------------------------------- */
 import { request } from 'api/utils';

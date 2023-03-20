@@ -19,7 +19,8 @@ import { APP_PAGE } from '../constants';
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
   const {
-    user: { language, uiSize },
+    user,
+    settingsState: { language, uiSize },
     currentPage,
     logOut
   } = useAppContext();

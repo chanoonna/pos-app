@@ -1,5 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
-import type { QueryResult } from '../types';
+import type { RequestResult } from '../types';
 import type { CreateUserParams, UserDB } from './types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -19,25 +19,15 @@ export const createUser = async ({
   params
 }: {
   params: CreateUserParams;
-}): Promise<QueryResult<UserDB[] | undefined>> => {
+}): Promise<RequestResult<UserDB[] | undefined>> => {
   const ACTION = 'createUser';
 
   const postQuery = `INSERT INTO ${USERS} (
     ${COLUMN[USERS].username},
     ${COLUMN[USERS].password},
-    ${COLUMN[USERS].language},
-    ${COLUMN[USERS].ui_size},
-    ${COLUMN[USERS].color_theme},
     ${COLUMN[USERS].access_level})
-  VALUES (?, ?, ?, ?, ?, ?);`;
-  const postParams = [
-    params.username,
-    params.password,
-    params.language,
-    params.ui_size,
-    params.color_theme,
-    params.access_level
-  ];
+  VALUES (?, ?, ?);`;
+  const postParams = [params.username, params.password, params.access_level];
 
   try {
     printRequestLog<CreateUserParams>({ action: ACTION, params });
@@ -52,20 +42,17 @@ export const createUser = async ({
     printResultLog({ action: ACTION, error });
 
     if (!error) {
-      const { queryResult, error } = await getUsers({
+      const { result, error } = await getUsers({
         params: { id: lastID },
         pickOnly: [
           COLUMN[USERS].id,
           COLUMN[USERS].username,
           COLUMN[USERS].last_login,
           COLUMN[USERS].is_archived,
-          COLUMN[USERS].access_level,
-          COLUMN[USERS].language,
-          COLUMN[USERS].ui_size,
-          COLUMN[USERS].color_theme
+          COLUMN[USERS].access_level
         ]
       });
-      return { queryResult, error };
+      return { result, error };
     }
     return { error };
   } catch (error) {

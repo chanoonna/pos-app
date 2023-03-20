@@ -30,14 +30,20 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { user, isLoggingIn, isLoggingInError, navigateTo, logIn } =
-    useAppContext();
+  const {
+    user,
+    settingsState: { language, uiSize, colorTheme },
+    isLoggingIn,
+    isLoggingInError,
+    navigateTo,
+    logIn
+  } = useAppContext();
 
   const toggleVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const loginLabels = labels[user.language];
+  const loginLabels = labels[language];
 
   const hasNoUsername = username.length === 0;
   const hasNoPassword = password.length === 0;

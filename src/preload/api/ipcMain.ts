@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { IpcMainInvokeEvent } from 'electron';
-import type { DataRequest } from './types';
+import type { RequestAction } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { API, ERROR_UNSPECIFIED } from './constants';
@@ -10,39 +10,58 @@ import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
 import { connect } from './connect';
 import { createUser, login } from './users';
+import { getSettings, updateSettings } from './settings';
 
 export const startApiRequestHandlers = () => {
   ipcMain.handle(
     API,
-    async (_event: IpcMainInvokeEvent, { action, params }: DataRequest) => {
+    async (_event: IpcMainInvokeEvent, { action, params }: RequestAction) => {
       try {
         switch (action) {
           /* --------------------------------- connect -------------------------------- */
           case 'connect': {
-            const { queryResult, userFriendlyError } = await connect();
+            const { result, userFriendlyError } = await connect();
 
             return {
-              response: queryResult,
+              response: result,
               error: userFriendlyError
             };
           }
 
           /* ---------------------------------- users --------------------------------- */
           case 'createUser': {
-            const { queryResult, userFriendlyError } = await createUser({
+            const { result, userFriendlyError } = await createUser({
               params
             });
 
             return {
-              response: queryResult,
+              response: result,
               error: userFriendlyError
             };
           }
           case 'login': {
-            const { queryResult, userFriendlyError } = await login({ params });
+            const { result, userFriendlyError } = await login({ params });
 
             return {
-              response: queryResult,
+              response: result,
+              error: userFriendlyError
+            };
+          }
+
+          /* -------------------------------- settings -------------------------------- */
+          case 'getSettings': {
+            const { result, userFriendlyError } = await getSettings();
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+          case 'updateSettings': {
+            const { result, userFriendlyError } = await updateSettings({
+              params
+            });
+            return {
+              response: result,
               error: userFriendlyError
             };
           }

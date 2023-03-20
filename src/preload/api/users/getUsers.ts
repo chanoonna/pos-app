@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { GetUsersParams, UserDB } from './types';
-import type { QueryResult } from '../types';
+import type { RequestResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { USERS, COLUMN } from '../tablesAndColumns';
@@ -22,7 +22,7 @@ export const getUsers = async ({
 }: {
   params: GetUsersParams;
   pickOnly?: (keyof UserDB)[];
-}): Promise<QueryResult<UserDB[]>> => {
+}): Promise<RequestResult<UserDB[]>> => {
   const ACTION = 'getUsers';
 
   printRequestLog({ action: ACTION, params });
@@ -37,16 +37,16 @@ export const getUsers = async ({
     params: Object.values(params)
   });
 
-  printResultLog({ action: ACTION, queryResult: rows, error });
+  printResultLog({ action: ACTION, result: rows, error });
 
   return {
-    queryResult: rows,
+    result: rows,
     error
   };
 };
 
 export const getLastLoggedInUser = async (): Promise<
-  QueryResult<UserDB | undefined>
+  RequestResult<UserDB | undefined>
 > => {
   const ACTION = 'getLastLoggedInUser';
   printRequestLog({ action: ACTION });
@@ -54,10 +54,7 @@ export const getLastLoggedInUser = async (): Promise<
   const query = `SELECT ${COLUMN[USERS].id},
       ${COLUMN[USERS].username},
       ${COLUMN[USERS].last_login},
-      ${COLUMN[USERS].access_level},
-      ${COLUMN[USERS].language},
-      ${COLUMN[USERS].ui_size},
-      ${COLUMN[USERS].color_theme}
+      ${COLUMN[USERS].access_level}
     FROM ${USERS}
     WHERE ${COLUMN[USERS].is_archived} != 1 
       AND ${COLUMN[USERS].last_login} IS NOT NULL
@@ -69,9 +66,9 @@ export const getLastLoggedInUser = async (): Promise<
       query
     });
 
-    printResultLog({ action: ACTION, queryResult: row, error });
+    printResultLog({ action: ACTION, result: row, error });
     return {
-      queryResult: row,
+      result: row,
       error: error
     };
   } catch (error) {

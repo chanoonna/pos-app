@@ -7,9 +7,11 @@ export type Action =
   | 'getLastLoggedInUser'
   | 'createUser'
   | 'getUsers'
+  | 'getSettings'
+  | 'updateSettings'
   | 'login';
 
-export type DataRequest<T = undefined> = T extends undefined
+export type RequestAction<T = undefined> = T extends undefined
   ? {
       action: Action;
       params?: any;
@@ -19,19 +21,19 @@ export type DataRequest<T = undefined> = T extends undefined
       params: T;
     };
 
-export type QueryResult<T = undefined> = T extends undefined
+export type RequestResult<T = undefined> = T extends undefined
   ? {
-      queryResult?: any;
+      result?: any;
       error?: Error;
       userFriendlyError?: string;
     }
   : {
-      queryResult: T;
+      result: T;
       error?: Error;
       userFriendlyError?: string;
     };
 
-export type DataResponse<T = undefined> = T extends undefined
+export type RequestResponse<T = undefined> = T extends undefined
   ? {
       response?: any;
       error?: Error;

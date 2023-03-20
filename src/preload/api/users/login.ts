@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { LoginParams, UserDB } from './types';
-import type { QueryResult } from '../types';
+import type { RequestResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
 import { USERS, COLUMN } from '../tablesAndColumns';
@@ -14,7 +14,7 @@ export const login = async ({
   params
 }: {
   params: LoginParams;
-}): Promise<QueryResult<UserDB | undefined>> => {
+}): Promise<RequestResult<UserDB | undefined>> => {
   const ACTION = 'login';
 
   printRequestLog({ action: ACTION, params });
@@ -22,9 +22,6 @@ export const login = async ({
   const query = `SELECT ${COLUMN[USERS].id},
       ${COLUMN[USERS].username},
       ${COLUMN[USERS].password},
-      ${COLUMN[USERS].language},
-      ${COLUMN[USERS].ui_size},
-      ${COLUMN[USERS].color_theme},
       ${COLUMN[USERS].is_archived},
       ${COLUMN[USERS].access_level},
       ${COLUMN[USERS].last_login}
@@ -37,27 +34,27 @@ export const login = async ({
   });
 
   if (error) {
-    printResultLog({ action: ACTION, queryResult: row, error });
+    printResultLog({ action: ACTION, result: row, error });
     return {
       userFriendlyError: 'Error while processing login'
     };
   } else if (!row) {
     const error = new Error(`No user found with username: ${params.username}}`);
-    printResultLog({ action: ACTION, queryResult: row, error });
+    printResultLog({ action: ACTION, result: row, error });
 
     return {
       userFriendlyError: error.message
     };
   } else if (row.password !== params.password) {
     const error = new Error('Incorrect password');
-    printResultLog({ action: ACTION, queryResult: row, error });
+    printResultLog({ action: ACTION, result: row, error });
 
     return {
       userFriendlyError: error.message
     };
   } else if (row.is_archived === 1) {
     const error = new Error(`User ${params.username} is archived`);
-    printResultLog({ action: ACTION, queryResult: row, error });
+    printResultLog({ action: ACTION, result: row, error });
 
     return {
       userFriendlyError: error.message
@@ -80,12 +77,12 @@ export const login = async ({
 
     printResultLog({
       action: ACTION,
-      queryResult: { ...passwordOmittedRow, last_login: date },
+      result: { ...passwordOmittedRow, last_login: date },
       error
     });
 
     return {
-      queryResult: {
+      result: {
         ...passwordOmittedRow,
         last_login: date
       }

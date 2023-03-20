@@ -1,5 +1,10 @@
 /* ---------------------------------- types --------------------------------- */
-import type { DataRequest, Action, QueryResult, SortAttribute } from './types';
+import type {
+  RequestAction,
+  Action,
+  RequestResult,
+  SortAttribute
+} from './types';
 
 /* --------------------------------- imports -------------------------------- */
 import { app } from 'electron';
@@ -9,7 +14,7 @@ import chalk from 'chalk';
 export const printRequestLog = <T = undefined>({
   action,
   params
-}: DataRequest<T>) => {
+}: RequestAction<T>) => {
   if (app.isPackaged) return;
 
   const actionLog = chalk.yellowBright(`ACTION: ${action}`);
@@ -21,20 +26,20 @@ export const printRequestLog = <T = undefined>({
 
 export const printResultLog = <T = undefined>({
   action,
-  queryResult,
+  result,
   error
-}: QueryResult<T> & { action: Action }) => {
+}: RequestResult<T> & { action: Action }) => {
   if (app.isPackaged) return;
 
   const errorLog = chalk.red(error?.message);
-  const paramsLog = `${chalk.cyan('RESULT:')} ${JSON.stringify(queryResult)}`;
+  const resultLog = `${chalk.cyan('RESULT:')} ${JSON.stringify(result)}`;
   const actionLog = error
     ? chalk.red(`FAILURE: ${action}`)
     : chalk.green(`SUCCESS ${action}`);
 
   console.log(actionLog);
   error && console.log(errorLog);
-  queryResult && console.log(paramsLog);
+  result && console.log(resultLog);
 };
 
 export const getAsyncRun =

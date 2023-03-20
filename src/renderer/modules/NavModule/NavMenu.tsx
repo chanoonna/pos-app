@@ -21,7 +21,8 @@ export const NavMenu = () => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const open = Boolean(targetRef);
   const {
-    user: { language },
+    user,
+    settingsState: { language },
     logOut
   } = useAppContext();
   const appMenuLabels = labels[language].NavMenu;

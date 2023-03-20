@@ -1,10 +1,19 @@
 /* ---------------------------------- types --------------------------------- */
-import type { User } from 'models/user';
+import type { User, Settings } from 'models';
 import type { AppPage } from 'modules/types';
 import type { CreateUserParams, UserDB } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
-import { CONNECT, CREATE_ADMIN, NAVIGATE_TO, LOGOUT, LOGIN } from './constants';
+import {
+  CONNECT,
+  CREATE_ADMIN,
+  NAVIGATE_TO,
+  LOGOUT,
+  LOGIN,
+  GET_SETTINGS,
+  UPDATE_SETTINGS
+} from './constants';
+import { SettingsDB } from 'preload/api/settings/types';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -19,6 +28,11 @@ export interface AppContextDataState {
   isCreatingAdmin: boolean;
   isCreatingAdminError: boolean;
   currentPage: AppPage;
+
+  /* Settings state */
+  settingsState: {
+    isSettingsModalOpen: boolean;
+  } & Settings;
 }
 
 export type AppContextDataActionType =
@@ -36,7 +50,13 @@ export type AppContextDataAction =
   | LoginSuccessAction
   | LoginFailureAction
   | NavigateToAction
-  | LogoutAction;
+  | LogoutAction
+  | GetSettingsRequestAction
+  | GetSettingsSuccessAction
+  | GetSettingsFailureAction
+  | UpdateSettingsRequestAction
+  | UpdateSettingsSuccessAction
+  | UpdateSettingsFailureAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
 interface ConnectRequestAction {
@@ -77,13 +97,47 @@ interface LoginFailureAction {
   payload: { error: Error };
 }
 
+/* --------------------------------- LOGOUT --------------------------------- */
+interface LogoutAction {
+  type: typeof LOGOUT;
+}
+
 /* ------------------------------- NAVIGATE_TO ------------------------------ */
 interface NavigateToAction {
   type: typeof NAVIGATE_TO;
   payload: { nextPage: AppPage };
 }
 
-/* --------------------------------- LOGOUT --------------------------------- */
-interface LogoutAction {
-  type: typeof LOGOUT;
+/* ------------------------------ GET_SETTINGS ------------------------------ */
+interface GetSettingsRequestAction {
+  type: typeof GET_SETTINGS.REQUEST;
+}
+interface GetSettingsSuccessAction {
+  type: typeof GET_SETTINGS.SUCCESS;
+  payload: {
+    response: SettingsDB;
+  };
+}
+interface GetSettingsFailureAction {
+  type: typeof GET_SETTINGS.FAILURE;
+  payload: {
+    error: Error;
+  };
+}
+
+/* ----------------------------- UPDATE_SETTINGS ---------------------------- */
+interface UpdateSettingsRequestAction {
+  type: typeof UPDATE_SETTINGS.REQUEST;
+}
+interface UpdateSettingsSuccessAction {
+  type: typeof UPDATE_SETTINGS.SUCCESS;
+  payload: {
+    response: SettingsDB;
+  };
+}
+interface UpdateSettingsFailureAction {
+  type: typeof UPDATE_SETTINGS.FAILURE;
+  payload: {
+    error: Error;
+  };
 }

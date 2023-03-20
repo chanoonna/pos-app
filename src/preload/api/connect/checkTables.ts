@@ -1,5 +1,4 @@
 /* ---------------------------------- types --------------------------------- */
-import type { DataRequest } from '../types';
 import type { Table } from './types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -38,7 +37,7 @@ export const checkTables = async (): Promise<{
         tableCheckErrors.push(tableName);
       }
 
-      printResultLog({ action: ACTION, queryResult: row, error });
+      printResultLog({ action: ACTION, result: row, error });
     } catch (error) {
       handleCatchAndPrintLog({ action: ACTION, error });
     }

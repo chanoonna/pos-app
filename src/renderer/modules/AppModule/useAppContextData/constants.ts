@@ -7,3 +7,5 @@ export const NAVIGATE_TO = 'NAVIGATE_TO' as const;
 export const LOGIN = createRequestActionMap('LOGIN');
 export const LOGOUT = 'LOGOUT' as const;
 export const SET_INITIAL_LANGUAGE = 'SET_INITIAL_LANGUAGE' as const;
+export const GET_SETTINGS = createRequestActionMap('GET_SETTINGS');
+export const UPDATE_SETTINGS = createRequestActionMap('UPDATE_SETTINGS');

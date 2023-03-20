@@ -7,7 +7,8 @@ import '@fontsource/roboto/700.css';
 
 /* ---------------------------------- types --------------------------------- */
 import type { AppPage } from 'modules/types';
-import type { User } from 'models/user';
+import type { User } from 'renderer/models';
+import type { AppContextDataState } from './useAppContextData/types';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
@@ -24,22 +25,32 @@ import { APP_PAGE } from '../constants';
 /* ------------------------------------ - ----------------------------------- */
 
 export const App = () => {
-  const { state, connect, navigateTo, createAdmin, logOut, logIn } =
-    useAppContextData();
-  const { user, currentPage } = state;
+  const {
+    state,
+    connect,
+    navigateTo,
+    createAdmin,
+    logOut,
+    logIn,
+    getSettings,
+    updateSettings
+  } = useAppContextData();
+  const { user, currentPage, settingsState } = state;
 
   useEffect(() => {
     connect();
-  }, [connect]);
+    getSettings();
+  }, [connect, getSettings]);
 
   const MainComponent = appPageHash[currentPage];
 
   return user && currentPage !== APP_PAGE.APP_START ? (
-    <ThemeProvider theme={theme[user.colorTheme]}>
+    <ThemeProvider theme={theme[settingsState.colorTheme]}>
       <CssBaseline />
       <AppContext.Provider
         value={{
           user,
+          settingsState,
           isLoggingIn: state.isLoggingIn,
           isLoggingInError: state.isLoggingInError,
           currentPage,
@@ -57,16 +68,21 @@ export const App = () => {
   ) : (
     <AppStarting
       user={user}
+      language={settingsState.language}
+      uiSize={settingsState.uiSize}
+      colorTheme={settingsState.colorTheme}
       isAuthenticated={state.isAuthenticated}
       isConnected={state.isConnected}
       createAdmin={createAdmin}
       navigateTo={navigateTo}
+      updateSettings={updateSettings}
     />
   );
 };
 
 interface AppContextValues {
   user: User;
+  settingsState: AppContextDataState['settingsState'];
   isLoggingIn: boolean;
   isLoggingInError: boolean;
   currentPage: AppPage;
