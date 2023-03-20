@@ -13,6 +13,7 @@ export const FlexContainer = ({
   height = '100%',
   width = '100%',
   flexDirection = 'row',
+  padding = '0 !important',
   ...styles
 }: PageContainerProps) => (
   <Container
@@ -23,6 +24,7 @@ export const FlexContainer = ({
       flexDirection,
       height,
       width,
+      padding,
       ...styles
     }}
   >

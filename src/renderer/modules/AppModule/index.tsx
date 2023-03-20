@@ -7,7 +7,7 @@ import '@fontsource/roboto/700.css';
 
 /* ---------------------------------- types --------------------------------- */
 import type { AppPage } from 'modules/types';
-import type { User } from 'renderer/models';
+import type { User, Settings } from 'models';
 import type { AppContextDataState } from './useAppContextData/types';
 
 /* --------------------------------- imports -------------------------------- */
@@ -59,6 +59,7 @@ export const App = () => {
           navigateTo,
           logOut,
           logIn,
+          updateSettings,
           setSettingsModalOpen
         }}
       >
@@ -99,6 +100,7 @@ interface AppContextValues {
     username: string;
     password: string;
   }) => void;
+  updateSettings: (settings: Settings) => void;
   setSettingsModalOpen: (isOpen: boolean) => void;
 }
 
