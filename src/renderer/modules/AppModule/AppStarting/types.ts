@@ -1,10 +1,5 @@
 /* -------------------------------- constants ------------------------------- */
-import {
-  SELECT_LANGUAGE,
-  SYSTEM_SETTINGS,
-  CREATE_ADMIN,
-  BEFORE_STARTING
-} from './constants';
+import { SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -16,7 +11,6 @@ export interface AppStartingState {
 }
 
 export type Step =
-  | typeof SELECT_LANGUAGE
   | typeof SYSTEM_SETTINGS
   | typeof CREATE_ADMIN
   | typeof BEFORE_STARTING;

@@ -1,5 +1,17 @@
 {
   "SettingsModal": {
     "title": "환경 설정"
+  },
+  "LanguageSelector": {
+    "language": "언어"
+  },
+  "SizeAndColorOptions": {
+    "uiSize": "크기",
+    "uiSizeMedium": "보통",
+    "uiSizeLarge": "큼",
+    "uiSizeExtraLarge": "매우 큼",
+    "colorTheme": "색상",
+    "colorThemeDefault": "밝게",
+    "colorThemeDark": "어둡게"
   }
 }

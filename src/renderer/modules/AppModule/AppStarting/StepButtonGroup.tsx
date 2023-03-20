@@ -70,7 +70,7 @@ export const StepButtonGroup = ({
           <span>
             <Button
               size={uiSize}
-              onClick={activeStep === 3 ? onCreateAdmin : onClickNext}
+              onClick={activeStep === 2 ? onCreateAdmin : onClickNext}
               disabled={disableNext}
             >
               {activeStep === steps.length - 1 ? labels.agree : labels.next}

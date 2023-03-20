@@ -1,5 +1,17 @@
 {
   "SettingsModal": {
     "title": "System Settings"
+  },
+  "LanguageSelector": {
+    "language": "Language"
+  },
+  "SizeAndColorOptions": {
+    "uiSize": "UI Size",
+    "uiSizeMedium": "Medium",
+    "uiSizeLarge": "Large",
+    "uiSizeExtraLarge": "Extra Large",
+    "colorTheme": "Color Theme",
+    "colorThemeDefault": "Bright",
+    "colorThemeDark": "Dark"
   }
 }

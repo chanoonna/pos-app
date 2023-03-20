@@ -8,7 +8,6 @@ import type { AppPage } from 'renderer/modules/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
-  SELECT_LANGUAGE,
   SYSTEM_SETTINGS,
   CREATE_ADMIN,
   BEFORE_STARTING,
@@ -22,13 +21,14 @@ import { theme } from 'style/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { PageContainer } from 'components/container';
 import { SetupStepper } from './SetupStepper';
-import { LanguageSelect } from './LanguageSelect';
 import { StepButtonGroup } from './StepButtonGroup';
-import { SystemSettings } from './SystemSettings';
 import { CreateAdmin } from './CreateAdmin';
 import { BeforeStarting } from './BeforeStarting';
+import { SettingsPage } from 'SettingsModule/SettingsPage';
+import { style } from 'SettingsModule/SettingsModal';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -39,7 +39,7 @@ const initialState: AppStartingState = {
   confirmPassword: ''
 };
 
-const STEPS = [SELECT_LANGUAGE, SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
+const STEPS = [SYSTEM_SETTINGS, CREATE_ADMIN, BEFORE_STARTING];
 
 export const AppStarting = ({
   user,
@@ -136,23 +136,17 @@ export const AppStarting = ({
               labels={appStartingLabel}
             />
             {state.step === 0 && (
-              <LanguageSelect
-                uiSize={uiSize}
-                labels={appStartingLabel}
-                language={language}
-                setLanguage={setLanguage}
-              />
+              <Box sx={style}>
+                <SettingsPage
+                  language={language}
+                  uiSize={uiSize}
+                  colorTheme={colorTheme}
+                  showCloseButton={false}
+                  updateSettings={updateSettings}
+                />
+              </Box>
             )}
             {state.step === 1 && (
-              <SystemSettings
-                labels={appStartingLabel}
-                uiSize={uiSize}
-                colorTheme={colorTheme}
-                setUiSize={setUiSize}
-                setColorTheme={setColorTheme}
-              />
-            )}
-            {state.step === 2 && (
               <CreateAdmin
                 uiSize={uiSize}
                 labels={appStartingLabel}
@@ -168,7 +162,7 @@ export const AppStarting = ({
                 onConfirmPasswordChange={onConfirmPasswordChange}
               />
             )}
-            {state.step === 3 && (
+            {state.step === 2 && (
               <BeforeStarting labels={appStartingLabel} uiSize={uiSize} />
             )}
             <StepButtonGroup
@@ -177,7 +171,7 @@ export const AppStarting = ({
               labels={appStartingLabel}
               uiSize={uiSize}
               disabledTooltip={appStartingLabel.noPasswordMatchTooltip}
-              disableNext={state.step === 2 && !isPasswordValid}
+              disableNext={state.step === 1 && !isPasswordValid}
               onClickNext={onClickNext}
               onClickBack={onClickBack}
               onCreateAdmin={onCreateAdmin}

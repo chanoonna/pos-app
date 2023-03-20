@@ -11,9 +11,21 @@ export const LANGUAGE = {
   [KOREAN]: { languageCode: KOREAN, languageLabel: '한국어' }
 } as const;
 
-interface Labels {
+export interface Labels {
   SettingsModal: {
     title: string;
+  };
+  LanguageSelector: {
+    language: string;
+  };
+  SizeAndColorOptions: {
+    uiSize: string;
+    uiSizeMedium: string;
+    uiSizeLarge: string;
+    uiSizeExtraLarge: string;
+    colorTheme: string;
+    colorThemeDefault: string;
+    colorThemeDark: string;
   };
 }
 
