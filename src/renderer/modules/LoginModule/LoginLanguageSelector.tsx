@@ -6,14 +6,18 @@ import { LANGUAGE } from 'SettingsModule/constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
-import TranslateIcon from '@mui/icons-material/Translate';
+import LanguageIcon from '@mui/icons-material/Language';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 import { useAppContext } from 'renderer/modules/AppModule';
 
-export const LanguageSetting = () => {
+export const LoginLanguageSelector = ({
+  onSelectLanguage
+}: {
+  onSelectLanguage: (newLanguage: LanguageCode) => void;
+}) => {
   const [targetRef, setTargetRef] = useState<null | HTMLElement>(null);
   const {
     settingsState: { language: currentLanguage }
@@ -32,7 +36,7 @@ export const LanguageSetting = () => {
         aria-expanded={'true'}
         onClick={toggleLanguageMenu}
       >
-        <TranslateIcon fontSize="medium" sx={{ color: 'white' }} />
+        <LanguageIcon />
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -55,7 +59,7 @@ export const LanguageSetting = () => {
             key={languageCode}
             onClick={(e) => {
               if (languageCode !== currentLanguage) {
-                // setLanguage(languageCode);
+                onSelectLanguage(languageCode);
               }
               toggleLanguageMenu(e);
             }}
