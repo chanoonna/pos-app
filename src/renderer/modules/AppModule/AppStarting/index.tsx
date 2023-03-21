@@ -64,17 +64,6 @@ export const AppStarting = ({
 }) => {
   const [state, setState] = useState(initialState);
 
-  const setLanguage = (newLanguage: LanguageCode) => {
-    updateSettings({ language: newLanguage, uiSize, colorTheme });
-  };
-  const setUiSize = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newUiSize = event.target.value as UiSize;
-    updateSettings({ language, uiSize: newUiSize, colorTheme });
-  };
-  const setColorTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newColorTheme = event.target.value as ColorTheme;
-    updateSettings({ language, uiSize, colorTheme: newColorTheme });
-  };
   const onClickNext = () => {
     setState((curr) => ({
       ...curr,

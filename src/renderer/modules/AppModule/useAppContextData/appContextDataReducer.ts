@@ -10,7 +10,9 @@ import {
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
-  SET_SETTINGS_MODAL_OPEN
+  SET_SETTINGS_MODAL_OPEN,
+  GET_STORE_INFO,
+  UPDATE_STORE_INFO
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -148,6 +150,46 @@ export const appContextDataReducer = (
           language: action.payload.response.language,
           uiSize: action.payload.response.ui_size,
           colorTheme: action.payload.response.color_theme
+        }
+      };
+    }
+
+    /* ----------------------------- GET_STORE_INFO ----------------------------- */
+    case GET_STORE_INFO.SUCCESS: {
+      return {
+        ...state,
+        settingsState: {
+          ...state.settingsState,
+          storeName: action.payload.response.store_name,
+          storeAddress1: action.payload.response.store_address1,
+          storeAddress2: action.payload.response.store_address2,
+          storeCity: action.payload.response.store_city,
+          storeProvince: action.payload.response.store_province,
+          storePostalCode: action.payload.response.store_postal_code,
+          storePhoneNumber: action.payload.response.store_phone_number,
+          storeFaxNumber: action.payload.response.store_fax_number,
+          storeEmail: action.payload.response.store_email,
+          storeWebsite: action.payload.response.store_website
+        }
+      };
+    }
+
+    /* ---------------------------- UPDATE_STORE_INFO --------------------------- */
+    case UPDATE_STORE_INFO.SUCCESS: {
+      return {
+        ...state,
+        settingsState: {
+          ...state.settingsState,
+          storeName: action.payload.response.store_name,
+          storeAddress1: action.payload.response.store_address1,
+          storeAddress2: action.payload.response.store_address2,
+          storeCity: action.payload.response.store_city,
+          storeProvince: action.payload.response.store_province,
+          storePostalCode: action.payload.response.store_postal_code,
+          storePhoneNumber: action.payload.response.store_phone_number,
+          storeFaxNumber: action.payload.response.store_fax_number,
+          storeEmail: action.payload.response.store_email,
+          storeWebsite: action.payload.response.store_website
         }
       };
     }

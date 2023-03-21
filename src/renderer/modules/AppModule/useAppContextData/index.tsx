@@ -12,7 +12,9 @@ import {
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
-  SET_SETTINGS_MODAL_OPEN
+  SET_SETTINGS_MODAL_OPEN,
+  GET_STORE_INFO,
+  UPDATE_STORE_INFO
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -23,11 +25,13 @@ import {
   createUser,
   login,
   getSettings as _getSettings,
-  updateSettings as _updateSettings
+  updateSettings as _updateSettings,
+  getStoreInfo as _getStoreInfo,
+  updateStoreInfo as _updateStoreInfo
 } from 'api';
 import { CreateUserParams, LoginParams } from 'preload/api/users/types';
-import { ENGLISH } from 'renderer/modules/SettingsModule/constants';
-import { Settings } from 'renderer/models';
+import { ENGLISH } from 'SettingsModule/constants';
+import { Settings, StoreInfo } from 'models';
 
 const initialData: AppContextDataState = {
   user: undefined,
@@ -44,7 +48,17 @@ const initialData: AppContextDataState = {
     isSettingsModalOpen: false,
     language: ENGLISH,
     uiSize: 'large',
-    colorTheme: 'bright'
+    colorTheme: 'bright',
+    storeName: '',
+    storeAddress1: '',
+    storeAddress2: '',
+    storeCity: '',
+    storeProvince: '',
+    storePostalCode: '',
+    storePhoneNumber: '',
+    storeFaxNumber: '',
+    storeEmail: '',
+    storeWebsite: ''
   }
 };
 
@@ -90,6 +104,61 @@ export const useAppContextData = () => {
       } else {
         dispatch({
           type: UPDATE_SETTINGS.SUCCESS,
+          payload: { response }
+        });
+      }
+    } catch (error) {
+      // TODO
+      console.log(error);
+    }
+  }, []);
+
+  const getStoreInfo = useCallback(async () => {
+    try {
+      dispatch({ type: GET_STORE_INFO.REQUEST });
+      const { response, error } = await _getStoreInfo();
+
+      if (error) {
+        dispatch({
+          type: GET_STORE_INFO.FAILURE,
+          payload: { error }
+        });
+      } else {
+        dispatch({
+          type: GET_STORE_INFO.SUCCESS,
+          payload: { response }
+        });
+      }
+    } catch (error) {
+      // TODO
+      console.log(error);
+    }
+  }, []);
+
+  const updateStoreInfo = useCallback(async (params: StoreInfo) => {
+    try {
+      dispatch({ type: UPDATE_STORE_INFO.REQUEST });
+      const { response, error } = await _updateStoreInfo({
+        store_name: params.storeName,
+        store_address1: params.storeAddress1,
+        store_address2: params.storeAddress2,
+        store_city: params.storeCity,
+        store_province: params.storeProvince,
+        store_postal_code: params.storePostalCode,
+        store_phone_number: params.storePhoneNumber,
+        store_fax_number: params.storeFaxNumber,
+        store_email: params.storeEmail,
+        store_website: params.storeWebsite
+      });
+
+      if (error) {
+        dispatch({
+          type: UPDATE_STORE_INFO.FAILURE,
+          payload: { error }
+        });
+      } else {
+        dispatch({
+          type: UPDATE_STORE_INFO.SUCCESS,
           payload: { response }
         });
       }
@@ -208,6 +277,8 @@ export const useAppContextData = () => {
     createAdmin,
     getSettings,
     updateSettings,
+    getStoreInfo,
+    updateStoreInfo,
     setSettingsModalOpen
   };
 };

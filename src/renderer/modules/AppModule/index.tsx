@@ -35,6 +35,8 @@ export const App = () => {
     logIn,
     getSettings,
     updateSettings,
+    getStoreInfo,
+    updateStoreInfo,
     setSettingsModalOpen
   } = useAppContextData();
   const { user, currentPage, settingsState } = state;
@@ -42,7 +44,8 @@ export const App = () => {
   useEffect(() => {
     connect();
     getSettings();
-  }, [connect, getSettings]);
+    getStoreInfo();
+  }, [connect, getSettings, getStoreInfo]);
 
   const MainComponent = appPageHash[currentPage];
 

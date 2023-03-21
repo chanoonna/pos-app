@@ -9,6 +9,8 @@ export type Action =
   | 'getUsers'
   | 'getSettings'
   | 'updateSettings'
+  | 'getStoreInfo'
+  | 'updateStoreInfo'
   | 'login';
 
 export type RequestAction<T = undefined> = T extends undefined

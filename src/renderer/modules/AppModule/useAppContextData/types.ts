@@ -1,5 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
-import type { User, Settings } from 'models';
+import type { User, Settings, StoreInfo } from 'models';
 import type { AppPage } from 'modules/types';
 import type { CreateUserParams, UserDB } from 'preload/api/users/types';
 
@@ -12,9 +12,11 @@ import {
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
-  SET_SETTINGS_MODAL_OPEN
+  SET_SETTINGS_MODAL_OPEN,
+  GET_STORE_INFO,
+  UPDATE_STORE_INFO
 } from './constants';
-import { SettingsDB } from 'preload/api/settings/types';
+import { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -33,7 +35,8 @@ export interface AppContextDataState {
   /* Settings state */
   settingsState: {
     isSettingsModalOpen: boolean;
-  } & Settings;
+  } & Settings &
+    StoreInfo;
 }
 
 export type AppContextDataActionType =
@@ -58,6 +61,12 @@ export type AppContextDataAction =
   | UpdateSettingsRequestAction
   | UpdateSettingsSuccessAction
   | UpdateSettingsFailureAction
+  | GetStoreInfoRequestAction
+  | GetStoreInfoSuccessAction
+  | GetStoreInfoFailureAction
+  | UpdateStoreInfoRequestAction
+  | UpdateStoreInfoSuccessAction
+  | UpdateStoreInfoFailureAction
   | SetSettingsModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
@@ -139,6 +148,40 @@ interface UpdateSettingsSuccessAction {
 }
 interface UpdateSettingsFailureAction {
   type: typeof UPDATE_SETTINGS.FAILURE;
+  payload: {
+    error: Error;
+  };
+}
+
+/* ----------------------------- GET_STORE_INFO ----------------------------- */
+interface GetStoreInfoRequestAction {
+  type: typeof GET_STORE_INFO.REQUEST;
+}
+interface GetStoreInfoSuccessAction {
+  type: typeof GET_STORE_INFO.SUCCESS;
+  payload: {
+    response: StoreInfoDB;
+  };
+}
+interface GetStoreInfoFailureAction {
+  type: typeof GET_STORE_INFO.FAILURE;
+  payload: {
+    error: Error;
+  };
+}
+
+/* ---------------------------- UPDATE_STORE_INFO --------------------------- */
+interface UpdateStoreInfoRequestAction {
+  type: typeof UPDATE_STORE_INFO.REQUEST;
+}
+interface UpdateStoreInfoSuccessAction {
+  type: typeof UPDATE_STORE_INFO.SUCCESS;
+  payload: {
+    response: StoreInfoDB;
+  };
+}
+interface UpdateStoreInfoFailureAction {
+  type: typeof UPDATE_STORE_INFO.FAILURE;
   payload: {
     error: Error;
   };

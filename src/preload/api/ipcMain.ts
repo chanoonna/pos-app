@@ -10,7 +10,12 @@ import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
 import { connect } from './connect';
 import { createUser, login } from './users';
-import { getSettings, updateSettings } from './settings';
+import {
+  getSettings,
+  updateSettings,
+  getStoreInfo,
+  updateStoreInfo
+} from './settings';
 
 export const startApiRequestHandlers = () => {
   ipcMain.handle(
@@ -58,6 +63,24 @@ export const startApiRequestHandlers = () => {
           }
           case 'updateSettings': {
             const { result, userFriendlyError } = await updateSettings({
+              params
+            });
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+
+          /* ------------------------------- store info ------------------------------- */
+          case 'getStoreInfo': {
+            const { result, userFriendlyError } = await getStoreInfo();
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+          case 'updateStoreInfo': {
+            const { result, userFriendlyError } = await updateStoreInfo({
               params
             });
             return {

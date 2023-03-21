@@ -10,3 +10,5 @@ export const SET_INITIAL_LANGUAGE = 'SET_INITIAL_LANGUAGE' as const;
 export const GET_SETTINGS = createRequestActionMap('GET_SETTINGS');
 export const UPDATE_SETTINGS = createRequestActionMap('UPDATE_SETTINGS');
 export const SET_SETTINGS_MODAL_OPEN = 'SET_SETTINGS_MODAL_OPEN' as const;
+export const GET_STORE_INFO = createRequestActionMap('GET_STORE_INFO');
+export const UPDATE_STORE_INFO = createRequestActionMap('UPDATE_STORE_INFO');
