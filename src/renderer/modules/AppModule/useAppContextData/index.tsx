@@ -151,19 +151,32 @@ export const useAppContextData = () => {
     navigateTo(APP_PAGE.LOGIN);
   }, [navigateTo]);
 
-  const connect = useCallback(() => {
-    handleRequestAction({
-      dispatch,
-      action: CONNECT,
-      request: connectToMain,
-      onSuccess: [
-        (response) => {
-          if (response?.id) {
-            navigateTo(APP_PAGE.LOGIN);
-          }
+  /* special case with no response is not failure */
+  const connect = useCallback(async () => {
+    try {
+      dispatch({ type: CONNECT.REQUEST });
+
+      const { response, error } = await connectToMain();
+
+      if (error) {
+        dispatch({
+          type: CONNECT.FAILURE,
+          payload: { error }
+        });
+      } else {
+        dispatch({
+          type: CONNECT.SUCCESS,
+          payload: { response }
+        });
+
+        if (response) {
+          navigateTo(APP_PAGE.LOGIN);
         }
-      ]
-    });
+      }
+    } catch (error) {
+      // TODO
+      console.log(error);
+    }
   }, [navigateTo]);
 
   const createAdmin = useCallback(

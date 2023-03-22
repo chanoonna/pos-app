@@ -14,7 +14,7 @@ export const login = async ({
   params
 }: {
   params: LoginParams;
-}): Promise<RequestResult<UserDB | undefined>> => {
+}): Promise<RequestResult<Omit<UserDB, 'password'> | undefined>> => {
   const ACTION = 'login';
 
   printRequestLog({ action: ACTION, params });

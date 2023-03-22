@@ -75,7 +75,7 @@ interface ConnectSuccessAction {
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* ------------------------------ CREATE_ADMIN ------------------------------ */
@@ -87,7 +87,7 @@ interface CreateAdminSuccessAction {
 }
 interface CreateAdminFailureAction {
   type: typeof CREATE_ADMIN.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* ---------------------------------- LOGIN --------------------------------- */
@@ -100,7 +100,7 @@ interface LoginSuccessAction {
 }
 interface LoginFailureAction {
   type: typeof LOGIN.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* --------------------------------- LOGOUT --------------------------------- */
@@ -127,7 +127,7 @@ interface GetSettingsSuccessAction {
 interface GetSettingsFailureAction {
   type: typeof GET_SETTINGS.FAILURE;
   payload: {
-    error: Error;
+    error: string;
   };
 }
 
@@ -144,7 +144,7 @@ interface UpdateSettingsSuccessAction {
 interface UpdateSettingsFailureAction {
   type: typeof UPDATE_SETTINGS.FAILURE;
   payload: {
-    error: Error;
+    error: string;
   };
 }
 
@@ -161,7 +161,7 @@ interface GetStoreInfoSuccessAction {
 interface GetStoreInfoFailureAction {
   type: typeof GET_STORE_INFO.FAILURE;
   payload: {
-    error: Error;
+    error: string;
   };
 }
 
@@ -178,7 +178,7 @@ interface UpdateStoreInfoSuccessAction {
 interface UpdateStoreInfoFailureAction {
   type: typeof UPDATE_STORE_INFO.FAILURE;
   payload: {
-    error: Error;
+    error: string;
   };
 }
 

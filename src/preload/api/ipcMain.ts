@@ -28,7 +28,7 @@ export const startApiRequestHandlers = () => {
             const { result, userFriendlyError } = await connect();
 
             return {
-              response: result || {},
+              response: result,
               error: userFriendlyError
             };
           }

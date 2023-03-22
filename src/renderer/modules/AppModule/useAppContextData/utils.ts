@@ -5,7 +5,7 @@ interface SuccessPayload<T> {
 }
 
 interface FailurePayload {
-  error: Error;
+  error: string;
 }
 
 type HandleRequestActionArgs<
@@ -29,7 +29,7 @@ type HandleRequestActionArgs<
       >;
       request: (
         params?: RequestParams
-      ) => Promise<{ response?: SuccessResponse; error?: Error }>;
+      ) => Promise<{ response?: SuccessResponse; error?: string }>;
       onSuccess?: ((response?: SuccessResponse) => void)[];
     }
   : {
@@ -46,7 +46,7 @@ type HandleRequestActionArgs<
       >;
       request: (
         params: RequestParams
-      ) => Promise<{ response?: SuccessResponse; error?: Error }>;
+      ) => Promise<{ response?: SuccessResponse; error?: string }>;
       onSuccess?: ((response?: SuccessResponse) => void)[];
     };
 

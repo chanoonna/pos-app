@@ -25,7 +25,7 @@ export type RequestAction<T = undefined> = T extends undefined
 
 export type RequestResult<T = undefined> = T extends undefined
   ? {
-      result?: any;
+      result?: never;
       error?: Error;
       userFriendlyError?: string;
     }
@@ -37,12 +37,12 @@ export type RequestResult<T = undefined> = T extends undefined
 
 export type RequestResponse<T = undefined> = T extends undefined
   ? {
-      response?: any;
-      error?: Error;
+      response?: never;
+      error?: string;
     }
   : {
       response: T;
-      error?: Error;
+      error?: string;
     };
 
 export type SortAttribute<T> = [T, typeof SORT_ASC | typeof SORT_DESC][];
