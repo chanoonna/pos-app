@@ -8,70 +8,77 @@ interface FailurePayload {
   error: string;
 }
 
-type HandleRequestActionArgs<
-  RequestType,
-  SuccessType,
-  FailureType,
-  SuccessResponse,
-  RequestParams = undefined
-> = RequestParams extends undefined
-  ? {
-      action: {
-        REQUEST: RequestType;
-        SUCCESS: SuccessType;
-        FAILURE: FailureType;
-      };
-      params?: any;
-      dispatch: Dispatch<
-        | { type: RequestType }
-        | { type: SuccessType; payload: SuccessPayload<SuccessResponse> }
-        | { type: FailureType; payload: FailurePayload }
-      >;
-      request: (
-        params?: RequestParams
-      ) => Promise<{ response?: SuccessResponse; error?: string }>;
-      onSuccess?: ((response?: SuccessResponse) => void)[];
-    }
-  : {
-      action: {
-        REQUEST: RequestType;
-        SUCCESS: SuccessType;
-        FAILURE: FailureType;
-      };
-      params: RequestParams;
-      dispatch: Dispatch<
-        | { type: RequestType }
-        | { type: SuccessType; payload: SuccessPayload<SuccessResponse> }
-        | { type: FailureType; payload: FailurePayload }
-      >;
-      request: (
-        params: RequestParams
-      ) => Promise<{ response?: SuccessResponse; error?: string }>;
-      onSuccess?: ((response?: SuccessResponse) => void)[];
-    };
+interface IAction<T, V, R> {
+  REQUEST: T;
+  SUCCESS: V;
+  FAILURE: R;
+}
 
-export const handleRequestAction = async <
-  RequestType,
-  SuccessType,
-  FailureType,
-  SuccessResponse,
-  RequestParams = undefined
->({
-  action,
-  params,
-  dispatch,
-  request,
-  onSuccess
-}: HandleRequestActionArgs<
+type IOnSuccess<T> = (response?: T) => void;
+
+type IDispatch<T, V, R, K> = Dispatch<
+  | { type: T }
+  | { type: V; payload: SuccessPayload<K> }
+  | { type: R; payload: FailurePayload }
+>;
+
+export async function handleRequestAction<
   RequestType,
   SuccessType,
   FailureType,
   SuccessResponse,
   RequestParams
->) => {
+>(args: {
+  action: IAction<RequestType, SuccessType, FailureType>;
+  dispatch: IDispatch<RequestType, SuccessType, FailureType, SuccessResponse>;
+  request: (
+    params: RequestParams
+  ) => Promise<{ response?: SuccessResponse; error?: string }>;
+  params: RequestParams;
+  onSuccess?: IOnSuccess<SuccessResponse>[];
+}): Promise<void>;
+// without params, with response
+export async function handleRequestAction<
+  RequestType,
+  SuccessType,
+  FailureType,
+  SuccessResponse
+>({
+  action,
+  dispatch,
+  request,
+  onSuccess
+}: {
+  action: IAction<RequestType, SuccessType, FailureType>;
+  dispatch: IDispatch<RequestType, SuccessType, FailureType, SuccessResponse>;
+  request: () => Promise<{ response?: SuccessResponse; error?: string }>;
+  onSuccess?: IOnSuccess<SuccessResponse>[];
+}): Promise<void>;
+// with params, with response
+export async function handleRequestAction<
+  RequestType,
+  SuccessType,
+  FailureType,
+  SuccessResponse,
+  RequestParams
+>({
+  action,
+  dispatch,
+  request,
+  params,
+  onSuccess
+}: {
+  action: IAction<RequestType, SuccessType, FailureType>;
+  dispatch: IDispatch<RequestType, SuccessType, FailureType, SuccessResponse>;
+  request: (
+    params?: RequestParams
+  ) => Promise<{ response?: SuccessResponse; error?: string }>;
+  params?: RequestParams;
+  onSuccess?: ((response?: SuccessResponse) => void)[];
+}): Promise<void> {
   try {
     dispatch({ type: action.REQUEST });
-    const { response, error } = await request(params);
+    const { response, error } = await (params ? request(params) : request());
 
     if (error) {
       dispatch({
@@ -92,4 +99,4 @@ export const handleRequestAction = async <
     // TODO
     console.log(error);
   }
-};
+}
