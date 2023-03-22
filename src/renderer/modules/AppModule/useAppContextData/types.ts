@@ -71,7 +71,9 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: { response?: UserDB };
+  payload: {
+    response: UserDB | undefined;
+  };
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;
