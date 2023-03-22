@@ -3,6 +3,7 @@ import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
 import type { Settings, StoreInfo, User } from 'models';
 import type { LoginParams } from 'preload/api/users/types';
+import type { UpdateSettingsParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
@@ -74,16 +75,12 @@ export const useAppContextData = () => {
     });
   }, []);
 
-  const updateSettings = useCallback((params: Settings) => {
+  const updateSettings = useCallback((params: UpdateSettingsParams) => {
     handleRequestAction({
       dispatch,
       action: UPDATE_SETTINGS,
       request: _updateSettings,
-      params: {
-        language: params.language,
-        ui_size: params.uiSize,
-        color_theme: params.colorTheme
-      }
+      params
     });
   }, []);
 
