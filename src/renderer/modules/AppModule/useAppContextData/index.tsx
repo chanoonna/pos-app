@@ -157,8 +157,10 @@ export const useAppContextData = () => {
       action: CONNECT,
       request: connectToMain,
       onSuccess: [
-        () => {
-          navigateTo(APP_PAGE.LOGIN);
+        (response) => {
+          if (response?.id) {
+            navigateTo(APP_PAGE.LOGIN);
+          }
         }
       ]
     });

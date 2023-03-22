@@ -6,4 +6,4 @@ import { request } from 'api/utils';
 
 /* ------------------------------------ - ----------------------------------- */
 export const connectToMain = () =>
-  request<undefined, UserDB | undefined>({ action: 'connect' });
+  request<undefined, UserDB>({ action: 'connect' });
