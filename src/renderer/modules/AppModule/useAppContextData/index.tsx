@@ -3,7 +3,7 @@ import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
 import type { Settings, StoreInfo, User } from 'models';
 import type { LoginParams } from 'preload/api/users/types';
-import type { UpdateSettingsParams } from 'api/types';
+import type { UpdateSettingsParams, UpdateStoreInfoParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
@@ -92,23 +92,12 @@ export const useAppContextData = () => {
     });
   }, []);
 
-  const updateStoreInfo = useCallback((params: StoreInfo) => {
+  const updateStoreInfo = useCallback((params: UpdateStoreInfoParams) => {
     handleRequestAction({
       dispatch,
       action: UPDATE_STORE_INFO,
       request: _updateStoreInfo,
-      params: {
-        store_name: params.storeName,
-        store_address1: params.storeAddress1,
-        store_address2: params.storeAddress2,
-        store_city: params.storeCity,
-        store_province: params.storeProvince,
-        store_postal_code: params.storePostalCode,
-        store_phone_number: params.storePhoneNumber,
-        store_fax_number: params.storeFaxNumber,
-        store_email: params.storeEmail,
-        store_website: params.storeWebsite
-      }
+      params
     });
   }, []);
 

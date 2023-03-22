@@ -9,3 +9,16 @@ export interface UpdateSettingsParams {
   uiSize: UiSize;
   colorTheme: ColorTheme;
 }
+
+export interface UpdateStoreInfoParams {
+  storeName: string;
+  storeAddress1: string;
+  storeAddress2: string;
+  storeCity: string;
+  storeProvince: string;
+  storePostalCode: string;
+  storePhoneNumber: string;
+  storeFaxNumber: string;
+  storeEmail: string;
+  storeWebsite: string;
+}
