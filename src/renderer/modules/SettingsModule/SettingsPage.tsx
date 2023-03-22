@@ -13,6 +13,7 @@ import { FlexContainer } from 'components/container';
 import { LanguageCode } from './types';
 import { LanguageSelect } from './components/LanguageSelector';
 import { SizeAndColorOptions } from './components/SizeAndColorOptions';
+import { UpdateSettingsParams } from 'api/types';
 
 export const SettingsPage = ({
   language,
@@ -27,7 +28,7 @@ export const SettingsPage = ({
   colorTheme: ColorTheme;
   showCloseButton?: boolean;
   closeSettingsModal?: () => void;
-  updateSettings: (settings: Settings) => void;
+  updateSettings: (params: UpdateSettingsParams) => void;
 }) => {
   const setLanguage = (newLanguage: LanguageCode) => {
     updateSettings({

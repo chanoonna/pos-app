@@ -4,6 +4,7 @@ import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
 import type { Settings, User } from 'renderer/models';
 import type { AppPage } from 'renderer/modules/types';
+import type { CreateUserParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
@@ -57,9 +58,7 @@ export const AppStarting = ({
   colorTheme: ColorTheme;
   isConnected: boolean;
   isAuthenticated: boolean;
-  createAdmin: (
-    params: Pick<User, 'username' | 'accessLevel'> & { password: string }
-  ) => void;
+  createAdmin: (params: CreateUserParams) => void;
   navigateTo: (page: AppPage) => void;
   updateSettings: (params: Settings) => void;
 }) => {
