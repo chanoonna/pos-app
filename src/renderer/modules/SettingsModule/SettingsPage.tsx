@@ -1,6 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
 import type { ColorTheme, UiSize } from 'style/types';
-import type { Settings } from 'models';
 
 /* -------------------------------- constants ------------------------------- */
 import { labels } from './constants';

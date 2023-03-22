@@ -54,7 +54,7 @@ export const appContextDataReducer = (
       };
     }
     case CONNECT.SUCCESS: {
-      if (action.payload.response?.id) {
+      if (action.payload.response) {
         return {
           ...state,
           isConnecting: false,
