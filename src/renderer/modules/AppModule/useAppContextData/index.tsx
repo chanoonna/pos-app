@@ -1,9 +1,12 @@
 /* ---------------------------------- types --------------------------------- */
 import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
+import type { Settings, StoreInfo, User } from 'models';
+import type { LoginParams } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
+import { ENGLISH } from 'SettingsModule/constants';
 import {
   CONNECT,
   CREATE_ADMIN,
@@ -20,6 +23,7 @@ import {
 /* ------------------------------------ - ----------------------------------- */
 import { useReducer, useCallback } from 'react';
 import { appContextDataReducer } from './appContextDataReducer';
+import { handleRequestAction } from './utils';
 import {
   connectToMain,
   createUser,
@@ -29,9 +33,6 @@ import {
   getStoreInfo as _getStoreInfo,
   updateStoreInfo as _updateStoreInfo
 } from 'api';
-import { CreateUserParams, LoginParams } from 'preload/api/users/types';
-import { ENGLISH } from 'SettingsModule/constants';
-import { Settings, StoreInfo } from 'models';
 
 const initialData: AppContextDataState = {
   user: undefined,
@@ -65,80 +66,41 @@ const initialData: AppContextDataState = {
 export const useAppContextData = () => {
   const [state, dispatch] = useReducer(appContextDataReducer, initialData);
 
-  const getSettings = useCallback(async () => {
-    try {
-      dispatch({ type: GET_SETTINGS.REQUEST });
-      const { response, error } = await _getSettings();
-
-      if (error) {
-        dispatch({
-          type: GET_SETTINGS.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: GET_SETTINGS.SUCCESS,
-          payload: { response }
-        });
-      }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
+  const getSettings = useCallback(() => {
+    handleRequestAction({
+      dispatch,
+      action: GET_SETTINGS,
+      request: _getSettings
+    });
   }, []);
 
-  const updateSettings = useCallback(async (params: Settings) => {
-    try {
-      dispatch({ type: UPDATE_SETTINGS.REQUEST });
-      const { response, error } = await _updateSettings({
+  const updateSettings = useCallback((params: Settings) => {
+    handleRequestAction({
+      dispatch,
+      action: UPDATE_SETTINGS,
+      request: _updateSettings,
+      params: {
         language: params.language,
         ui_size: params.uiSize,
         color_theme: params.colorTheme
-      });
-
-      if (error) {
-        dispatch({
-          type: UPDATE_SETTINGS.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: UPDATE_SETTINGS.SUCCESS,
-          payload: { response }
-        });
       }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
+    });
   }, []);
 
-  const getStoreInfo = useCallback(async () => {
-    try {
-      dispatch({ type: GET_STORE_INFO.REQUEST });
-      const { response, error } = await _getStoreInfo();
-
-      if (error) {
-        dispatch({
-          type: GET_STORE_INFO.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: GET_STORE_INFO.SUCCESS,
-          payload: { response }
-        });
-      }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
+  const getStoreInfo = useCallback(() => {
+    handleRequestAction({
+      dispatch,
+      action: GET_STORE_INFO,
+      request: _getStoreInfo
+    });
   }, []);
 
-  const updateStoreInfo = useCallback(async (params: StoreInfo) => {
-    try {
-      dispatch({ type: UPDATE_STORE_INFO.REQUEST });
-      const { response, error } = await _updateStoreInfo({
+  const updateStoreInfo = useCallback((params: StoreInfo) => {
+    handleRequestAction({
+      dispatch,
+      action: UPDATE_STORE_INFO,
+      request: _updateStoreInfo,
+      params: {
         store_name: params.storeName,
         store_address1: params.storeAddress1,
         store_address2: params.storeAddress2,
@@ -149,23 +111,8 @@ export const useAppContextData = () => {
         store_fax_number: params.storeFaxNumber,
         store_email: params.storeEmail,
         store_website: params.storeWebsite
-      });
-
-      if (error) {
-        dispatch({
-          type: UPDATE_STORE_INFO.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: UPDATE_STORE_INFO.SUCCESS,
-          payload: { response }
-        });
       }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
+    });
   }, []);
 
   const setSettingsModalOpen = useCallback(
@@ -183,27 +130,18 @@ export const useAppContextData = () => {
   }, []);
 
   const logIn = useCallback(
-    async (params: LoginParams) => {
-      try {
-        dispatch({ type: LOGIN.REQUEST });
-        const { response, error } = await login(params);
-
-        if (error) {
-          dispatch({
-            type: LOGIN.FAILURE,
-            payload: { error }
-          });
-        } else {
-          dispatch({
-            type: LOGIN.SUCCESS,
-            payload: { response }
-          });
-          navigateTo(APP_PAGE.MENU);
-        }
-      } catch (error) {
-        // TODO
-        console.log(error);
-      }
+    (params: LoginParams) => {
+      handleRequestAction({
+        dispatch,
+        action: LOGIN,
+        request: login,
+        params,
+        onSuccess: [
+          () => {
+            navigateTo(APP_PAGE.MENU);
+          }
+        ]
+      });
     },
     [navigateTo]
   );
@@ -213,57 +151,39 @@ export const useAppContextData = () => {
     navigateTo(APP_PAGE.LOGIN);
   }, [navigateTo]);
 
-  const connect = useCallback(async () => {
-    try {
-      dispatch({ type: CONNECT.REQUEST });
-
-      const { response, error } = await connectToMain();
-
-      if (error) {
-        dispatch({
-          type: CONNECT.FAILURE,
-          payload: { error }
-        });
-      } else {
-        dispatch({
-          type: CONNECT.SUCCESS,
-          payload: { response }
-        });
-
-        if (response) {
+  const connect = useCallback(() => {
+    handleRequestAction({
+      dispatch,
+      action: CONNECT,
+      request: connectToMain,
+      onSuccess: [
+        () => {
           navigateTo(APP_PAGE.LOGIN);
         }
-      }
-    } catch (error) {
-      // TODO
-      console.log(error);
-    }
+      ]
+    });
   }, [navigateTo]);
 
   const createAdmin = useCallback(
-    async (params: CreateUserParams) => {
-      try {
-        dispatch({ type: CREATE_ADMIN.REQUEST, payload: { params } });
-        const { error } = await createUser(params);
-
-        if (error) {
-          dispatch({
-            type: CREATE_ADMIN.FAILURE,
-            payload: { error }
-          });
-        } else {
-          dispatch({
-            type: CREATE_ADMIN.SUCCESS
-          });
-          logIn({
-            username: params.username,
-            password: params.password
-          });
-        }
-      } catch (error) {
-        // TODO
-        console.log(error);
-      }
+    (params: Pick<User, 'username' | 'accessLevel'> & { password: string }) => {
+      handleRequestAction({
+        dispatch,
+        action: CREATE_ADMIN,
+        request: createUser,
+        params: {
+          username: params.username,
+          password: params.password,
+          access_level: params.accessLevel
+        },
+        onSuccess: [
+          () => {
+            logIn({
+              username: params.username,
+              password: params.password
+            });
+          }
+        ]
+      });
     },
     [logIn]
   );

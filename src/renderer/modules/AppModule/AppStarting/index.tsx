@@ -58,7 +58,9 @@ export const AppStarting = ({
   colorTheme: ColorTheme;
   isConnected: boolean;
   isAuthenticated: boolean;
-  createAdmin: (params: CreateUserParams) => void;
+  createAdmin: (
+    params: Pick<User, 'username' | 'accessLevel'> & { password: string }
+  ) => void;
   navigateTo: (page: AppPage) => void;
   updateSettings: (params: Settings) => void;
 }) => {
@@ -88,7 +90,7 @@ export const AppStarting = ({
     createAdmin({
       username: state.username,
       password: state.password,
-      access_level: 1
+      accessLevel: 1
     });
   };
 

@@ -39,10 +39,6 @@ export interface AppContextDataState {
     StoreInfo;
 }
 
-export type AppContextDataActionType =
-  | (typeof CONNECT)[keyof typeof CONNECT]
-  | typeof NAVIGATE_TO;
-
 export type AppContextDataAction =
   | ConnectRequestAction
   | ConnectSuccessAction
@@ -53,8 +49,6 @@ export type AppContextDataAction =
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
-  | NavigateToAction
-  | LogoutAction
   | GetSettingsRequestAction
   | GetSettingsSuccessAction
   | GetSettingsFailureAction
@@ -67,6 +61,8 @@ export type AppContextDataAction =
   | UpdateStoreInfoRequestAction
   | UpdateStoreInfoSuccessAction
   | UpdateStoreInfoFailureAction
+  | NavigateToAction
+  | LogoutAction
   | SetSettingsModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
@@ -85,7 +81,6 @@ interface ConnectFailureAction {
 /* ------------------------------ CREATE_ADMIN ------------------------------ */
 interface CreateAdminRequestAction {
   type: typeof CREATE_ADMIN.REQUEST;
-  payload: { params: CreateUserParams };
 }
 interface CreateAdminSuccessAction {
   type: typeof CREATE_ADMIN.SUCCESS;
