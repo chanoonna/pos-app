@@ -2,7 +2,7 @@
 import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
 import type { User } from 'models';
-import type { LoginParams } from 'preload/api/users/types';
+import type { LoginParamsDB } from 'preload/api/users/types';
 import type { UpdateSettingsParams, UpdateStoreInfoParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -116,7 +116,7 @@ export const useAppContextData = () => {
   }, []);
 
   const logIn = useCallback(
-    (params: LoginParams) => {
+    (params: LoginParamsDB) => {
       handleRequestAction({
         dispatch,
         action: LOGIN,

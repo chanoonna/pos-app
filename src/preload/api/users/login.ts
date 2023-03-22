@@ -1,5 +1,5 @@
 /* ---------------------------------- types --------------------------------- */
-import type { LoginParams, UserDB } from './types';
+import type { LoginParamsDB, UserDB } from './types';
 import type { RequestResult } from '../types';
 
 /* -------------------------------- constants ------------------------------- */
@@ -13,7 +13,7 @@ import omit from 'lodash/omit';
 export const login = async ({
   params
 }: {
-  params: LoginParams;
+  params: LoginParamsDB;
 }): Promise<RequestResult<Omit<UserDB, 'password'> | undefined>> => {
   const ACTION = 'login';
 

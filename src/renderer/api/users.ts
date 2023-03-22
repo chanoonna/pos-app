@@ -1,10 +1,10 @@
 /* ---------------------------------- types --------------------------------- */
 import type {
   CreateUserParamsDB,
-  LoginParams,
+  LoginParamsDB,
   UserDB
 } from 'preload/api/users/types';
-import type { CreateUserParams } from './types';
+import type { CreateUserParams, LoginParams } from './types';
 
 /* --------------------------------- imports -------------------------------- */
 
@@ -23,4 +23,10 @@ export const createUser = (params: CreateUserParams) =>
   });
 
 export const login = (params: LoginParams) =>
-  request<LoginParams, UserDB | undefined>({ action: 'login', params });
+  request<LoginParamsDB, UserDB | undefined>({
+    action: 'login',
+    params: {
+      username: params.username,
+      password: params.password
+    }
+  });

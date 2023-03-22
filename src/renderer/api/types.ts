@@ -28,3 +28,8 @@ export interface CreateUserParams {
   password: string;
   accessLevel: number;
 }
+
+export interface LoginParams {
+  username: string;
+  password: string;
+}
