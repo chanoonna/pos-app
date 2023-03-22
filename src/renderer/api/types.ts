@@ -22,3 +22,9 @@ export interface UpdateStoreInfoParams {
   storeEmail: string;
   storeWebsite: string;
 }
+
+export interface CreateUserParams {
+  username: string;
+  password: string;
+  accessLevel: number;
+}

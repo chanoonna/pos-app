@@ -1,7 +1,7 @@
 /* ---------------------------------- types --------------------------------- */
 import type { User, Settings, StoreInfo } from 'models';
 import type { AppPage } from 'modules/types';
-import type { CreateUserParams, UserDB } from 'preload/api/users/types';
+import type { UserDB } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {

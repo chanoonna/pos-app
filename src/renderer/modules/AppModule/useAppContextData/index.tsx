@@ -1,7 +1,7 @@
 /* ---------------------------------- types --------------------------------- */
 import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
-import type { Settings, StoreInfo, User } from 'models';
+import type { User } from 'models';
 import type { LoginParams } from 'preload/api/users/types';
 import type { UpdateSettingsParams, UpdateStoreInfoParams } from 'api/types';
 
@@ -159,11 +159,7 @@ export const useAppContextData = () => {
         dispatch,
         action: CREATE_ADMIN,
         request: createUser,
-        params: {
-          username: params.username,
-          password: params.password,
-          access_level: params.accessLevel
-        },
+        params,
         onSuccess: [
           () => {
             logIn({

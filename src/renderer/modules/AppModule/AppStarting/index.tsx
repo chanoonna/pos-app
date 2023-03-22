@@ -2,7 +2,6 @@
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
-import type { CreateUserParams } from 'preload/api/users/types';
 import type { Settings, User } from 'renderer/models';
 import type { AppPage } from 'renderer/modules/types';
 

@@ -1,6 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { RequestResult } from '../types';
-import type { CreateUserParams, UserDB } from './types';
+import type { CreateUserParamsDB, UserDB } from './types';
 
 /* -------------------------------- constants ------------------------------- */
 import { USERS, COLUMN } from '../tablesAndColumns';
@@ -18,7 +18,7 @@ import { getUsers } from './getUsers';
 export const createUser = async ({
   params
 }: {
-  params: CreateUserParams;
+  params: CreateUserParamsDB;
 }): Promise<RequestResult<UserDB[] | undefined>> => {
   const ACTION = 'createUser';
 
@@ -30,7 +30,7 @@ export const createUser = async ({
   const postParams = [params.username, params.password, params.access_level];
 
   try {
-    printRequestLog<CreateUserParams>({ action: ACTION, params });
+    printRequestLog<CreateUserParamsDB>({ action: ACTION, params });
     const {
       runResult: { lastID },
       error
