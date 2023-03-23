@@ -158,8 +158,8 @@ export const appContextDataReducer = (
     case GET_STORE_INFO.SUCCESS: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
+        storeInfoState: {
+          ...state.storeInfoState,
           storeName: action.payload.response.store_name,
           storeAddress1: action.payload.response.store_address1,
           storeAddress2: action.payload.response.store_address2,
@@ -178,8 +178,8 @@ export const appContextDataReducer = (
     case UPDATE_STORE_INFO.SUCCESS: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
+        storeInfoState: {
+          ...state.storeInfoState,
           storeName: action.payload.response.store_name,
           storeAddress1: action.payload.response.store_address1,
           storeAddress2: action.payload.response.store_address2,
@@ -198,8 +198,8 @@ export const appContextDataReducer = (
     case SET_SETTINGS_MODAL_OPEN: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
+        modalState: {
+          ...state.modalState,
           isSettingsModalOpen: action.payload.isSettingsModalOpen
         }
       };

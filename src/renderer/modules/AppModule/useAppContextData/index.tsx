@@ -47,10 +47,11 @@ const initialData: AppContextDataState = {
   isCreatingAdminError: false,
   currentPage: APP_PAGE.APP_START,
   settingsState: {
-    isSettingsModalOpen: false,
     language: ENGLISH,
     uiSize: 'large',
-    colorTheme: 'bright',
+    colorTheme: 'bright'
+  },
+  storeInfoState: {
     storeName: '',
     storeAddress1: '',
     storeAddress2: '',
@@ -61,6 +62,10 @@ const initialData: AppContextDataState = {
     storeFaxNumber: '',
     storeEmail: '',
     storeWebsite: ''
+  },
+  modalState: {
+    isSettingsModalOpen: false,
+    isMyInfoModalOpen: false
   }
 };
 

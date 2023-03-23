@@ -33,10 +33,16 @@ export interface AppContextDataState {
   currentPage: AppPage;
 
   /* Settings state */
-  settingsState: {
+  settingsState: Settings;
+
+  /* StoreInfo state */
+  storeInfoState: StoreInfo;
+
+  /* Modal state */
+  modalState: {
     isSettingsModalOpen: boolean;
-  } & Settings &
-    StoreInfo;
+    isMyInfoModalOpen: boolean;
+  };
 }
 
 export type AppContextDataAction =

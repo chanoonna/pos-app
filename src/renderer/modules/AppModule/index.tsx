@@ -57,6 +57,7 @@ export const App = () => {
         value={{
           user,
           settingsState,
+          modalState: state.modalState,
           isLoggingIn: state.isLoggingIn,
           isLoggingInError: state.isLoggingInError,
           currentPage,
@@ -94,6 +95,7 @@ export const App = () => {
 interface AppContextValues {
   user: User;
   settingsState: AppContextDataState['settingsState'];
+  modalState: AppContextDataState['modalState'];
   isLoggingIn: boolean;
   isLoggingInError: boolean;
   currentPage: AppPage;
