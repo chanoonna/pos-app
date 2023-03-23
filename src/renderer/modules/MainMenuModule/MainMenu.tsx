@@ -6,11 +6,11 @@ import { useAppContext } from 'AppModule';
 
 export const MainMenu = () => {
   const {
-    settingsState: { language }
+    settingsState: { language, uiSize }
   } = useAppContext();
   return (
     <FlexContainer alignItems="center">
-      <Menues language={language} />
+      <Menues language={language} uiSize={uiSize} />
     </FlexContainer>
   );
 };

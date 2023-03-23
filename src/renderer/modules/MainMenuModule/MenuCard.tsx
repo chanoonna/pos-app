@@ -1,21 +1,34 @@
 /* ---------------------------------- types --------------------------------- */
+import type { UiSize } from 'style/types';
 import SvgIcon from '@mui/material/SvgIcon';
 
 /* --------------------------------- imports -------------------------------- */
-import PointOfSale from '@mui/icons-material/PointOfSale';
-import { FlexContainer, PaperContainer } from 'components/container';
+import { FlexContainer, PaperHoverContainer } from 'components/container';
+import { SizeAppliedText } from 'renderer/components/typography';
+import { iconSizeBig } from 'style/theme';
 
 export const MenuCard = ({
   Icon,
-  label
+  label,
+  uiSize
 }: {
   Icon: typeof SvgIcon;
   label: string;
+  uiSize: UiSize;
 }) => {
   return (
-    <PaperContainer justifyContent="center" width="15rem" height="15rem">
-      <Icon sx={{ fontSize: '7rem' }} />
-      {label}
-    </PaperContainer>
+    <PaperHoverContainer
+      justifyContent="center"
+      width="15rem"
+      height="15rem"
+      rowGap={0}
+    >
+      <FlexContainer height="9rem">
+        <Icon sx={{ fontSize: iconSizeBig[uiSize] }} />
+      </FlexContainer>
+      <SizeAppliedText textTypeVariant="menuTitle" uiSize={uiSize}>
+        {label}
+      </SizeAppliedText>
+    </PaperHoverContainer>
   );
 };

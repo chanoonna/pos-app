@@ -1,15 +1,11 @@
 /* ---------------------------------- types --------------------------------- */
-import type { ReactNode } from 'react';
 import type { MenuItem } from './types';
 import type { LanguageCode } from 'SettingsModule/types';
+import type { UiSize } from 'renderer/style/types';
 
 import SvgIcon from '@mui/material/SvgIcon';
 
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
+/* --------------------------------- imports -------------------------------- */
 import PointOfSale from '@mui/icons-material/PointOfSale';
 import ReceiptLong from '@mui/icons-material/ReceiptLong';
 import SupervisorAccount from '@mui/icons-material/SupervisorAccount';
@@ -28,43 +24,36 @@ import {
 import { MenuCard } from './MenuCard';
 import { FlexContainer } from 'renderer/components/container';
 
-export const Menues = ({ language }: { language: LanguageCode }) => {
+/* ------------------------------------ - ----------------------------------- */
+
+export const Menues = ({
+  language,
+  uiSize
+}: {
+  language: LanguageCode;
+  uiSize: UiSize;
+}) => {
   const menuLabels = labels[language];
   return (
-    <FlexContainer width="80%" justifyContent="space-evenly" flexWrap="wrap">
+    <FlexContainer
+      height="510px"
+      width="800px"
+      justifyContent="center"
+      alignItems="center"
+      flexWrap="wrap"
+      rowGap={0}
+      columnGap={2}
+    >
       {MENU_ITEMS.map((item) => {
         return (
           <MenuCard
             key={item}
             Icon={menuItemHash[item].icon}
             label={menuLabels[item]}
+            uiSize={uiSize}
           />
         );
       })}
-      {/* <ListItem>
-        <PointOfSale fontSize="large" sx={{ mr: 2 }} />
-        <ListItemText primary="Retail" />
-      </ListItem>
-      <Divider variant="middle" component="li" />
-      <ListItem>
-        <ReceiptLong fontSize="large" sx={{ mr: 2 }} />
-        <ListItemText primary="Whole Sale" />
-      </ListItem>
-      <Divider variant="middle" component="li" />
-      <ListItem>
-        <BarChart fontSize="large" sx={{ mr: 2 }} />
-        <ListItemText primary="Reports" />
-      </ListItem>
-      <Divider variant="middle" component="li" />
-      <ListItem>
-        <Inventory fontSize="large" sx={{ mr: 2 }} />
-        <ListItemText primary="Inventory Management" />
-      </ListItem>
-      <Divider variant="middle" component="li" />
-      <ListItem>
-        <SupervisorAccount fontSize="large" sx={{ mr: 2 }} />
-        <ListItemText primary="Account Management" />
-      </ListItem> */}
     </FlexContainer>
   );
 };
