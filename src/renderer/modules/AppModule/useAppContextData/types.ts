@@ -6,7 +6,8 @@ import type { UserDB } from 'preload/api/users/types';
 /* -------------------------------- constants ------------------------------- */
 import {
   CONNECT,
-  CREATE_ADMIN,
+  CREATE_USER,
+  UPDATE_USER,
   NAVIGATE_TO,
   LOGOUT,
   LOGIN,
@@ -14,7 +15,9 @@ import {
   UPDATE_SETTINGS,
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
-  UPDATE_STORE_INFO
+  UPDATE_STORE_INFO,
+  SET_MY_INFO_MODAL_OPEN,
+  UPDATE_ME
 } from './constants';
 import { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
 
@@ -33,19 +36,31 @@ export interface AppContextDataState {
   currentPage: AppPage;
 
   /* Settings state */
-  settingsState: {
+  settingsState: Settings;
+
+  /* StoreInfo state */
+  storeInfoState: StoreInfo;
+
+  /* Modal state */
+  modalState: {
     isSettingsModalOpen: boolean;
-  } & Settings &
-    StoreInfo;
+    isMyInfoModalOpen: boolean;
+  };
 }
 
 export type AppContextDataAction =
   | ConnectRequestAction
   | ConnectSuccessAction
   | ConnectFailureAction
-  | CreateAdminRequestAction
-  | CreateAdminSuccessAction
-  | CreateAdminFailureAction
+  | CreateUserRequestAction
+  | CreateUserSuccessAction
+  | CreateUserFailureAction
+  | UpdateUserRequestAction
+  | UpdateUserSuccessAction
+  | UpdateUserFailureAction
+  | UpdateMeRequestAction
+  | UpdateMeSuccessAction
+  | UpdateMeFailureAction
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
@@ -63,7 +78,8 @@ export type AppContextDataAction =
   | UpdateStoreInfoFailureAction
   | NavigateToAction
   | LogoutAction
-  | SetSettingsModalOpenAction;
+  | SetSettingsModalOpenAction
+  | SetMyInfoModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
 interface ConnectRequestAction {
@@ -71,8 +87,8 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: {
-    response: UserDB | undefined;
+  payload?: {
+    response?: UserDB;
   };
 }
 interface ConnectFailureAction {
@@ -80,15 +96,41 @@ interface ConnectFailureAction {
   payload: { error: string };
 }
 
-/* ------------------------------ CREATE_ADMIN ------------------------------ */
-interface CreateAdminRequestAction {
-  type: typeof CREATE_ADMIN.REQUEST;
+/* ------------------------------- CREATE_USER ------------------------------ */
+interface CreateUserRequestAction {
+  type: typeof CREATE_USER.REQUEST;
 }
-interface CreateAdminSuccessAction {
-  type: typeof CREATE_ADMIN.SUCCESS;
+interface CreateUserSuccessAction {
+  type: typeof CREATE_USER.SUCCESS;
 }
-interface CreateAdminFailureAction {
-  type: typeof CREATE_ADMIN.FAILURE;
+interface CreateUserFailureAction {
+  type: typeof CREATE_USER.FAILURE;
+  payload: { error: string };
+}
+
+/* ------------------------------- UPDATE_USER ------------------------------ */
+interface UpdateUserRequestAction {
+  type: typeof UPDATE_USER.REQUEST;
+}
+interface UpdateUserSuccessAction {
+  type: typeof UPDATE_USER.SUCCESS;
+  payload: { response: UserDB };
+}
+interface UpdateUserFailureAction {
+  type: typeof UPDATE_USER.FAILURE;
+  payload: { error: string };
+}
+
+/* -------------------------------- UPDATE_ME ------------------------------- */
+interface UpdateMeRequestAction {
+  type: typeof UPDATE_ME.REQUEST;
+}
+interface UpdateMeSuccessAction {
+  type: typeof UPDATE_ME.SUCCESS;
+  payload: { response: UserDB };
+}
+interface UpdateMeFailureAction {
+  type: typeof UPDATE_ME.FAILURE;
   payload: { error: string };
 }
 
@@ -150,6 +192,14 @@ interface UpdateSettingsFailureAction {
   };
 }
 
+/* ---------------------------- SET_SETTINGS_MODAL_OPEN --------------------- */
+interface SetSettingsModalOpenAction {
+  type: typeof SET_SETTINGS_MODAL_OPEN;
+  payload: {
+    isSettingsModalOpen: boolean;
+  };
+}
+
 /* ----------------------------- GET_STORE_INFO ----------------------------- */
 interface GetStoreInfoRequestAction {
   type: typeof GET_STORE_INFO.REQUEST;
@@ -184,10 +234,10 @@ interface UpdateStoreInfoFailureAction {
   };
 }
 
-/* ---------------------------- SET_SETTINGS_MODAL_OPEN --------------------- */
-interface SetSettingsModalOpenAction {
-  type: typeof SET_SETTINGS_MODAL_OPEN;
+/* ------------------------- SET_MY_INFO_MODAL_OPEN ------------------------- */
+interface SetMyInfoModalOpenAction {
+  type: typeof SET_MY_INFO_MODAL_OPEN;
   payload: {
-    isSettingsModalOpen: boolean;
+    isMyInfoModalOpen: boolean;
   };
 }

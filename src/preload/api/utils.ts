@@ -99,6 +99,12 @@ export const handleCatchAndPrintLog = ({
 export const buildSelectQuery = (attributes: string[]) =>
   `SELECT ${attributes.join(', ')}\n`;
 
+export const buildSetQuery = (attributes: string[]) =>
+  `SET ${attributes.join(' = ?, ')} = ?\n`;
+
+export const buildValueQuery = (attributes: string[]) =>
+  `VALUES (${attributes.map(() => '?').join(', ')})\n`;
+
 export const buildWhereQuery = (wheres: string[]) =>
   `WHERE ${wheres.join(' = ? AND ')} = ?\n`;
 

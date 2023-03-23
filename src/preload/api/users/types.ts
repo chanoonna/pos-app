@@ -27,3 +27,11 @@ export interface UserDB {
   access_level: number;
   last_login: string;
 }
+
+export interface UpdateUserParamsDB {
+  id: number;
+  username?: string;
+  password?: string;
+  is_archived?: number;
+  access_level?: number;
+}

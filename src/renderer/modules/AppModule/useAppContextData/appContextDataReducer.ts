@@ -6,13 +6,16 @@ import {
   CONNECT,
   NAVIGATE_TO,
   LOGOUT,
-  CREATE_ADMIN,
+  CREATE_USER,
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
-  UPDATE_STORE_INFO
+  UPDATE_STORE_INFO,
+  SET_MY_INFO_MODAL_OPEN,
+  UPDATE_USER,
+  UPDATE_ME
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -54,7 +57,7 @@ export const appContextDataReducer = (
       };
     }
     case CONNECT.SUCCESS: {
-      if (action.payload.response) {
+      if (action.payload?.response) {
         return {
           ...state,
           isConnecting: false,
@@ -77,25 +80,39 @@ export const appContextDataReducer = (
       };
     }
 
-    /* ------------------------------ CREATE_ADMIN ------------------------------ */
-    case CREATE_ADMIN.REQUEST: {
+    /* ------------------------------- CREATE_USER ------------------------------ */
+    case CREATE_USER.REQUEST: {
       return {
         ...state,
         isCreatingAdmin: true
       };
     }
-    case CREATE_ADMIN.FAILURE: {
+    case CREATE_USER.FAILURE: {
       return {
         ...state,
         isCreatingAdmin: false,
         isCreatingAdminError: true
       };
     }
-    case CREATE_ADMIN.SUCCESS: {
+    case CREATE_USER.SUCCESS: {
       return {
         ...state,
         isCreatingAdmin: false,
         isCreatingAdminError: false
+      };
+    }
+
+    /* ------------------------------- UPDATE_USER ------------------------------ */
+    /* -------------------------------- UPDATE_ME ------------------------------- */
+    case UPDATE_ME.SUCCESS: {
+      return {
+        ...state,
+        user: {
+          id: action.payload.response.id,
+          username: action.payload.response.username,
+          lastLogin: action.payload.response.last_login,
+          accessLevel: action.payload.response.access_level
+        }
       };
     }
 
@@ -154,12 +171,23 @@ export const appContextDataReducer = (
       };
     }
 
+    /* ------------------------- SET_SETTINGS_MODAL_OPEN ------------------------ */
+    case SET_SETTINGS_MODAL_OPEN: {
+      return {
+        ...state,
+        modalState: {
+          ...state.modalState,
+          isSettingsModalOpen: action.payload.isSettingsModalOpen
+        }
+      };
+    }
+
     /* ----------------------------- GET_STORE_INFO ----------------------------- */
     case GET_STORE_INFO.SUCCESS: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
+        storeInfoState: {
+          ...state.storeInfoState,
           storeName: action.payload.response.store_name,
           storeAddress1: action.payload.response.store_address1,
           storeAddress2: action.payload.response.store_address2,
@@ -178,8 +206,8 @@ export const appContextDataReducer = (
     case UPDATE_STORE_INFO.SUCCESS: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
+        storeInfoState: {
+          ...state.storeInfoState,
           storeName: action.payload.response.store_name,
           storeAddress1: action.payload.response.store_address1,
           storeAddress2: action.payload.response.store_address2,
@@ -194,13 +222,13 @@ export const appContextDataReducer = (
       };
     }
 
-    /* ------------------------- SET_SETTINGS_MODAL_OPEN ------------------------ */
-    case SET_SETTINGS_MODAL_OPEN: {
+    /* ------------------------- SET_MY_INFO_MODAL_OPEN ------------------------- */
+    case SET_MY_INFO_MODAL_OPEN: {
       return {
         ...state,
-        settingsState: {
-          ...state.settingsState,
-          isSettingsModalOpen: action.payload.isSettingsModalOpen
+        modalState: {
+          ...state.modalState,
+          isMyInfoModalOpen: action.payload.isMyInfoModalOpen
         }
       };
     }

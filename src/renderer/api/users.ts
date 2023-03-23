@@ -2,9 +2,10 @@
 import type {
   CreateUserParamsDB,
   LoginParamsDB,
+  UpdateUserParamsDB,
   UserDB
 } from 'preload/api/users/types';
-import type { CreateUserParams, LoginParams } from './types';
+import type { CreateUserParams, LoginParams, UpdateUserParams } from './types';
 
 /* --------------------------------- imports -------------------------------- */
 
@@ -18,6 +19,18 @@ export const createUser = (params: CreateUserParams) =>
     params: {
       username: params.username,
       password: params.password,
+      access_level: params.accessLevel
+    }
+  });
+
+export const updateUser = (params: UpdateUserParams) =>
+  request<UpdateUserParamsDB, UserDB | undefined>({
+    action: 'updateUser',
+    params: {
+      id: params.id,
+      username: params.username,
+      password: params.password,
+      is_archived: params.isArchived,
       access_level: params.accessLevel
     }
   });

@@ -5,9 +5,9 @@ import type { LanguageCode } from 'SettingsModule/types';
 /* ------------------------------------ - ----------------------------------- */
 
 export interface UpdateSettingsParams {
-  language: LanguageCode;
-  uiSize: UiSize;
-  colorTheme: ColorTheme;
+  language?: LanguageCode;
+  uiSize?: UiSize;
+  colorTheme?: ColorTheme;
 }
 
 export interface UpdateStoreInfoParams {
@@ -27,6 +27,14 @@ export interface CreateUserParams {
   username: string;
   password: string;
   accessLevel: number;
+}
+
+export interface UpdateUserParams {
+  id: number;
+  username?: string;
+  password?: string;
+  isArchived?: number;
+  accessLevel?: number;
 }
 
 export interface LoginParams {

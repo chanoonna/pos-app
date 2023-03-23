@@ -27,7 +27,8 @@
   "homepage": "https://github.com/chanoonna/pos-app#readme",
   "lint-staged": {
     "src/**/*.{js,jsx,json,ts,tsx}": [
-      "eslint",
+      "eslint --fix",
+      "git add",
       "prettier --single-quote --write",
       "git add"
     ]

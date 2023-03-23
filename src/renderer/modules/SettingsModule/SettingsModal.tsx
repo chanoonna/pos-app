@@ -9,12 +9,8 @@ import { SettingsPage } from './SettingsPage';
 
 export const SettingsModal = () => {
   const {
-    settingsState: {
-      isSettingsModalOpen: isOpen,
-      language,
-      uiSize,
-      colorTheme
-    },
+    settingsState: { language, uiSize, colorTheme },
+    modalState: { isSettingsModalOpen: isOpen },
     updateSettings,
     setSettingsModalOpen
   } = useAppContext();

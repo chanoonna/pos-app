@@ -9,7 +9,7 @@ import { API, ERROR_UNSPECIFIED } from './constants';
 import { ipcMain } from 'electron';
 import { handleCatchAndPrintLog } from './utils';
 import { connect } from './connect';
-import { createUser, login } from './users';
+import { createUser, updateUser, login } from './users';
 import {
   getSettings,
   updateSettings,
@@ -36,6 +36,16 @@ export const startApiRequestHandlers = () => {
           /* ---------------------------------- users --------------------------------- */
           case 'createUser': {
             const { result, userFriendlyError } = await createUser({
+              params
+            });
+
+            return {
+              response: result,
+              error: userFriendlyError
+            };
+          }
+          case 'updateUser': {
+            const { result, userFriendlyError } = await updateUser({
               params
             });
 

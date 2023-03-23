@@ -23,7 +23,8 @@ export const NavMenu = () => {
   const {
     settingsState: { language },
     logOut,
-    setSettingsModalOpen
+    setSettingsModalOpen,
+    setMyInfoModalOpen
   } = useAppContext();
   const appMenuLabels = labels[language].NavMenu;
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -32,6 +33,10 @@ export const NavMenu = () => {
 
   const openSettingsModal = (event: React.MouseEvent<HTMLElement>) => {
     setSettingsModalOpen(true);
+    toggleMenu(event);
+  };
+  const openMyInfoModal = (event: React.MouseEvent<HTMLElement>) => {
+    setMyInfoModalOpen(true);
     toggleMenu(event);
   };
 
@@ -109,7 +114,7 @@ export const NavMenu = () => {
           {appMenuLabels.cancelSale}
         </MenuItem>
         <Divider />
-        <MenuItem onClick={toggleMenu}>
+        <MenuItem onClick={openMyInfoModal}>
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>

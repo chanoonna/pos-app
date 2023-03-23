@@ -9,7 +9,11 @@ import '@fontsource/roboto/700.css';
 import type { AppPage } from 'modules/types';
 import type { User } from 'models';
 import type { AppContextDataState } from './useAppContextData/types';
-import type { LoginParams, UpdateSettingsParams } from 'api/types';
+import type {
+  LoginParams,
+  UpdateSettingsParams,
+  UpdateUserParams
+} from 'api/types';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
@@ -20,7 +24,7 @@ import { useAppContextData } from './useAppContextData';
 import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
-import { SettingsModal } from 'SettingsModule/SettingsModal';
+import { ModalContainer } from './Modals';
 import { theme } from 'style/theme';
 import { APP_PAGE } from '../constants';
 
@@ -31,14 +35,17 @@ export const App = () => {
     state,
     connect,
     navigateTo,
-    createAdmin,
+    createUser,
+    updateUser,
+    updateMe,
     logOut,
     logIn,
     getSettings,
     updateSettings,
     getStoreInfo,
     updateStoreInfo,
-    setSettingsModalOpen
+    setSettingsModalOpen,
+    setMyInfoModalOpen
   } = useAppContextData();
   const { user, currentPage, settingsState } = state;
 
@@ -57,6 +64,7 @@ export const App = () => {
         value={{
           user,
           settingsState,
+          modalState: state.modalState,
           isLoggingIn: state.isLoggingIn,
           isLoggingInError: state.isLoggingInError,
           currentPage,
@@ -64,7 +72,10 @@ export const App = () => {
           logOut,
           logIn,
           updateSettings,
-          setSettingsModalOpen
+          updateMe,
+          updateUser,
+          setSettingsModalOpen,
+          setMyInfoModalOpen
         }}
       >
         <AppContainer
@@ -73,7 +84,7 @@ export const App = () => {
           <NavBar />
           <MainComponent />
         </AppContainer>
-        <SettingsModal />
+        <ModalContainer />
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
@@ -84,7 +95,7 @@ export const App = () => {
       colorTheme={settingsState.colorTheme}
       isAuthenticated={state.isAuthenticated}
       isConnected={state.isConnected}
-      createAdmin={createAdmin}
+      createUser={createUser}
       navigateTo={navigateTo}
       updateSettings={updateSettings}
     />
@@ -94,14 +105,18 @@ export const App = () => {
 interface AppContextValues {
   user: User;
   settingsState: AppContextDataState['settingsState'];
+  modalState: AppContextDataState['modalState'];
   isLoggingIn: boolean;
   isLoggingInError: boolean;
   currentPage: AppPage;
   navigateTo: (nextPage: AppPage) => void;
   logOut: () => void;
   logIn: (params: LoginParams) => void;
+  updateMe: (params: UpdateUserParams) => void;
+  updateUser: (params: UpdateUserParams) => void;
   updateSettings: (params: UpdateSettingsParams) => void;
   setSettingsModalOpen: (isOpen: boolean) => void;
+  setMyInfoModalOpen: (isOpen: boolean) => void;
 }
 
 const AppContext = createContext<AppContextValues>({} as AppContextValues);

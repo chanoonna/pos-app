@@ -1,5 +1,9 @@
 /* ---------------------------------- types --------------------------------- */
-import type { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
+import type {
+  UpdateSettingsParamsDB,
+  SettingsDB,
+  StoreInfoDB
+} from 'preload/api/settings/types';
 import type { UpdateSettingsParams, UpdateStoreInfoParams } from './types';
 
 /* --------------------------------- imports -------------------------------- */
@@ -10,7 +14,7 @@ export const getSettings = () =>
   request<undefined, SettingsDB>({ action: 'getSettings' });
 
 export const updateSettings = (params: UpdateSettingsParams) =>
-  request<SettingsDB, SettingsDB>({
+  request<UpdateSettingsParamsDB, SettingsDB>({
     action: 'updateSettings',
     params: {
       language: params.language,

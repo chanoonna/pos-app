@@ -1,0 +1,12 @@
+{
+  "language": "언어",
+  "createAdmin": "관리자 계정 생성",
+  "createUser": "계정 생성",
+  "updateMyInfo": "내 정보 변경",
+  "username": "사용자 이름",
+  "usernameTooltip": "관리자 계정의 사용자 이름은 변경할 수 없습니다",
+  "currentPassword": "현재 비밀번호",
+  "newPassword": "새 비밀번호",
+  "confirmNewPassword": "새 비밀번호 확인",
+  "confirmPasswordError": "비밀번호가 일치하지 않습니다"
+}

@@ -1,10 +1,11 @@
 /* ---------------------------------- types --------------------------------- */
-import type { SettingsDB } from './types';
+import type { SettingsDB, UpdateSettingsParamsDB } from './types';
 
 /* --------------------------------- imports -------------------------------- */
 import fs from 'fs';
 import { RequestResult } from '../types';
 import { printRequestLog, printResultLog } from '../utils';
+import merge from 'lodash/merge';
 
 const defaultSettings: SettingsDB = {
   language: 'ENGLISH',
@@ -56,12 +57,31 @@ export const getSettings = async (): Promise<
 export const updateSettings = async ({
   params
 }: {
-  params: SettingsDB;
+  params: UpdateSettingsParamsDB;
 }): Promise<RequestResult<SettingsDB | undefined>> => {
   const ACTION = 'updateSettings';
   printRequestLog({ action: ACTION, params });
+
+  const { result: previousSettings, error: fileReadError } = await new Promise<{
+    result?: SettingsDB;
+    error?: Error;
+  }>((resolve) => {
+    fs.readFile(FILE_NAME, 'utf8', (error, data) => {
+      if (error) {
+        resolve({ error: new Error('Error while updating the settings') });
+        return;
+      }
+
+      resolve({ result: JSON.parse(data) });
+    });
+  });
+
+  const mergedSettings = merge({}, previousSettings, params);
+
+  console.log(previousSettings, mergedSettings);
+
   const error = await new Promise<Error | undefined>((resolve) => {
-    fs.writeFile(FILE_NAME, JSON.stringify(params), (error) => {
+    fs.writeFile(FILE_NAME, JSON.stringify(mergedSettings), (error) => {
       if (error) {
         resolve(new Error('Error while updating the settings'));
         return;
@@ -72,7 +92,10 @@ export const updateSettings = async ({
   });
 
   printResultLog({ action: ACTION, result: params, error });
+
   return {
-    ...(error ? { userFriendlyError: error.message } : { result: params })
+    ...(error
+      ? { userFriendlyError: error.message }
+      : { result: mergedSettings })
   };
 };

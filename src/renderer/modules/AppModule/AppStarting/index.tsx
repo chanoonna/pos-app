@@ -2,9 +2,9 @@
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
-import type { Settings, User } from 'renderer/models';
+import type { User } from 'renderer/models';
 import type { AppPage } from 'renderer/modules/types';
-import type { CreateUserParams } from 'api/types';
+import type { CreateUserParams, UpdateSettingsParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
@@ -48,7 +48,7 @@ export const AppStarting = ({
   colorTheme,
   isConnected,
   isAuthenticated,
-  createAdmin,
+  createUser,
   navigateTo,
   updateSettings
 }: {
@@ -58,9 +58,9 @@ export const AppStarting = ({
   colorTheme: ColorTheme;
   isConnected: boolean;
   isAuthenticated: boolean;
-  createAdmin: (params: CreateUserParams) => void;
+  createUser: (params: CreateUserParams) => void;
   navigateTo: (page: AppPage) => void;
-  updateSettings: (params: Settings) => void;
+  updateSettings: (params: UpdateSettingsParams) => void;
 }) => {
   const [state, setState] = useState(initialState);
 
@@ -85,7 +85,7 @@ export const AppStarting = ({
     setState((curr) => ({ ...curr, confirmPassword: event.target.value }));
   };
   const onCreateAdmin = () => {
-    createAdmin({
+    createUser({
       username: state.username,
       password: state.password,
       accessLevel: 1
