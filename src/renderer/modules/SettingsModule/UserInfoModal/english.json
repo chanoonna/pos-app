@@ -1,0 +1,12 @@
+{
+  "language": "Language",
+  "createAdmin": "Create Admin",
+  "createUser": "Create User",
+  "updateMyInfo": "Update My Info",
+  "username": "Username",
+  "usernameTooltip": "You can't change the username of admin account",
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmNewPassword": "Confirm New Password",
+  "confirmPasswordError": "Password does not match"
+}

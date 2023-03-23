@@ -1,11 +1,11 @@
 import { SettingsModal } from 'SettingsModule/SettingsModal';
-import { MyInfoModal } from 'SettingsModule/MyInfoModal/MyInfoModal';
+import { UserInfoModal } from 'renderer/modules/SettingsModule/UserInfoModal/UserInfoModal';
 
 export const ModalContainer = () => {
   return (
     <>
       <SettingsModal />
-      <MyInfoModal />
+      <UserInfoModal />
     </>
   );
 };
