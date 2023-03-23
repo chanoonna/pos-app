@@ -23,6 +23,7 @@ interface Labels {
   };
   [Component.NavBar]: {
     logoutTooltip: string;
+    mainMenuTooltip: string;
   };
 }
 

@@ -1,4 +1,3 @@
-import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'renderer/components/container/FlexContainer';
 import { Menues } from './Menus';
 

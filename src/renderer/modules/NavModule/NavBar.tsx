@@ -1,29 +1,33 @@
+/* -------------------------------- constants ------------------------------- */
+import { labels } from './constants';
+import { APP_PAGE } from '../constants';
+
+/* --------------------------------- imports -------------------------------- */
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import { colors } from 'style/theme';
+import Logout from '@mui/icons-material/Logout';
 import { NavSearch } from './NavSearch';
 import { NavMenu } from './NavMenu';
 import { useAppContext } from 'renderer/modules/AppModule';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
-import { labels } from './constants';
 import { SizeAppliedText } from 'renderer/components/typography';
-import { APP_PAGE } from '../constants';
 
 export const NavBar = () => {
   const [searchText, setSearchText] = useState('');
   const {
-    user,
     settingsState: { language, uiSize },
     currentPage,
-    logOut
+    logOut,
+    navigateTo
   } = useAppContext();
+
+  const isOnMainMenu = currentPage === APP_PAGE.MENU;
 
   const navBarLabels = labels[language].NavBar;
 
@@ -31,6 +35,14 @@ export const NavBar = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchText(event.target.value);
+  };
+
+  const onClickRightIcon = () => {
+    if (isOnMainMenu) {
+      logOut();
+    } else {
+      navigateTo(APP_PAGE.MENU);
+    }
   };
 
   if (currentPage === APP_PAGE.LOGIN) return <div />;
@@ -67,12 +79,24 @@ export const NavBar = () => {
             }}
           />
           <Tooltip
-            title={<TooltipTitleWrapper label={navBarLabels.logoutTooltip} />}
+            title={
+              <TooltipTitleWrapper
+                label={
+                  isOnMainMenu
+                    ? navBarLabels.logoutTooltip
+                    : navBarLabels.mainMenuTooltip
+                }
+              />
+            }
             arrow
             placement="bottom-start"
           >
-            <IconButton size="large" color="inherit" onClick={logOut}>
-              <HomeIcon fontSize="large" />
+            <IconButton size="large" color="inherit" onClick={onClickRightIcon}>
+              {isOnMainMenu ? (
+                <Logout fontSize="large" />
+              ) : (
+                <HomeIcon fontSize="large" />
+              )}
             </IconButton>
           </Tooltip>
         </Toolbar>

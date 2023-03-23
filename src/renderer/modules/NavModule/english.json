@@ -11,6 +11,7 @@
     "logout": "Logout"
   },
   "NavBar": {
-    "logoutTooltip": "Click to Logout"
+    "logoutTooltip": "Click to Logout",
+    "mainMenuTooltip": "Click to go to main menu"
   }
 }

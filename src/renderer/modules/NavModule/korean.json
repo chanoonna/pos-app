@@ -3,7 +3,7 @@
     "placeholder": "검색..."
   },
   "NavMenu": {
-    "menuTooltip": "메뉴를 열려면 클릭하십시오",
+    "menuTooltip": "메뉴를 열려면 클릭하세요",
     "myProfile": "내 정보",
     "previousSales": "이전 판매 목록",
     "cancelSale": "판매 취소",
@@ -11,6 +11,7 @@
     "logout": "로그아웃"
   },
   "NavBar": {
-    "logoutTooltip": "로그아웃하려면 클릭하십시오."
+    "logoutTooltip": "로그아웃하려면 클릭하세요.",
+    "mainMenuTooltip": "클릭하시면 메인메뉴로 이동합니다."
   }
 }
