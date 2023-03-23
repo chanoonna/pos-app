@@ -20,7 +20,7 @@ import { useAppContextData } from './useAppContextData';
 import { appPageHash } from '../appPageHash';
 import { AppContainer } from 'components/container/AppContainer';
 import { AppStarting } from './AppStarting';
-import { SettingsModal } from 'SettingsModule/SettingsModal';
+import { ModalContainer } from './Modals';
 import { theme } from 'style/theme';
 import { APP_PAGE } from '../constants';
 
@@ -38,7 +38,8 @@ export const App = () => {
     updateSettings,
     getStoreInfo,
     updateStoreInfo,
-    setSettingsModalOpen
+    setSettingsModalOpen,
+    setMyInfoModalOpen
   } = useAppContextData();
   const { user, currentPage, settingsState } = state;
 
@@ -65,7 +66,8 @@ export const App = () => {
           logOut,
           logIn,
           updateSettings,
-          setSettingsModalOpen
+          setSettingsModalOpen,
+          setMyInfoModalOpen
         }}
       >
         <AppContainer
@@ -74,7 +76,7 @@ export const App = () => {
           <NavBar />
           <MainComponent />
         </AppContainer>
-        <SettingsModal />
+        <ModalContainer />
       </AppContext.Provider>
     </ThemeProvider>
   ) : (
@@ -104,6 +106,7 @@ interface AppContextValues {
   logIn: (params: LoginParams) => void;
   updateSettings: (params: UpdateSettingsParams) => void;
   setSettingsModalOpen: (isOpen: boolean) => void;
+  setMyInfoModalOpen: (isOpen: boolean) => void;
 }
 
 const AppContext = createContext<AppContextValues>({} as AppContextValues);

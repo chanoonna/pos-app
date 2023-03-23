@@ -14,7 +14,8 @@ import {
   UPDATE_SETTINGS,
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
-  UPDATE_STORE_INFO
+  UPDATE_STORE_INFO,
+  SET_MY_INFO_MODAL_OPEN
 } from './constants';
 import { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
 
@@ -69,7 +70,8 @@ export type AppContextDataAction =
   | UpdateStoreInfoFailureAction
   | NavigateToAction
   | LogoutAction
-  | SetSettingsModalOpenAction;
+  | SetSettingsModalOpenAction
+  | SetMyInfoModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
 interface ConnectRequestAction {
@@ -156,6 +158,14 @@ interface UpdateSettingsFailureAction {
   };
 }
 
+/* ---------------------------- SET_SETTINGS_MODAL_OPEN --------------------- */
+interface SetSettingsModalOpenAction {
+  type: typeof SET_SETTINGS_MODAL_OPEN;
+  payload: {
+    isSettingsModalOpen: boolean;
+  };
+}
+
 /* ----------------------------- GET_STORE_INFO ----------------------------- */
 interface GetStoreInfoRequestAction {
   type: typeof GET_STORE_INFO.REQUEST;
@@ -190,10 +200,10 @@ interface UpdateStoreInfoFailureAction {
   };
 }
 
-/* ---------------------------- SET_SETTINGS_MODAL_OPEN --------------------- */
-interface SetSettingsModalOpenAction {
-  type: typeof SET_SETTINGS_MODAL_OPEN;
+/* ------------------------- SET_MY_INFO_MODAL_OPEN ------------------------- */
+interface SetMyInfoModalOpenAction {
+  type: typeof SET_MY_INFO_MODAL_OPEN;
   payload: {
-    isSettingsModalOpen: boolean;
+    isMyInfoModalOpen: boolean;
   };
 }

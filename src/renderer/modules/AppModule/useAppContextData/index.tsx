@@ -18,7 +18,8 @@ import {
   UPDATE_SETTINGS,
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
-  UPDATE_STORE_INFO
+  UPDATE_STORE_INFO,
+  SET_MY_INFO_MODAL_OPEN
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -116,6 +117,16 @@ export const useAppContextData = () => {
     [dispatch]
   );
 
+  const setMyInfoModalOpen = useCallback(
+    (isMyInfoModalOpen: boolean) => {
+      dispatch({
+        type: SET_MY_INFO_MODAL_OPEN,
+        payload: { isMyInfoModalOpen }
+      });
+    },
+    [dispatch]
+  );
+
   const navigateTo = useCallback((nextPage: AppPage) => {
     dispatch({ type: NAVIGATE_TO, payload: { nextPage } });
   }, []);
@@ -189,6 +200,7 @@ export const useAppContextData = () => {
     updateSettings,
     getStoreInfo,
     updateStoreInfo,
-    setSettingsModalOpen
+    setSettingsModalOpen,
+    setMyInfoModalOpen
   };
 };

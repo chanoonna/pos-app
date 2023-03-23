@@ -12,7 +12,8 @@ import {
   UPDATE_SETTINGS,
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
-  UPDATE_STORE_INFO
+  UPDATE_STORE_INFO,
+  SET_MY_INFO_MODAL_OPEN
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -154,6 +155,17 @@ export const appContextDataReducer = (
       };
     }
 
+    /* ------------------------- SET_SETTINGS_MODAL_OPEN ------------------------ */
+    case SET_SETTINGS_MODAL_OPEN: {
+      return {
+        ...state,
+        modalState: {
+          ...state.modalState,
+          isSettingsModalOpen: action.payload.isSettingsModalOpen
+        }
+      };
+    }
+
     /* ----------------------------- GET_STORE_INFO ----------------------------- */
     case GET_STORE_INFO.SUCCESS: {
       return {
@@ -194,13 +206,13 @@ export const appContextDataReducer = (
       };
     }
 
-    /* ------------------------- SET_SETTINGS_MODAL_OPEN ------------------------ */
-    case SET_SETTINGS_MODAL_OPEN: {
+    /* ------------------------- SET_MY_INFO_MODAL_OPEN ------------------------- */
+    case SET_MY_INFO_MODAL_OPEN: {
       return {
         ...state,
         modalState: {
           ...state.modalState,
-          isSettingsModalOpen: action.payload.isSettingsModalOpen
+          isMyInfoModalOpen: action.payload.isMyInfoModalOpen
         }
       };
     }
