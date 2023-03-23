@@ -48,7 +48,7 @@ export const AppStarting = ({
   colorTheme,
   isConnected,
   isAuthenticated,
-  createAdmin,
+  createUser,
   navigateTo,
   updateSettings
 }: {
@@ -58,7 +58,7 @@ export const AppStarting = ({
   colorTheme: ColorTheme;
   isConnected: boolean;
   isAuthenticated: boolean;
-  createAdmin: (params: CreateUserParams) => void;
+  createUser: (params: CreateUserParams) => void;
   navigateTo: (page: AppPage) => void;
   updateSettings: (params: Settings) => void;
 }) => {
@@ -85,7 +85,7 @@ export const AppStarting = ({
     setState((curr) => ({ ...curr, confirmPassword: event.target.value }));
   };
   const onCreateAdmin = () => {
-    createAdmin({
+    createUser({
       username: state.username,
       password: state.password,
       accessLevel: 1

@@ -29,6 +29,14 @@ export interface CreateUserParams {
   accessLevel: number;
 }
 
+export interface UpdateUserParams {
+  id: number;
+  username?: string;
+  password?: string;
+  isArchived?: number;
+  accessLevel?: number;
+}
+
 export interface LoginParams {
   username: string;
   password: string;

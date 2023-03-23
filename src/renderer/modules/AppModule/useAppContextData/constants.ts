@@ -3,7 +3,8 @@ import { createRequestActionMap } from 'api/utils';
 
 /* ----------------------------- Request actions ---------------------------- */
 export const CONNECT = createRequestActionMap('CONNECT');
-export const CREATE_ADMIN = createRequestActionMap('CREATE_ADMIN');
+export const CREATE_USER = createRequestActionMap('CREATE_USER');
+export const UPDATE_USER = createRequestActionMap('UPDATE_USER');
 export const LOGIN = createRequestActionMap('LOGIN');
 export const GET_SETTINGS = createRequestActionMap('GET_SETTINGS');
 export const UPDATE_SETTINGS = createRequestActionMap('UPDATE_SETTINGS');

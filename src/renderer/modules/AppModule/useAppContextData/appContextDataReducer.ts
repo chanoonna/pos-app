@@ -6,7 +6,7 @@ import {
   CONNECT,
   NAVIGATE_TO,
   LOGOUT,
-  CREATE_ADMIN,
+  CREATE_USER,
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
@@ -79,20 +79,20 @@ export const appContextDataReducer = (
     }
 
     /* ------------------------------ CREATE_ADMIN ------------------------------ */
-    case CREATE_ADMIN.REQUEST: {
+    case CREATE_USER.REQUEST: {
       return {
         ...state,
         isCreatingAdmin: true
       };
     }
-    case CREATE_ADMIN.FAILURE: {
+    case CREATE_USER.FAILURE: {
       return {
         ...state,
         isCreatingAdmin: false,
         isCreatingAdminError: true
       };
     }
-    case CREATE_ADMIN.SUCCESS: {
+    case CREATE_USER.SUCCESS: {
       return {
         ...state,
         isCreatingAdmin: false,

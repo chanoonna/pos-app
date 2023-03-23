@@ -31,7 +31,7 @@ export const App = () => {
     state,
     connect,
     navigateTo,
-    createAdmin,
+    createUser,
     logOut,
     logIn,
     getSettings,
@@ -87,7 +87,7 @@ export const App = () => {
       colorTheme={settingsState.colorTheme}
       isAuthenticated={state.isAuthenticated}
       isConnected={state.isConnected}
-      createAdmin={createAdmin}
+      createUser={createUser}
       navigateTo={navigateTo}
       updateSettings={updateSettings}
     />

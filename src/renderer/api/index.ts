@@ -1,5 +1,5 @@
 export { connectToMain } from './connect';
-export { createUser, login } from './users';
+export { createUser, updateUser, login } from './users';
 export {
   getSettings,
   updateSettings,

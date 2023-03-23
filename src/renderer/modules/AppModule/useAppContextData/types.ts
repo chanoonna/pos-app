@@ -6,7 +6,8 @@ import type { UserDB } from 'preload/api/users/types';
 /* -------------------------------- constants ------------------------------- */
 import {
   CONNECT,
-  CREATE_ADMIN,
+  CREATE_USER,
+  UPDATE_USER,
   NAVIGATE_TO,
   LOGOUT,
   LOGIN,
@@ -50,9 +51,12 @@ export type AppContextDataAction =
   | ConnectRequestAction
   | ConnectSuccessAction
   | ConnectFailureAction
-  | CreateAdminRequestAction
-  | CreateAdminSuccessAction
-  | CreateAdminFailureAction
+  | CreateUserRequestAction
+  | CreateUserSuccessAction
+  | CreateUserFailureAction
+  | UpdateUserRequestAction
+  | UpdateUserSuccessAction
+  | UpdateUserFailureAction
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
@@ -88,15 +92,28 @@ interface ConnectFailureAction {
   payload: { error: string };
 }
 
-/* ------------------------------ CREATE_ADMIN ------------------------------ */
-interface CreateAdminRequestAction {
-  type: typeof CREATE_ADMIN.REQUEST;
+/* ------------------------------- CREATE_USER ------------------------------ */
+interface CreateUserRequestAction {
+  type: typeof CREATE_USER.REQUEST;
 }
-interface CreateAdminSuccessAction {
-  type: typeof CREATE_ADMIN.SUCCESS;
+interface CreateUserSuccessAction {
+  type: typeof CREATE_USER.SUCCESS;
 }
-interface CreateAdminFailureAction {
-  type: typeof CREATE_ADMIN.FAILURE;
+interface CreateUserFailureAction {
+  type: typeof CREATE_USER.FAILURE;
+  payload: { error: string };
+}
+
+/* ------------------------------- UPDATE_USER ------------------------------ */
+interface UpdateUserRequestAction {
+  type: typeof UPDATE_USER.REQUEST;
+}
+interface UpdateUserSuccessAction {
+  type: typeof UPDATE_USER.SUCCESS;
+  payload: { response: UserDB };
+}
+interface UpdateUserFailureAction {
+  type: typeof UPDATE_USER.FAILURE;
   payload: { error: string };
 }
 

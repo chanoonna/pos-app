@@ -8,6 +8,7 @@ import { useAppContext } from 'AppModule';
 
 export const MyInfoModal = () => {
   const {
+    user: { id, username, lastLogin },
     settingsState: { language, uiSize, colorTheme },
     modalState: { isMyInfoModalOpen: isOpen },
     setMyInfoModalOpen

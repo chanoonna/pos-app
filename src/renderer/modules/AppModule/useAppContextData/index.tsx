@@ -1,16 +1,21 @@
 /* ---------------------------------- types --------------------------------- */
 import type { AppContextDataState } from './types';
 import type { AppPage } from 'modules/types';
-import type { User } from 'models';
 import type { LoginParamsDB } from 'preload/api/users/types';
-import type { UpdateSettingsParams, UpdateStoreInfoParams } from 'api/types';
+import type {
+  CreateUserParams,
+  UpdateSettingsParams,
+  UpdateStoreInfoParams,
+  UpdateUserParams
+} from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { APP_PAGE } from 'modules/constants';
 import { ENGLISH } from 'SettingsModule/constants';
 import {
   CONNECT,
-  CREATE_ADMIN,
+  CREATE_USER,
+  UPDATE_USER,
   NAVIGATE_TO,
   LOGOUT,
   LOGIN,
@@ -28,8 +33,9 @@ import { appContextDataReducer } from './appContextDataReducer';
 import { handleRequestAction } from './utils';
 import {
   connectToMain,
-  createUser,
   login,
+  createUser as _createUser,
+  updateUser as _updateUser,
   getSettings as _getSettings,
   updateSettings as _updateSettings,
   getStoreInfo as _getStoreInfo,
@@ -169,12 +175,12 @@ export const useAppContextData = () => {
     });
   }, [navigateTo]);
 
-  const createAdmin = useCallback(
-    (params: Pick<User, 'username' | 'accessLevel'> & { password: string }) => {
+  const createUser = useCallback(
+    (params: CreateUserParams) => {
       handleRequestAction({
         dispatch,
-        action: CREATE_ADMIN,
-        request: createUser,
+        action: CREATE_USER,
+        request: _createUser,
         params,
         onSuccess: [
           () => {
@@ -189,13 +195,23 @@ export const useAppContextData = () => {
     [logIn]
   );
 
+  const updateUser = useCallback((params: UpdateUserParams) => {
+    handleRequestAction({
+      dispatch,
+      action: UPDATE_USER,
+      request: _updateUser,
+      params
+    });
+  }, []);
+
   return {
     state,
     connect,
     navigateTo,
     logOut,
     logIn,
-    createAdmin,
+    createUser,
+    updateUser,
     getSettings,
     updateSettings,
     getStoreInfo,
