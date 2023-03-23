@@ -67,7 +67,9 @@ export const App = () => {
           setSettingsModalOpen
         }}
       >
-        <AppContainer>
+        <AppContainer
+          paddingTop={currentPage === APP_PAGE.LOGIN ? '0' : '4rem'}
+        >
           <NavBar />
           <MainComponent />
         </AppContainer>

@@ -1,13 +1,16 @@
 import { PaperContainer } from 'components/container/PaperContainer';
 import { FlexContainer } from 'renderer/components/container/FlexContainer';
-import { LandingBody } from './LandingBody';
+import { Menues } from './Menus';
 
-export const Landing = () => {
+import { useAppContext } from 'AppModule';
+
+export const MainMenu = () => {
+  const {
+    settingsState: { language }
+  } = useAppContext();
   return (
     <FlexContainer alignItems="center">
-      <PaperContainer alignItems="center" justifyContent="center" height={500}>
-        <LandingBody />
-      </PaperContainer>
+      <Menues language={language} />
     </FlexContainer>
   );
 };
