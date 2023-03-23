@@ -7,8 +7,9 @@ import '@fontsource/roboto/700.css';
 
 /* ---------------------------------- types --------------------------------- */
 import type { AppPage } from 'modules/types';
-import type { User, Settings } from 'models';
+import type { User } from 'models';
 import type { AppContextDataState } from './useAppContextData/types';
+import type { LoginParams, UpdateSettingsParams } from 'api/types';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
@@ -35,6 +36,8 @@ export const App = () => {
     logIn,
     getSettings,
     updateSettings,
+    getStoreInfo,
+    updateStoreInfo,
     setSettingsModalOpen
   } = useAppContextData();
   const { user, currentPage, settingsState } = state;
@@ -42,7 +45,8 @@ export const App = () => {
   useEffect(() => {
     connect();
     getSettings();
-  }, [connect, getSettings]);
+    getStoreInfo();
+  }, [connect, getSettings, getStoreInfo]);
 
   const MainComponent = appPageHash[currentPage];
 
@@ -63,7 +67,9 @@ export const App = () => {
           setSettingsModalOpen
         }}
       >
-        <AppContainer>
+        <AppContainer
+          paddingTop={currentPage === APP_PAGE.LOGIN ? '0' : '4rem'}
+        >
           <NavBar />
           <MainComponent />
         </AppContainer>
@@ -93,14 +99,8 @@ interface AppContextValues {
   currentPage: AppPage;
   navigateTo: (nextPage: AppPage) => void;
   logOut: () => void;
-  logIn: ({
-    username,
-    password
-  }: {
-    username: string;
-    password: string;
-  }) => void;
-  updateSettings: (settings: Settings) => void;
+  logIn: (params: LoginParams) => void;
+  updateSettings: (params: UpdateSettingsParams) => void;
   setSettingsModalOpen: (isOpen: boolean) => void;
 }
 

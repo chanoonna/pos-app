@@ -1,7 +1,7 @@
 import { LanguageCode } from '../../../renderer/modules/SettingsModule/types';
 import { ColorTheme, UiSize } from '../../../renderer/style/types';
 
-export interface CreateUserParams {
+export interface CreateUserParamsDB {
   username: string;
   password: string;
   access_level: number;
@@ -14,7 +14,7 @@ export interface GetUsersParams {
   access_level?: number;
 }
 
-export interface LoginParams {
+export interface LoginParamsDB {
   username: string;
   password: string;
 }

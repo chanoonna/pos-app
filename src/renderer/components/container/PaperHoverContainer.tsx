@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
 type PaperContainerProps = Pick<
   CSSProperties,
@@ -11,7 +12,7 @@ type PaperContainerProps = Pick<
   | 'rowGap'
 >;
 
-export const PaperContainer = ({
+export const PaperHoverContainer = ({
   width = 400,
   height = 400,
   alignItems = 'center',
@@ -21,7 +22,7 @@ export const PaperContainer = ({
   children
 }: PaperContainerProps & { elevation?: number; children: ReactNode }) => {
   return (
-    <Paper
+    <HoveredPaper
       sx={{
         width,
         height,
@@ -35,6 +36,13 @@ export const PaperContainer = ({
       elevation={elevation}
     >
       {children}
-    </Paper>
+    </HoveredPaper>
   );
 };
+
+const HoveredPaper = styled(Paper)(({ theme }) => ({
+  transition: 'box-shadow 0.3s',
+  '&:hover': {
+    boxShadow: `2px 5px 10px ${theme.palette.grey[800]}`
+  }
+}));

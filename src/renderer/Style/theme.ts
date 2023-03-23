@@ -78,6 +78,12 @@ const iconSize = {
   extraLarge: '2rem'
 };
 
+export const iconSizeBig = {
+  medium: '6rem',
+  large: '6.5rem',
+  extraLarge: '7rem'
+};
+
 export const fontSize: Record<TextTypeVariant, Record<UiSize, string>> = {
   heading: headingTextFontSize,
   menuTitle: menuTitleFontSize,

@@ -1,5 +1,6 @@
 /* ---------------------------------- types --------------------------------- */
 import type { FormEvent, ChangeEvent } from 'react';
+import type { LanguageCode } from 'SettingsModule/types';
 
 /* -------------------------------- constants ------------------------------- */
 import { labels } from './constants';
@@ -22,7 +23,7 @@ import Button from '@mui/material/Button';
 
 import { SizeAppliedText } from 'components/typography';
 import { PaperContainer, FlexContainer } from 'components/container';
-import { LanguageSetting } from 'components/menus/LanguageSetting';
+import { LoginLanguageSelector } from './LoginLanguageSelector';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
@@ -35,7 +36,8 @@ export const Login = () => {
     isLoggingIn,
     isLoggingInError,
     navigateTo,
-    logIn
+    logIn,
+    updateSettings
   } = useAppContext();
 
   const toggleVisibility = () => {
@@ -60,6 +62,13 @@ export const Login = () => {
       password
     });
   };
+  const onSelectLanguage = (newLanguage: LanguageCode) => {
+    updateSettings({
+      language: newLanguage,
+      uiSize,
+      colorTheme
+    });
+  };
 
   useEffect(() => {
     setUsername(user.username);
@@ -71,7 +80,7 @@ export const Login = () => {
     <FlexContainer>
       <PaperContainer>
         <FlexContainer height="fit-content" justifyContent="flex-end">
-          <LanguageSetting />
+          <LoginLanguageSelector onSelectLanguage={onSelectLanguage} />
         </FlexContainer>
         <SizeAppliedText textTypeVariant="heading" uiSize="large">
           {loginLabels.login}

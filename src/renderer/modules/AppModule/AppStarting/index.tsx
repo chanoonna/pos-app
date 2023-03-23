@@ -2,9 +2,9 @@
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
-import type { CreateUserParams } from 'preload/api/users/types';
 import type { Settings, User } from 'renderer/models';
 import type { AppPage } from 'renderer/modules/types';
+import type { CreateUserParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
@@ -64,17 +64,6 @@ export const AppStarting = ({
 }) => {
   const [state, setState] = useState(initialState);
 
-  const setLanguage = (newLanguage: LanguageCode) => {
-    updateSettings({ language: newLanguage, uiSize, colorTheme });
-  };
-  const setUiSize = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newUiSize = event.target.value as UiSize;
-    updateSettings({ language, uiSize: newUiSize, colorTheme });
-  };
-  const setColorTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newColorTheme = event.target.value as ColorTheme;
-    updateSettings({ language, uiSize, colorTheme: newColorTheme });
-  };
   const onClickNext = () => {
     setState((curr) => ({
       ...curr,
@@ -99,7 +88,7 @@ export const AppStarting = ({
     createAdmin({
       username: state.username,
       password: state.password,
-      access_level: 1
+      accessLevel: 1
     });
   };
 

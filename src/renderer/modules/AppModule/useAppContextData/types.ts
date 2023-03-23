@@ -1,7 +1,7 @@
 /* ---------------------------------- types --------------------------------- */
-import type { User, Settings } from 'models';
+import type { User, Settings, StoreInfo } from 'models';
 import type { AppPage } from 'modules/types';
-import type { CreateUserParams, UserDB } from 'preload/api/users/types';
+import type { UserDB } from 'preload/api/users/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
@@ -12,9 +12,11 @@ import {
   LOGIN,
   GET_SETTINGS,
   UPDATE_SETTINGS,
-  SET_SETTINGS_MODAL_OPEN
+  SET_SETTINGS_MODAL_OPEN,
+  GET_STORE_INFO,
+  UPDATE_STORE_INFO
 } from './constants';
-import { SettingsDB } from 'preload/api/settings/types';
+import { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
 
 /* ------------------------------------ - ----------------------------------- */
 
@@ -33,12 +35,9 @@ export interface AppContextDataState {
   /* Settings state */
   settingsState: {
     isSettingsModalOpen: boolean;
-  } & Settings;
+  } & Settings &
+    StoreInfo;
 }
-
-export type AppContextDataActionType =
-  | (typeof CONNECT)[keyof typeof CONNECT]
-  | typeof NAVIGATE_TO;
 
 export type AppContextDataAction =
   | ConnectRequestAction
@@ -50,14 +49,20 @@ export type AppContextDataAction =
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
-  | NavigateToAction
-  | LogoutAction
   | GetSettingsRequestAction
   | GetSettingsSuccessAction
   | GetSettingsFailureAction
   | UpdateSettingsRequestAction
   | UpdateSettingsSuccessAction
   | UpdateSettingsFailureAction
+  | GetStoreInfoRequestAction
+  | GetStoreInfoSuccessAction
+  | GetStoreInfoFailureAction
+  | UpdateStoreInfoRequestAction
+  | UpdateStoreInfoSuccessAction
+  | UpdateStoreInfoFailureAction
+  | NavigateToAction
+  | LogoutAction
   | SetSettingsModalOpenAction;
 
 /* --------------------------------- CONNECT -------------------------------- */
@@ -66,24 +71,25 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: { response?: UserDB };
+  payload: {
+    response: UserDB | undefined;
+  };
 }
 interface ConnectFailureAction {
   type: typeof CONNECT.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* ------------------------------ CREATE_ADMIN ------------------------------ */
 interface CreateAdminRequestAction {
   type: typeof CREATE_ADMIN.REQUEST;
-  payload: { params: CreateUserParams };
 }
 interface CreateAdminSuccessAction {
   type: typeof CREATE_ADMIN.SUCCESS;
 }
 interface CreateAdminFailureAction {
   type: typeof CREATE_ADMIN.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* ---------------------------------- LOGIN --------------------------------- */
@@ -96,7 +102,7 @@ interface LoginSuccessAction {
 }
 interface LoginFailureAction {
   type: typeof LOGIN.FAILURE;
-  payload: { error: Error };
+  payload: { error: string };
 }
 
 /* --------------------------------- LOGOUT --------------------------------- */
@@ -123,7 +129,7 @@ interface GetSettingsSuccessAction {
 interface GetSettingsFailureAction {
   type: typeof GET_SETTINGS.FAILURE;
   payload: {
-    error: Error;
+    error: string;
   };
 }
 
@@ -140,7 +146,41 @@ interface UpdateSettingsSuccessAction {
 interface UpdateSettingsFailureAction {
   type: typeof UPDATE_SETTINGS.FAILURE;
   payload: {
-    error: Error;
+    error: string;
+  };
+}
+
+/* ----------------------------- GET_STORE_INFO ----------------------------- */
+interface GetStoreInfoRequestAction {
+  type: typeof GET_STORE_INFO.REQUEST;
+}
+interface GetStoreInfoSuccessAction {
+  type: typeof GET_STORE_INFO.SUCCESS;
+  payload: {
+    response: StoreInfoDB;
+  };
+}
+interface GetStoreInfoFailureAction {
+  type: typeof GET_STORE_INFO.FAILURE;
+  payload: {
+    error: string;
+  };
+}
+
+/* ---------------------------- UPDATE_STORE_INFO --------------------------- */
+interface UpdateStoreInfoRequestAction {
+  type: typeof UPDATE_STORE_INFO.REQUEST;
+}
+interface UpdateStoreInfoSuccessAction {
+  type: typeof UPDATE_STORE_INFO.SUCCESS;
+  payload: {
+    response: StoreInfoDB;
+  };
+}
+interface UpdateStoreInfoFailureAction {
+  type: typeof UPDATE_STORE_INFO.FAILURE;
+  payload: {
+    error: string;
   };
 }
 
