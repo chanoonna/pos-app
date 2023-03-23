@@ -16,7 +16,8 @@ import {
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
   UPDATE_STORE_INFO,
-  SET_MY_INFO_MODAL_OPEN
+  SET_MY_INFO_MODAL_OPEN,
+  UPDATE_ME
 } from './constants';
 import { SettingsDB, StoreInfoDB } from 'preload/api/settings/types';
 
@@ -57,6 +58,9 @@ export type AppContextDataAction =
   | UpdateUserRequestAction
   | UpdateUserSuccessAction
   | UpdateUserFailureAction
+  | UpdateMeRequestAction
+  | UpdateMeSuccessAction
+  | UpdateMeFailureAction
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
@@ -83,8 +87,8 @@ interface ConnectRequestAction {
 }
 interface ConnectSuccessAction {
   type: typeof CONNECT.SUCCESS;
-  payload: {
-    response: UserDB | undefined;
+  payload?: {
+    response?: UserDB;
   };
 }
 interface ConnectFailureAction {
@@ -114,6 +118,19 @@ interface UpdateUserSuccessAction {
 }
 interface UpdateUserFailureAction {
   type: typeof UPDATE_USER.FAILURE;
+  payload: { error: string };
+}
+
+/* -------------------------------- UPDATE_ME ------------------------------- */
+interface UpdateMeRequestAction {
+  type: typeof UPDATE_ME.REQUEST;
+}
+interface UpdateMeSuccessAction {
+  type: typeof UPDATE_ME.SUCCESS;
+  payload: { response: UserDB };
+}
+interface UpdateMeFailureAction {
+  type: typeof UPDATE_ME.FAILURE;
   payload: { error: string };
 }
 

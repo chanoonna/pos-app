@@ -9,7 +9,11 @@ import '@fontsource/roboto/700.css';
 import type { AppPage } from 'modules/types';
 import type { User } from 'models';
 import type { AppContextDataState } from './useAppContextData/types';
-import type { LoginParams, UpdateSettingsParams } from 'api/types';
+import type {
+  LoginParams,
+  UpdateSettingsParams,
+  UpdateUserParams
+} from 'api/types';
 
 /* --------------------------------- imports -------------------------------- */
 import { useEffect, createContext, useContext } from 'react';
@@ -32,6 +36,8 @@ export const App = () => {
     connect,
     navigateTo,
     createUser,
+    updateUser,
+    updateMe,
     logOut,
     logIn,
     getSettings,
@@ -66,6 +72,8 @@ export const App = () => {
           logOut,
           logIn,
           updateSettings,
+          updateMe,
+          updateUser,
           setSettingsModalOpen,
           setMyInfoModalOpen
         }}
@@ -104,6 +112,8 @@ interface AppContextValues {
   navigateTo: (nextPage: AppPage) => void;
   logOut: () => void;
   logIn: (params: LoginParams) => void;
+  updateMe: (params: UpdateUserParams) => void;
+  updateUser: (params: UpdateUserParams) => void;
   updateSettings: (params: UpdateSettingsParams) => void;
   setSettingsModalOpen: (isOpen: boolean) => void;
   setMyInfoModalOpen: (isOpen: boolean) => void;

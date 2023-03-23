@@ -2,9 +2,9 @@
 import type { LanguageCode } from 'SettingsModule/types';
 import type { AppStartingState } from './types';
 import type { ColorTheme, UiSize } from 'style/types';
-import type { Settings, User } from 'renderer/models';
+import type { User } from 'renderer/models';
 import type { AppPage } from 'renderer/modules/types';
-import type { CreateUserParams } from 'api/types';
+import type { CreateUserParams, UpdateSettingsParams } from 'api/types';
 
 /* -------------------------------- constants ------------------------------- */
 import {
@@ -60,7 +60,7 @@ export const AppStarting = ({
   isAuthenticated: boolean;
   createUser: (params: CreateUserParams) => void;
   navigateTo: (page: AppPage) => void;
-  updateSettings: (params: Settings) => void;
+  updateSettings: (params: UpdateSettingsParams) => void;
 }) => {
   const [state, setState] = useState(initialState);
 

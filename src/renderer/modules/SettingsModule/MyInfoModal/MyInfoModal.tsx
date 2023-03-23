@@ -1,3 +1,5 @@
+import type { UpdateUserParams } from 'api/types';
+
 /* --------------------------------- imports -------------------------------- */
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
@@ -11,7 +13,8 @@ export const MyInfoModal = () => {
     user: { id, username, lastLogin },
     settingsState: { language, uiSize, colorTheme },
     modalState: { isMyInfoModalOpen: isOpen },
-    setMyInfoModalOpen
+    setMyInfoModalOpen,
+    updateMe
   } = useAppContext();
 
   return (

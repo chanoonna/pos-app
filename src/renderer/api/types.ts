@@ -5,9 +5,9 @@ import type { LanguageCode } from 'SettingsModule/types';
 /* ------------------------------------ - ----------------------------------- */
 
 export interface UpdateSettingsParams {
-  language: LanguageCode;
-  uiSize: UiSize;
-  colorTheme: ColorTheme;
+  language?: LanguageCode;
+  uiSize?: UiSize;
+  colorTheme?: ColorTheme;
 }
 
 export interface UpdateStoreInfoParams {

@@ -24,7 +24,8 @@ import {
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
   UPDATE_STORE_INFO,
-  SET_MY_INFO_MODAL_OPEN
+  SET_MY_INFO_MODAL_OPEN,
+  UPDATE_ME
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -204,6 +205,15 @@ export const useAppContextData = () => {
     });
   }, []);
 
+  const updateMe = useCallback((params: UpdateUserParams) => {
+    handleRequestAction({
+      dispatch,
+      action: UPDATE_ME,
+      request: _updateUser,
+      params
+    });
+  }, []);
+
   return {
     state,
     connect,
@@ -212,6 +222,7 @@ export const useAppContextData = () => {
     logIn,
     createUser,
     updateUser,
+    updateMe,
     getSettings,
     updateSettings,
     getStoreInfo,

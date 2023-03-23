@@ -13,7 +13,9 @@ import {
   SET_SETTINGS_MODAL_OPEN,
   GET_STORE_INFO,
   UPDATE_STORE_INFO,
-  SET_MY_INFO_MODAL_OPEN
+  SET_MY_INFO_MODAL_OPEN,
+  UPDATE_USER,
+  UPDATE_ME
 } from './constants';
 
 /* ------------------------------------ - ----------------------------------- */
@@ -55,7 +57,7 @@ export const appContextDataReducer = (
       };
     }
     case CONNECT.SUCCESS: {
-      if (action.payload.response) {
+      if (action.payload?.response) {
         return {
           ...state,
           isConnecting: false,
@@ -78,7 +80,7 @@ export const appContextDataReducer = (
       };
     }
 
-    /* ------------------------------ CREATE_ADMIN ------------------------------ */
+    /* ------------------------------- CREATE_USER ------------------------------ */
     case CREATE_USER.REQUEST: {
       return {
         ...state,
@@ -97,6 +99,20 @@ export const appContextDataReducer = (
         ...state,
         isCreatingAdmin: false,
         isCreatingAdminError: false
+      };
+    }
+
+    /* ------------------------------- UPDATE_USER ------------------------------ */
+    /* -------------------------------- UPDATE_ME ------------------------------- */
+    case UPDATE_ME.SUCCESS: {
+      return {
+        ...state,
+        user: {
+          id: action.payload.response.id,
+          username: action.payload.response.username,
+          lastLogin: action.payload.response.last_login,
+          accessLevel: action.payload.response.access_level
+        }
       };
     }
 

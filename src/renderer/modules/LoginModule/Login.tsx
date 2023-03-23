@@ -64,9 +64,7 @@ export const Login = () => {
   };
   const onSelectLanguage = (newLanguage: LanguageCode) => {
     updateSettings({
-      language: newLanguage,
-      uiSize,
-      colorTheme
+      language: newLanguage
     });
   };
 

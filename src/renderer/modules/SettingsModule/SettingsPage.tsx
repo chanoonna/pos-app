@@ -31,18 +31,14 @@ export const SettingsPage = ({
 }) => {
   const setLanguage = (newLanguage: LanguageCode) => {
     updateSettings({
-      language: newLanguage,
-      uiSize,
-      colorTheme
+      language: newLanguage
     });
   };
 
   const setUiSize = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newUiSize = (event.target as HTMLInputElement).value as UiSize;
     updateSettings({
-      language,
-      uiSize: newUiSize,
-      colorTheme
+      uiSize: newUiSize
     });
   };
 
@@ -50,8 +46,6 @@ export const SettingsPage = ({
     const newColorTheme = (event.target as HTMLInputElement)
       .value as ColorTheme;
     updateSettings({
-      language,
-      uiSize,
       colorTheme: newColorTheme
     });
   };
