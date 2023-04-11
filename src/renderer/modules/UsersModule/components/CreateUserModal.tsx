@@ -1,5 +1,5 @@
 /* -------------------------------- constants ------------------------------- */
-import { labels } from './constants';
+import { labels } from '../constants';
 
 /* --------------------------------- imports -------------------------------- */
 import { useState, useEffect } from 'react';
@@ -10,20 +10,18 @@ import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 
 import { useAppContext } from 'renderer/modules/RootModule';
-import { UserInfoPage } from './UserInfoPage';
+import { CreateUserBody } from './CreateUserBody';
 import { APP_PAGE } from 'renderer/modules/constants';
 
-export const UserInfoModal = () => {
-  const [newUsername, setNewUsername] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+export const CreateUserModal = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const {
-    user: { id, username, lastLogin },
     currentPage,
     settingsState: { language, uiSize },
-    modalState: { isMyInfoModalOpen: isOpen },
+    modalState: { isCreateUserModalOpen: isOpen },
     setMyInfoModalOpen,
     updateMe
   } = useAppContext();
@@ -33,15 +31,15 @@ export const UserInfoModal = () => {
   const closeMyInforModal = () => {
     setMyInfoModalOpen(false);
     setCurrentPassword('');
-    setNewPassword('');
+    setPassword('');
     setConfirmPassword('');
   };
 
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewUsername(e.target.value);
+    setUsername(e.target.value);
   };
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
+    setPassword(e.target.value);
   };
   const onChangeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
@@ -53,26 +51,26 @@ export const UserInfoModal = () => {
   const handleUpdateUsername = () => {
     updateMe({
       id,
-      username: newUsername
+      username: username
     });
   };
   const handleUpdatePassword = () => {
     updateMe({
       id,
-      password: newPassword
+      password: password
     });
   };
 
   useEffect(() => {
     if (username) {
-      setNewUsername(username);
+      setUsername(username);
     }
   }, [fixedUserName, username]);
 
   const userInfoLabels = labels[language];
   const isPasswordValid =
-    !!newPassword.length && newPassword === confirmPassword;
-  const isPasswordEmpty = !newPassword.length && !confirmPassword.length;
+    !!password.length && password === confirmPassword;
+  const isPasswordEmpty = !password.length && !confirmPassword.length;
 
   return (
     <Modal
@@ -99,7 +97,7 @@ export const UserInfoModal = () => {
             fixedUsername={username === 'admin'}
             username={username}
             lastLogin={lastLogin}
-            newPassword={newPassword}
+            newPassword={password}
             currentPassword={currentPassword}
             confirmPassword={confirmPassword}
             isPasswordEmpty={isPasswordEmpty}

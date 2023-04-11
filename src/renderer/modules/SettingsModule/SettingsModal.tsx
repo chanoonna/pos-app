@@ -4,7 +4,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 
-import { useAppContext } from '../AppModule';
+import { useAppContext } from '../RootModule';
 import { SettingsPage } from './SettingsPage';
 
 export const SettingsModal = () => {

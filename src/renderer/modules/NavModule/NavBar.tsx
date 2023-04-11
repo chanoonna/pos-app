@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
 import { NavSearch } from './NavSearch';
 import { NavMenu } from './NavMenu';
-import { useAppContext } from 'renderer/modules/AppModule';
+import { useAppContext } from 'renderer/modules/RootModule';
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
 import { SizeAppliedText } from 'renderer/components/typography';
 

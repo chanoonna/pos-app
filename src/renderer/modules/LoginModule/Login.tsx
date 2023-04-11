@@ -8,7 +8,7 @@ import { labels } from './constants';
 /* --------------------------------- imports -------------------------------- */
 
 import { useState, useEffect } from 'react';
-import { useAppContext } from 'modules/AppModule';
+import { useAppContext } from 'renderer/modules/RootModule';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import AccountCircle from '@mui/icons-material/AccountCircle';

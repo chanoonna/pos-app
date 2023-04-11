@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import { useAppContext } from 'renderer/modules/AppModule';
+import { useAppContext } from 'renderer/modules/RootModule';
 
 export const LoginLanguageSelector = ({
   onSelectLanguage

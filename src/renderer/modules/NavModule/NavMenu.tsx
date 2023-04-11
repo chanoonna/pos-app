@@ -13,7 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 
 import { TooltipTitleWrapper } from 'components/wrapper/TooltipTitleWrapper';
-import { useAppContext } from 'renderer/modules/AppModule';
+import { useAppContext } from 'renderer/modules/RootModule';
 import { labels } from './constants';
 import { colors } from 'style/theme';
 

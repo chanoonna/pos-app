@@ -1,7 +1,7 @@
 import { FlexContainer } from 'renderer/components/container/FlexContainer';
 import { Menues } from './Menus';
 
-import { useAppContext } from 'AppModule';
+import { useAppContext } from 'renderer/modules/RootModule';
 
 export const MainMenu = () => {
   const {
